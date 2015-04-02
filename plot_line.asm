@@ -49,12 +49,11 @@ blank_line:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 plot_line_lft:
 	ld	hl,(_levelmap_pos)
-	dec	hl
 	ld	e,0
 	jp plot_line
 plot_line_rgt:
 	ld	hl,(_levelmap_pos)
-	ld	de,16
+	ld	de,15
 	add	hl,de
 	ld	e,240
 plot_line:		
@@ -183,7 +182,7 @@ init_page0:
 		ld		a,(_displaypage)
 		ld		d,a
 		ld		e,240
-		ld		l,00100101B
+		ld		l,border_color
 		call	clrboder
 		ld		hl,(_levelmap_pos)
 		ld		de,0x0000			; e=x=0, d=y=0
@@ -213,7 +212,7 @@ init_page1:
 		ld		a,(_displaypage)
 		ld		d,a
 		ld		e,0
-		ld		l,01101110B
+		ld		l,border_color
 		call	clrboder
 		ld		hl,(_levelmap_pos)
 		ld		de,0x0010			; e=x=16, d=y=0

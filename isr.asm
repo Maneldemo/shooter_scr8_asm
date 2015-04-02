@@ -153,6 +153,11 @@ lint:
 1:	pop	hl
 .exit:
 
+	xor		a				; black colour
+	out		(0x99),a
+	ld		a,128+7
+	out		(0x99),a
+
 	pop		ix
 	pop		iy
 	pop		af
@@ -192,10 +197,10 @@ vblank:
 	ld	(_jiffy),hl
 	pop		hl
 
-	ld	a,00100111B		; blue colour
-	out	(0x99),a
-	ld	a,7+128
-	out	(0x99),a
+	; ld	a,00100111B		; blue colour
+	; out	(0x99),a
+	; ld	a,7+128
+	; out	(0x99),a
 		
 	ld      a,2              ; wait VDPready
 	out     (0x99),a         ; select s#2
@@ -205,10 +210,10 @@ vblank:
 	rra
 	jp      c,1b			; do not set R#18 if vdp is busy
 
-	xor	a				; black colour
-	out	(0x99),a
-	ld	a,7+128
-	out	(0x99),a
+	; xor	a				; black colour
+	; out	(0x99),a
+	; ld	a,7+128
+	; out	(0x99),a
 	
 	ld	a,(_xoffset)		; set R#18 only if not scrolling
 	add	a,-8

@@ -13,7 +13,7 @@ _cls:
 		ld		a,b
 		or		c
 		jr	nz,1b
-1:		ld		a,01101101B
+1:		ld		a,00100101B
 		out		(0x98),a
 		dec		bc
 		ld		a,b
@@ -118,7 +118,8 @@ set_scr:
 	out		(0x99),a
 
 	// border color
-	ld		a,0x55
+	; ld		a,0x55
+	xor		a
 	out		(0x99),a
 	ld		a,128+7
 	out		(0x99),a

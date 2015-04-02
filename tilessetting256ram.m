@@ -19,8 +19,8 @@ end
 %[A2,MAP] = imread('NUMBERS.bmp');
 
 %[A2,MAP] = imread('GNG2048x176.PNG');
-%[A2,MAP] = imread('gods.png');
-[A2,MAP] = imread('l1.png');
+[A2,MAP] = imread('lmap6.bmp');
+
 
 A2 = imapprox(A2,MAP,pal, 'nodither');
 MAP = pal;
@@ -127,7 +127,7 @@ colormap(gray)
 
 fid = fopen('datamap.bin','wb');
 for i=1:(H/16)
-    fwrite(fid,X(i,:)-1,'char');
+    fwrite(fid,X(i,:)-1,'uchar');
 end
 fclose(fid);
 

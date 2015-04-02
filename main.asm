@@ -66,7 +66,7 @@ checkkbd:
 
 ;-------------------------------------		
 		
-		; include plot_frame.asm
+		include sprts.asm
 		
 ;-------------------------------------
 ; Entry point
@@ -100,13 +100,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld	(_kBank2),a
 		
 		call	_cls
-		; call 	_hw_sprite_init
-
-		ld		c,0
-		ld		de,0FA00h
-		call	_vdpsetvramwr
-		ld		a,0xD8
-		out 	(0x98),a
+		call 	_hw_sprite_init
 
 	;--- initialise demo song
 		ld	a, :demo_song
@@ -225,10 +219,9 @@ main_loop:
 		ld		hl,(_nframes)
 		inc		hl
 		ld		(_nframes),hl
-
-1:		ld	hl,(_jiffy)		; wait for vblank (and not for linit)
-		ld	a,l
-		or	h
+	
+1:		ld	a,(_jiffy)		; wait for vblank (and not for linit)
+		or	a
 		jr	z,1b
 	
 		jp      main_loop
@@ -238,6 +231,7 @@ test_move_right:
 		ld		a,(_xoffset)
 		and		a
 		ret		nz
+		
 		ld		a,1
 		ld		(_direction),a			; moving right
 		ret
@@ -245,6 +239,7 @@ test_move_left
 		ld		a,(_xoffset)
 		cp		15
 		ret		nz
+		
 		ld		a,-1
 		ld		(_direction),a			; moving left
 		ret
@@ -263,7 +258,9 @@ _up:	ld		a,(_old_direction)
 		ret		z
 		ld		(_direction),a
 		ret
-;-------------------------------------				
+;-------------------------------------		
+border_color	equ 	0;	00100101B
+		
 inc_xoffset
 		call	blank_line_lft
 		call	plot_line_rgt
@@ -275,7 +272,7 @@ inc_xoffset
 		xor		1
 		ld 		d,a
 		ld		e,240
-		ld		l,00100101B
+		ld		l,border_color
 		call	clrboder
 		jr	.cont
 .case1_15
@@ -308,7 +305,7 @@ dec_xoffset
 		xor		1
 		ld 		d,a
 		ld		e,0
-		ld		l,00100101B
+		ld		l,border_color
 		call	clrboder
 		jr	.cont
 .case0_14
@@ -482,8 +479,6 @@ _backmap:
 
 
 	page 2,3
-_frame:
-	; incbin "_frame.bin"
 _mc_sprites:	
 	; incbin "_sprites.bin"			
 	
@@ -495,15 +490,15 @@ _tiles0:
 	page 6
 	incbin "tiles.bin",0x4000,0x2000
 	page 7
-	incbin "tiles.bin",0x6000;,0x2000
-	; page 8
-	; incbin "tiles.bin",0x8000,0x2000
-	; page 9
-	; incbin "tiles.bin",0xA000,0x2000
-	; page 10
-	; incbin "tiles.bin",0xC000,0x2000
+	incbin "tiles.bin",0x6000,0x2000
+	page 8
+	incbin "tiles.bin",0x8000,0x2000
+	page 9
+	incbin "tiles.bin",0xA000,0x2000
+	page 10
+	incbin "tiles.bin",0xC000;,0x2000
 	; page 11
-	; incbin "tiles.bin",0xE000,0x2000
+	; incbin "tiles.bin",0xE000;,0x2000
 	
 	
 	page 14,15
@@ -515,7 +510,7 @@ _level_bf:
 	
 	page 10,11
 sprtdata
-	; include 	SPROL.ASM
+	incbin 	uridium_rev7.bin
 	
 	page 14
 demo_song:
