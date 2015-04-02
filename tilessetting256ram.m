@@ -16,10 +16,11 @@ for g=0:7
     end
 end
 
-%[A2,MAP] = imread('GNG2048x176.PNG');
 %[A2,MAP] = imread('NUMBERS.bmp');
-[A2,MAP] = imread('gods.png');
 
+%[A2,MAP] = imread('GNG2048x176.PNG');
+%[A2,MAP] = imread('gods.png');
+[A2,MAP] = imread('l1.png');
 
 A2 = imapprox(A2,MAP,pal, 'nodither');
 MAP = pal;
