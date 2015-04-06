@@ -22,8 +22,9 @@ end
 [A2,MAP] = imread('lmap6.bmp');
 
 
-A2 = imapprox(A2,MAP,pal, 'nodither');
-MAP = pal;
+[ A2 MAP] = imapprox(A2,MAP,pal, 'nodither');
+pal = MAP;
+%MAP = pal;
 
 S = fix(size(A2)/16).*16;
 H = S(1);
