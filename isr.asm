@@ -16,7 +16,7 @@ _jiffy: equ 0xFC9E
 	; global _jiffy
 
 
-_intinit:
+_isrinit:
 	di
 	ld	hl,0x0038
 	ld	(hl),0xC3
@@ -109,6 +109,11 @@ lint:
 	ld	a,18+128
 	out	(099h),a		; setadjust 0,0
 	
+	LD    A,192-(YSIZE-2)	; SCROLL DOWN
+	OUT   (0x99),A
+	LD    A,23+128
+	OUT   (0x99),A
+
 	ld a,00011111B		; 0XX11111B
 	out (0x99),a
 	ld a,2+128			; R#2 
@@ -126,23 +131,26 @@ lint:
 	ld	a,1+128
 	out	(0x99),a
 	
-	ld	a,255			; white colour
+	ld	a,border_color;00000001B		; dark blue colour
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
 	
-	push	hl
-	push	de
-	push	bc
-	exx
-	ex	af,af'
-	push	hl
-	push	de
-	push	bc
-	push	af
-	push	iy
-	push	ix
+	push   hl         
+	push   de         
+	push   bc         
+	push   af         
+	exx               
+	ex     af,af'     
+	push   hl         
+	push   de         
+	push   bc         
+	push   af         
+	push   iy         
+	push   ix         
 	
+	call __sat_update
+
 	ld	hl,.exit
 	push	hl
 	ld	a,(_direction)
@@ -153,22 +161,26 @@ lint:
 1:	pop	hl
 .exit:
 
+	call	replay_route		; first output data
+	call	replay_play			; calculate next output
+
 	xor		a				; black colour
 	out		(0x99),a
 	ld		a,128+7
 	out		(0x99),a
 
-	pop		ix
-	pop		iy
-	pop		af
-	pop		bc
-	pop		de
-	pop		hl
-	ex af,af'
-	exx
-	pop		bc
-	pop		de
-	pop		hl
+	pop    ix         
+	pop    iy         
+	pop    af         
+	pop    bc         
+	pop    de         
+	pop    hl         
+	ex     af,af'     
+	exx               
+	pop    af         
+	pop    bc         
+	pop    de         
+	pop    hl         
 
 	pop		af
 	ei
@@ -180,10 +192,10 @@ lint:
 
 vblank:
 	ld	a,(RG8SAV)		; enable sprites
+	and	11111101B
 	out	(0x99),a
 	ld	a,8+128
 	out	(0x99),a
-
 	ld	a,(_displaypage)
 [5]	add a,a 			; x32
 	or	00011111B
@@ -197,33 +209,32 @@ vblank:
 	ld	(_jiffy),hl
 	pop		hl
 
-	; ld	a,00100111B		; blue colour
-	; out	(0x99),a
-	; ld	a,7+128
-	; out	(0x99),a
-		
-	ld      a,2              ; wait VDPready
-	out     (0x99),a         ; select s#2
-	ld      a,15+128
-	out     (0x99),a
-1:	in      a,(0x99)
-	rra
-	jp      c,1b			; do not set R#18 if vdp is busy
+	LD    A,(_yoffset)		; SCROLL DOWN
+	OUT   (0x99),A
+	LD    A,23+128
+	OUT   (0x99),A
 
-	; xor	a				; black colour
-	; out	(0x99),a
-	; ld	a,7+128
-	; out	(0x99),a
-	
+	LD    A,(_yoffset)		; set interrupt line
+	add    A,YSIZE-2
+	OUT   (0x99),A
+	LD    A,0x93
+	OUT   (0x99),A
+			
+	; ld      a,2              ; wait VDPready
+	; out     (0x99),a         ; select s#2
+	; ld      a,15+128
+	; out     (0x99),a
+; 1:	in      a,(0x99)
+	; rra
+	; jp      c,1b			; do not set R#18 if vdp is busy
+
 	ld	a,(_xoffset)		; set R#18 only if not scrolling
 	add	a,-8
 	and	0Fh
 	out	(099h),a
 	ld	a,18+128
 	out	(099h),a
-
-1:	
+	
 	pop		af
 	ei
 	ret
-

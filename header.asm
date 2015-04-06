@@ -1,2 +1,2 @@
 
-YSIZE	equ	176
+YSIZE	equ	160

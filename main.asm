@@ -3,6 +3,8 @@
 
         output "urd_scr8.rom"
 
+		incdir ene_code
+
 		defpage	 0,0x4000, 0x2000		; page 0 main code + far call routines
 		defpage	 1,0x6000, 0x2000		; page 1 main code + far call routines
 		defpage	 2,0x8000, 0x2000		; swapped data 
@@ -13,7 +15,6 @@
 
 		defpage	12,0x4000, 0x2000		; swapped code
 		defpage	13,0x6000, 0x2000		; swapped code 
-
 		defpage	14,0x8000, 0x2000		; swapped data 
 		defpage	15,0xA000, 0x2000		; swapped data 
 
@@ -24,7 +25,7 @@ _kBank2: 	equ 07000h ;- 77FFh (7000h used)
 _kBank3: 	equ 09000h ;- 97FFh (9000h used)
 _kBank4: 	equ 0B000h ;- B7FFh (B000h used)
 	
-mapWidth	equ	128
+mapWidth	equ	256
 mapHeight	equ	11
 		
 	macro setpage_a
@@ -38,35 +39,17 @@ mapHeight	equ	11
         org 4000h
         dw  4241h,START,0,0,0,0,0,0
 
+	;-------------------------------------		
+
 		include "header.asm"
 		include "rominit64.asm"
 		include "vdpio.asm"
 		include "turbo.asm"
 		include "isr.asm"
-	
-; // Line Bit_7 Bit_6 Bit_5 Bit_4 Bit_3 Bit_2 Bit_1 Bit_0
-; // 0 "7" "6" "5" "4" "3" "2" "1" "0"
-; // 1 ";" "]" "[" "\" "=" "-" "9" "8"
-; // 2 "B" "A" ??? "/" "." "," "'" "`"
-; // 3 "J" "I" "H" "G" "F" "E" "D" "C"
-; // 4 "R" "Q" "P" "O" "N" "M" "L" "K"
-; // 5 "Z" "Y" "X" "W" "V" "U" "T" "S"
-; // 6 F3 F2 F1 CODE CAP GRAPH CTRL SHIFT
-; // 7 RET SEL BS STOP TAB ESC F5 F4
-; // 8 RIGHT DOWN UP LEFT DEL INS HOME SPACE
-
-checkkbd:
-		in	a,(0aah)
-		and 011110000B			; upper 4 bits contain info to preserve
-		or	e
-		out (0aah),a
-		in	a,(0a9h)
-		ld	l,a
-		ret
-
-;-------------------------------------		
 		
+		include checkkbd.asm
 		include sprts.asm
+		include sat_update.asm
 		
 ;-------------------------------------
 ; Entry point
@@ -82,7 +65,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 
 		call	set_scr
 
-		call 	_set_r800
+		; call 	_set_r800
 ;-------------------------------------
 ;   Power-up routine for 32K ROM
 ;   set pages and sub slot
@@ -100,24 +83,49 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld	(_kBank2),a
 		
 		call	_cls
+		ld	a, :sprtdata
+		ld	(_kBank4),a
 		call 	_hw_sprite_init
 
+		ld	a, :_scorebar
+		setpage_a
+		ld		c,0
+		ld		de,256*(192+8)
+		call	_vdpsetvramwr
+		ld		hl,_scorebar
+		ld		bc,0x0098
+		ld		a,24
+1:		otir
+		dec	a
+		jr	nz,1b
+		
 	;--- initialise demo song
-		ld	a, :demo_song
+		ld	bc,	_levelmap-0xC000
+		ld	hl,	0xC000
+		ld	(hl),0
+		ld	de,	0xC000+1
+		ldir
+	
+		ld	a,:demo_song
 		setpage_a
 		
-		ld	hl,demo_song
+		ld	bc,	end_demo_song-musbuff
+		ld	hl,	demo_song
+		ld	de,	musbuff
+		ldir
+			
 		call	replay_init
+		ld	hl,musbuff
+		call	replay_loadsong
 
-		call	_clean_buffs
+		; call	_clean_buffs
 
-		; call	_SetPalet
 		ld		e,0
         call	_setpage
 		
 		; unpack level map (bit field for collisions)
-		ld	a, :_level_bf
-		setpage_a
+		; ld	a, :_level_bf
+		; setpage_a
 		
 		; ld	bc,	mapWidth*mapHeight
 		; ld	hl,	_level_bf
@@ -128,15 +136,13 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		;copy in ram the map 
 		
 		ld	a, :_level
-		setpage_a
+		ld	(_kBank3),a
 		
 		ld		hl,_level
 		ld		de,_levelmap
 		ld		bc,mapWidth*mapHeight
 		ldir
-
 				
-		
 		; unpack mc frames
 		; ld		a, :_mc_sprites
 		; setpage_a
@@ -145,8 +151,6 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		; ld		de,	_mc_sprites
 		; ld		bc,192*128+256*128
 		; call	_vuitpakker 
-				
-
 		
 		; di
 		; ld	a,:int_sprites
@@ -173,13 +177,14 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		
 		ld		(_xoffset),a		;  0 tutto a destra
 									; 15 tutto a sinistra
+		ld		(_yoffset),a		;  0 tutto su
 
-		ld		hl,_levelmap+1
+		ld		hl,_levelmap+16
 		ld		(_levelmap_pos),hl
 									
-		ld		a,1
-		ld		(_displaypage),a		
-		call	init_page1
+		; ld		a,1
+		; ld		(_displaypage),a		
+		; call	init_page1
 
 		xor		a
 		ld		(_displaypage),a		
@@ -188,7 +193,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		xor		a
 		ld		(_direction),a
 
-		call	_intinit
+		call	_isrinit
 		
 main_loop:
 		ld	hl,0
@@ -245,25 +250,39 @@ test_move_left
 		ret
 ;-------------------------------------
 
-_dw:	ld		a,(_direction)
-		and		a
-		ret		z
-		ld		(_old_direction),a
-		xor		a
-		ld		(_direction),a
+_dw:	ld		a,(_yoffset)
+		inc		a
+		cp		176-YSIZE
+		ret 	p
+		ld		(_yoffset),a
 		ret
+
+		; ld		a,(_direction)
+		; and		a
+		; ret		z
+		; ld		(_old_direction),a
+		; xor		a
+		; ld		(_direction),a
+		; ret
 		
-_up:	ld		a,(_old_direction)
-		and		a
-		ret		z
-		ld		(_direction),a
+_up:	ld		a,(_yoffset)
+		dec		a
+		ret		m
+		ld		(_yoffset),a
 		ret
+
+		; ld		a,(_old_direction)
+		; and		a
+		; ret		z
+		; ld		(_direction),a
+		; ret
 ;-------------------------------------		
 border_color	equ 	0;	00100101B
 		
 inc_xoffset
 		call	blank_line_lft
 		call	plot_line_rgt
+
 		ld		a,(_xoffset)
 		and		a
 		jr		nz,.case1_15
@@ -329,147 +348,21 @@ dec_xoffset
 		ld		(_levelmap_pos),hl
 		ret
 ;-------------------------------------
-
-;-------------------------------------
-
-
- 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+AFXPLAY:
+		ret
 	include vuitpakker.asm
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-	; include plot_tile.asm
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-_clean_buffs:
-	ld	bc,2*32*24*2-1
-	ld	hl,_shadow0
-	ld	(hl),-1
-	ld	de,_shadow0+1
-	ldir
-	ret
-	
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-_print_probe
-	ld	a,(_mcprobeb)
-	ld	e,a
-	ld	d,0
-	ld	hl,32*(64-2)
-	add	hl,de
-	ex	de,hl
-	ld	hl,2*(23*32+0)
-	; call 	plot_foreground
-	
-	ld	de,(_ticxframe)
-	ld	d,0
-	ld	bc,_buffer
-	call	int2ascii
-	
-	ld	a,(_buffer+2)
-	ld	e,a
-	ld	d,0
-	ld	hl,32*(64-2)-'0'
-	add	hl,de
-	ex	de,hl
-	ld	hl,2*(22*32)
-	; call 	plot_foreground
-
-	ld	a,(_buffer+3)
-	ld	e,a
-	ld	d,0
-	ld	hl,32*(64-2)-'0'
-	add	hl,de
-	ex	de,hl
-	ld	hl,2*(22*32+1)
-	; call 	plot_foreground
-
-	ld	a,(_buffer+4)
-	ld	e,a
-	ld	d,0
-	ld	hl,32*(64-2)-'0'
-	add	hl,de
-	ex	de,hl
-	ld	hl,2*(22*32+2)
-	; call 	plot_foreground
-	ret
-	
-	
-_print_fps:
-	ld	a,(_buffer+3)
-	ld	e,a
-	ld	d,0
-	ld	hl,32*(64-2)-'0'
-	add	hl,de
-	ex	de,hl
-	
-	ld	hl,2*(23*32+30)
-	; call 	plot_foreground
-
-	ld	a,(_buffer+4)
-	ld	e,a
-	ld	d,0
-	ld	hl,32*(64-2)-'0'
-	add	hl,de
-	ex	de,hl
-	
-	ld	hl,2*(23*32+31)
-	; call 	plot_foreground
-	ret
-
-;-------------------------------------
-_compute_fps:
-	ld	de,(_fps)
-	ld	bc,_buffer
-
-int2ascii:
-	
-; in de input 
-; in bc output
-
-	ex  de,hl
-	ld  e,c
-	ld  d,b
-
-Num2asc:
-	ld  bc,-10000
-	call    Num1
-	ld  bc,-1000
-	call    Num1
-	ld  bc,-100
-	call    Num1
-	ld  c,-10
-	call    Num1
-	ld  c,-1
-
-Num1:   
-	ld  a,'0'-1  ; '0' in the tileset
-
-Num2:   
-	inc a
-	add hl,bc
-	jr  c,Num2
-	sbc hl,bc
-
-	ld  (de),a
-	inc de
-	ret
-	
-	; include enemies.asm
+	include print.asm
 	include plot_line.asm
+	include enemies.asm
 	
-	; page 16,17	
-	; include text.asm	
+;-------------------------------------
 	
-	page 0,1	
-_metatable:
+	; page 0,1	
+; _metatable:
 	; incbin 	metatable.bin
 	
-	page 1
-_backmap:
+	; page 1
+; _backmap:
 	; incbin	backmap.bin
 
 	; include hwsprites.asm
@@ -477,10 +370,9 @@ _backmap:
 	; include mainhero_LMMM.asm
 	; include probe_level.asm
 
-
 	page 2,3
-_mc_sprites:	
-	; incbin "_sprites.bin"			
+_scorebar:	
+	incbin scorebar.bin
 	
 	page 4
 _tiles0:
@@ -496,29 +388,26 @@ _tiles0:
 	page 9
 	incbin "tiles.bin",0xA000,0x2000
 	page 10
-	incbin "tiles.bin",0xC000;,0x2000
-	; page 11
-	; incbin "tiles.bin",0xE000;,0x2000
+	incbin "tiles.bin",0xC000,0x2000
+	page 11
+	incbin "tiles.bin",0xE000;,0x2000
 	
 	
-	page 14,15
+	page 15
 _level:
 	incbin "datamap.bin"
-	
-_level_bf:	
-	; incbin "BitField.bin"	
-	
-	page 10,11
-sprtdata
+	page 15
+sprtdata:
 	incbin 	uridium_rev7.bin
 	
-	page 14
+	page 14,15
 demo_song:
-	include	".\demosong.asm"
-	page 15
-	include	"..\TriloTracker-Re-player\code\ttreplayDAT.asm"
+	org 0x0040
+	include	"demosong.asm"
+	include	"..\TTplayer\code\ttreplayDAT.asm"
+end_demo_song:	
 	page 0,1
-	include	"..\TriloTracker-Re-player\code\ttreplay.asm"
+	include	"..\TTplayer\code\ttreplay.asm"
 	
 FINISH:
 
@@ -526,15 +415,20 @@ FINISH:
 ;---------------------------------------------------------
 ; Variables
 ;---------------------------------------------------------
-
-
+	MAP 0x0040
+musbuff:	#15*1024
+	
+	ENDMAP
 	
 	MAP 0xC000
-	include	"..\TriloTracker-Re-player\code\ttreplayRAM.asm"
+	include	"..\TTplayer\code\ttreplayRAM.asm"
 
 _levelmap:			#mapWidth*mapHeight
 
 _cur_level_bf:		#mapWidth*mapHeight/2
+ram_sat:
+_sat				#4*32
+
 ; enemylist:			#enemy*nenemies
 
 slotvar				#1
@@ -576,9 +470,46 @@ _displaypage:		#1
 _direction:			#1
 _old_direction:		#1
 _xoffset:			#1
+_yoffset:			#1
 
-_shadow0:			#32*24*2
-_shadow1:			#32*24*2
+randSeed:			#2
+cur_level:			#1
+wave_count:			#1
+landing_permission:	#1
+assault_wave_timer:	#2
+bullet_rate:		#1
+dxmap:				#1
+xmap:				#2
+yship:				#1
+xship:				#2
+aniframe:			#1
+ms_state:			#1
+god_mode:			#1
 
+	struct enemy_data
+y				db	0
+x				dw	0
+xoff			db	0
+yoff			db	0
+xsize			db	0
+ysize			db	0
+status			db	0	; B7 == DWN/UP | B6 == RIGHT/LEFT | B0 == Inactive/Active
+cntr			db	0
+kind			db	0
+frame			db	0
+color			db	0
+speed			dw	0
+	ends
+	
+; [max_enem]			enemy_data
+; [max_bullets]		enemy_data
+; [max_enem_bullets]	enemy_data
+
+enemies:		#	enemy_data*max_enem
+ms_bullets:		#	enemy_data*max_bullets
+enem_bullets:	#	enemy_data*max_enem_bullets
+
+; _shadow0:			#32*24*2
+; _shadow1:			#32*24*2
 
 	ENDMAP
