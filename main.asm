@@ -50,7 +50,7 @@ mapHeight	equ	11
 		include checkkbd.asm
 		include sprts.asm
 		include sat_update.asm
-		include plot_enemies.asm
+		include collision_tst.asm
 		
 ;-------------------------------------
 ; Entry point
@@ -64,6 +64,7 @@ START:
 		xor	a
 _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 
+		call 	rand8_init								
 		call	set_scr
 
 		; call 	_set_r800
@@ -101,10 +102,10 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		jr	nz,1b
 		
 	;--- initialise demo song
-		ld	bc,	_levelmap-0xC000
-		ld	hl,	0xC000
+		ld	bc,	_levelmap-ttreplayRAM
+		ld	hl,	ttreplayRAM
+		ld	de,	ttreplayRAM+1
 		ld	(hl),0
-		ld	de,	0xC000+1
 		ldir
 	
 		ld	a,:demo_song
@@ -182,7 +183,12 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 
 		ld		hl,_levelmap+16
 		ld		(_levelmap_pos),hl
-									
+		ld		hl,16*16
+		ld		(xmap),hl
+								
+		call 	npc_init								
+		call 	npc_init1
+		
 		; ld		a,1
 		; ld		(_displaypage),a		
 		; call	init_page1
@@ -191,8 +197,12 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		(_displaypage),a		
 		call	init_page0
 
-		xor		a
+		ld		a,1
 		ld		(_direction),a
+		ld		a,6
+		ld		(cur_level),a
+		ld		a,128
+		ld		(yship),a
 
 		call	_isrinit
 		
@@ -218,13 +228,15 @@ main_loop:
 		pop	hl				
 		
 .nomove:
-		call	_compute_fps
-		call	_print_fps
+		call	wave_timer
+		call	npc_loop
+		call	enemy_bullet_loop
+		
 		call	_print_probe
 		
-		ld		hl,(_nframes)
-		inc		hl
-		ld		(_nframes),hl
+		; ld		hl,(_nframes)
+		; inc		hl
+		; ld		(_nframes),hl
 	
 1:		ld	a,(_jiffy)		; wait for vblank (and not for linit)
 		or	a
@@ -302,6 +314,9 @@ inc_xoffset
 		ld		d,a
 		call	move_block
 .cont
+		ld		hl,(xmap)
+		inc		hl
+		ld		(xmap),hl
 		ld		a,(_xoffset)
 		inc	a
 		and	15
@@ -335,6 +350,9 @@ dec_xoffset
 		ld		d,a
 		call	move_block
 .cont	
+		ld		hl,(xmap)
+		dec		hl
+		ld		(xmap),hl
 		ld		a,(_xoffset)
 		dec	a
 		and	15
@@ -351,7 +369,7 @@ dec_xoffset
 ;-------------------------------------
 AFXPLAY:
 		ret
-	include vuitpakker.asm
+;	include vuitpakker.asm
 	include print.asm
 	include plot_line.asm
 	include enemies.asm
@@ -422,15 +440,12 @@ musbuff:	#15*1024
 	ENDMAP
 	
 	MAP 0xC000
+ttreplayRAM:		#0
 	include	"..\TTplayer\code\ttreplayRAM.asm"
 
 _levelmap:			#mapWidth*mapHeight
 
 _cur_level_bf:		#mapWidth*mapHeight/2
-ram_sat:
-_sat				#4*32
-
-; enemylist:			#enemy*nenemies
 
 slotvar				#1
 slotram				#1
@@ -503,15 +518,9 @@ color			db	0
 speed			dw	0
 	ends
 	
-; [max_enem]			enemy_data
-; [max_bullets]		enemy_data
-; [max_enem_bullets]	enemy_data
-
-enemies:		#	enemy_data*max_enem
-ms_bullets:		#	enemy_data*max_bullets
-enem_bullets:	#	enemy_data*max_enem_bullets
-
-; _shadow0:			#32*24*2
-; _shadow1:			#32*24*2
+any_object:			#0
+ms_bullets:			#enemy_data*max_bullets
+enem_bullets:		#enemy_data*max_enem_bullets
+enemies:			#enemy_data*max_enem
 
 	ENDMAP

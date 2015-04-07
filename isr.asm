@@ -155,9 +155,8 @@ lint:
 	out	(0x99),a
 	
 	call plot_enemy
-	call __sat_update
 	
-	xor	a
+	ld	a,00101101B
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a

@@ -18,9 +18,9 @@ ms_reset					equ	12
 
 
 maxspeed:					equ 16		; the actual speed is divided by 4
-max_enem:					equ 8		; max 12
+max_enem:					equ 10		; max 12
 max_enem_bullets:			equ 3
-max_bullets:				equ 2		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
+max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
 assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
 enemy_bullet_speed:			equ	2	
 xship_rel:					equ (128-8)
@@ -32,24 +32,11 @@ ms_col_win:
 	include ms_demo_frm_coll_wind.asm
 
 ;--------------------------------------------------------------------
-set_size:
-set_size2:
-	ret
 ;--------------------------------------------------------------------
 add_bc_score_bin
 	ret
 ;--------------------------------------------------------------------
-test_collision_msbullets
-	ret
-;--------------------------------------------------------------------
-CollisionCheck_8b
-	ret
-;--------------------------------------------------------------------
-CalcCollision
-	ret
-;--------------------------------------------------------------------
-test_collision_enemy_bullets
-	ret
+
 ; Fast random number generator using the same method
 ; as the CDMA used in cellular telephones
 ;--------------------------------------------------------------------
@@ -104,10 +91,10 @@ land_now_test:
 	call AFXPLAY
 	
 	ret
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
-; NPC initialization - fake for testing
+; NPC initialization 
+; it removes also bullets
 ;
 npc_init:
 	ld  ix,enemies
@@ -117,7 +104,7 @@ npc_init:
 1:  ld  (ix+enemy_data.status),0
 	ld  (ix+enemy_data.kind),255
 	ld	(ix+enemy_data.cntr),0
-	ld	(ix+enemy_data.y),192
+	ld	(ix+enemy_data.y),0xD9
 
 	add ix,de
 	djnz    1b
@@ -127,6 +114,7 @@ npc_init:
 	xor	a
 	ld	(wave_count),a
 	ld	(landing_permission),a
+	
 ; turn off MS and enemy bullets
 
 bull_init:
@@ -135,27 +123,12 @@ bull_init:
 
 	ld  ix,ms_bullets
 	ld  de,enemy_data
-	repeat	max_bullets
-	ld  (ix+enemy_data.status),a
+	ld	b,max_bullets+max_enem_bullets
+	
+1:	ld  (ix+enemy_data.status),a
 	ld	(ix+enemy_data.color),15
 	add ix,de
-	endrepeat
-
-	; ld	a,(cur_level)
-	; ld	l,a
-	; ld	h,0
-	; ld	bc,clr_enemy_bullts
-	; add	hl,bc
-	; ld	b,(hl)
-	ld	b,15
-	
-	xor	a
-	ld  ix,enem_bullets
-	repeat	max_enem_bullets
-	ld  (ix+enemy_data.status),a
-	ld	(ix+enemy_data.color),b		; colour for enemy bullets
-	add ix,de
-	endrepeat
+	djnz	1b
 
 	ret
 
@@ -908,13 +881,9 @@ npc_loop:
 	ld	a,(ix+enemy_data.kind)
 	and	a
 	jp	z,enemy0
-	dec a	;cp	1
-	; jp	z,enemy1
-	dec a	;cp	2
+[2]	dec a	
 	jp 	z,enemy2
-	dec a	;cp	3
-	; jp 	z,enemy3
-	dec a	;cp	4
+[2]	dec a	
 	jp 	z,enemy4
 	dec a	;cp	5
 	jp 	z,enemy5
