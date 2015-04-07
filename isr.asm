@@ -149,8 +149,19 @@ lint:
 	push   iy         
 	push   ix         
 	
+	ld	a,00100101B		; dark blue colour
+	out	(0x99),a
+	ld	a,7+128
+	out	(0x99),a
+	
+	call plot_enemy
 	call __sat_update
-
+	
+	xor	a
+	out	(0x99),a
+	ld	a,7+128
+	out	(0x99),a
+	
 	ld	hl,.exit
 	push	hl
 	ld	a,(_direction)

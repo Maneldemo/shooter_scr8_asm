@@ -48,7 +48,7 @@ plot_enemy2:
 .next
 	ld	de,enemy_data
 	add ix,de
-	djnz	npc_loop1
+	djnz	.npc_loop1
 	ld	a,c
 [2]	add a,a				; x4 -> sat data
 	ld	(visible_sprts),a

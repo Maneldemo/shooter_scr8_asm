@@ -50,6 +50,7 @@ mapHeight	equ	11
 		include checkkbd.asm
 		include sprts.asm
 		include sat_update.asm
+		include plot_enemies.asm
 		
 ;-------------------------------------
 ; Entry point
@@ -485,6 +486,7 @@ xship:				#2
 aniframe:			#1
 ms_state:			#1
 god_mode:			#1
+visible_sprts:		#1
 
 	struct enemy_data
 y				db	0
