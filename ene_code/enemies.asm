@@ -122,8 +122,8 @@ bull_init:
 	ld  (bullet_rate),a
 
 	ld  ix,ms_bullets
-	ld  de,enemy_data
 	ld	b,max_bullets+max_enem_bullets
+	ld  de,enemy_data
 	
 1:	ld  (ix+enemy_data.status),a
 	ld	(ix+enemy_data.color),15
@@ -163,7 +163,7 @@ wave_timer:
 	call	rand8
 	and	7
 	
-	jp	z,wave0
+	jp	wave0
 	dec	a
 	jp	z,wave1
 	dec	a
@@ -201,10 +201,7 @@ wave1:
 	ld	a,(hl)	
 	ld	iyl,a	; color
 	ld	a,l
-	add	a,a
-	add	a,a
-	add	a,a
-	add	a,a
+[4]	add	a,a
 
 	add	a,64
 	ld	b,a			; frame
@@ -230,8 +227,9 @@ wave1:
 	exx
 1:
 	exx	
-	ld	a,64
-	add	a,c
+	; ld	a,64
+	; add	a,c
+	ld	a,c
 	exx		
 	
 	ld	hl,(xmap)
@@ -257,13 +255,13 @@ wave1:
 	exx
 
 	push	bc
-	ld bc,16
-	add hl,bc 
-	ld  (ix+enemy_data.x),l
-	ld  (ix+enemy_data.x+1),h
-	pop	bc
+	ld 		bc,16
+	add 	hl,bc 
+	ld  	(ix+enemy_data.x),l
+	ld  	(ix+enemy_data.x+1),h
+	pop		bc
 	
-	ld  (ix+enemy_data.y),a
+	ld  	(ix+enemy_data.y),a
 	add	a,32
 	
 	call	set_size
@@ -271,7 +269,8 @@ wave1:
 	add ix,de
 	dec	iyh
 	ret	z
-	cp	191-16
+	; cp	191-16
+	cp	11*16-16
 	jr	c,1b
 	ret
 

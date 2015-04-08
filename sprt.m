@@ -35,8 +35,8 @@ sprtpal = [ 0 0 0
             7 7 7];
 
 figure;
-t = uint8(kron(0:15,ones(16,1)));
-t = bitor(t,t');
+r = uint8(kron(0:15,ones(16,1)));
+t = bitor(r,r');
 image(t)
 colormap([sprtpal(:,2) sprtpal(:,3) sprtpal(:,1)]/7);
 axis equal

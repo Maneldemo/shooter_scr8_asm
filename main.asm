@@ -201,7 +201,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		(_direction),a
 		ld		a,6
 		ld		(cur_level),a
-		ld		a,128
+		ld		a,80
 		ld		(yship),a
 
 		call	_isrinit
@@ -293,9 +293,12 @@ _up:	ld		a,(_yoffset)
 border_color	equ 	0;	00100101B
 		
 inc_xoffset
-		call	blank_line_lft
 		call	plot_line_rgt
-
+		call	blank_line_lft
+		
+		call	replay_route		; first output data	
+		call	replay_play			; calculate next output
+	
 		ld		a,(_xoffset)
 		and		a
 		jr		nz,.case1_15
@@ -330,8 +333,12 @@ inc_xoffset
 		ld		(_levelmap_pos),hl
 		ret
 dec_xoffset
-		call	blank_line_rgt
 		call	plot_line_lft
+		call	blank_line_rgt
+
+		call	replay_route		; first output data	
+		call	replay_play			; calculate next output
+
 		ld		a,(_xoffset)
 		cp	15
 		jr		nz,.case0_14

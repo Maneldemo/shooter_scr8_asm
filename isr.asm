@@ -153,8 +153,8 @@ lint:
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
-	
-	call plot_enemy
+
+	call 	plot_enemy
 	
 	ld	a,00101101B
 	out	(0x99),a
@@ -171,12 +171,9 @@ lint:
 1:	pop	hl
 .exit:
 
-	call	replay_route		; first output data
-	call	replay_play			; calculate next output
-
 	xor		a				; black colour
 	out		(0x99),a
-	ld		a,128+7
+	ld		a,7+128
 	out		(0x99),a
 
 	pop    ix         

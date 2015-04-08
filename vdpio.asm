@@ -172,4 +172,11 @@ _waitvdp:
 	out (0x99),a
 	ei
 	ret
+
+; .inf:
+	; ld	a,r			; random colour
+	; out		(0x99),a
+	; ld		a,7+128
+	; out		(0x99),a
+	; jp	.inf
 	

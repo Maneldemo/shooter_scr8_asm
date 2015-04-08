@@ -14,7 +14,7 @@ blank_line:
 	out 	(0x99),a
 	ei
 	
-	call _waitvdp
+	call _waitvdp		; no need ATM
 	
 	ld		a,(_xoffset)
 	add		a,e
@@ -96,19 +96,19 @@ plot_line:
 	
 	ld	bc,16*256+0x98
 
-1:	di
-	ld a,e 		;set bits 0-7
+	di
+1:	ld a,e 		;set bits 0-7
 	out (0x99),a
 	ld a,d 		;set bits 8-13
 	out (0x99),a
-	ei
 	inc	d
 	outi
-	jr	nz,1b
-	
+	jp	nz,1b
+	ei
 	pop	hl
-	ld	de,mapWidth
-	add	hl,de
+	; ld	de,mapWidth
+	; add	hl,de
+	inc	h		; only if mapWidth==256
 	pop	de
 	ld	a,d
 	add	a,16
@@ -298,7 +298,7 @@ move_block:
 
 	ld 		c, 0x9B
 	
-	call _waitvdp;
+	call _waitvdp		; no need ATM
 	
 	out		(c), e 		; sx
 	xor a
