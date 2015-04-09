@@ -161,10 +161,10 @@ _waitvdp:
 	out (0x99),a
 	ld a, 0x8f
 	out (0x99),a
-
-1:  in a,(0x99)
+[2]	nop
+1:  in	a,(0x99)
 	rrca
-	jp c, 1b
+	jp c, .inf;1b
 
 	xor a
 	out (0x99),a
@@ -173,10 +173,10 @@ _waitvdp:
 	ei
 	ret
 
-; .inf:
-	; ld	a,r			; random colour
-	; out		(0x99),a
-	; ld		a,7+128
-	; out		(0x99),a
-	; jp	.inf
+.inf:
+	ld	a,r			; random colour
+	out		(0x99),a
+	ld		a,7+128
+	out		(0x99),a
+	jp	1b
 	

@@ -4,6 +4,7 @@
 blank_line_rgt:
 	ld	e,240
 	jp	blank_line
+	
 blank_line_lft:
 	ld	e,0
 blank_line:
@@ -31,7 +32,7 @@ blank_line:
 	xor a
 	out 	(0x9B), a
 
-	ld		a,11*16
+	ld		a,mapHeight*16
 	out 	(0x9B), a			; y block size
 	xor a
 	out 	(0x9B), a
@@ -40,85 +41,25 @@ blank_line:
 	out 	(0x9B), a
 
 	ld		a,11000000B
-	out 	(0x9B), a		; command LMMM
+	out 	(0x9B), a		; command HMMV
 	ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; input
-; e = x configured in 0-255
+; no input
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 plot_line_lft:
 	ld	hl,(_levelmap_pos)
 	ld	e,0
 	jp plot_line
+	
 plot_line_rgt:
 	ld	hl,(_levelmap_pos)
 	ld	de,15
 	add	hl,de
 	ld	e,240
-plot_line:		
-	ld	d,0
-	ld	a,(_xoffset)
-	add a,e
-	ld	e,a		; de = y*256+x
+	jp plot_line
 	
-111:
-	ld	a,(hl)
-	push	de
-	push	hl
-	
-	ld	c,a
-[5]	rrca
-	and	00000111B
-	add	a,:_tiles0
-	ld	(_kBank4),a
-	ld	a,c
-	and	00011111B
-	add	a,high _tiles0
-	ld	h,a
-	ld	a,(_xoffset)
-[4]	add	a,a
-	ld	l,a
-	
-	ld	a,(_displaypage)
-	rlc d			; set VDP for writing at address ADE (17-bit) ;
-	rla
-	rlc d
-	rla
-	srl d 			; first shift
-	di
-	out (0x99),a 	; set bits 14-16
-	ld a,14+128
-	out (0x99),a
-	ei
-	srl d 			; second shift    
-	set 6,d			; write access
-	
-	ld	bc,16*256+0x98
-
-	di
-1:	ld a,e 		;set bits 0-7
-	out (0x99),a
-	ld a,d 		;set bits 8-13
-	out (0x99),a
-	inc	d
-	outi
-	jp	nz,1b
-	ei
-	pop	hl
-	; ld	de,mapWidth
-	; add	hl,de
-	inc	h		; only if mapWidth==256
-	pop	de
-	ld	a,d
-	add	a,16
-	ld	d,a
-	cp	11*16
-	jr	c,111b
-	ret
-	
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; input
 ; de = y,x configured in window map 256x256
@@ -130,7 +71,7 @@ plot_tile:
 		pop		de
 		
 		ld	h,a
-[5]		rrca
+[3]		rlca
 		and	00000111B
 		add	a,:_tiles0
 		ld	(_kBank4),a
@@ -159,16 +100,15 @@ plot_tile:
 	
 2:		push	bc
 		ld	b,16
-
-1:		di
-		ld a,e 		;set bits 0-7
+		di
+1:		ld a,e 		;set bits 0-7
 		out (0x99),a
 		ld a,d 		;set bits 8-13
 		out (0x99),a
-		ei
 		inc	d
 		outi
-		jr nz,1b
+		jp nz,1b
+		ei
 		ld	a,-16
 		add	a,d
 		ld	d,a
@@ -177,7 +117,8 @@ plot_tile:
 		djnz 2b
 		exx
 		ret
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 		
 init_page0:
 		ld		a,(_displaypage)
 		ld		d,a
@@ -207,7 +148,8 @@ init_page0:
 		pop	bc
 		djnz	2b
 		ret
-		
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 		
 init_page1:
 		ld		a,(_displaypage)
 		ld		d,a
@@ -268,7 +210,7 @@ clrboder:
 	xor	a
 	out 	(0x9B), a
 
-	ld		a,11*16
+	ld		a,mapHeight*16
 	out 	(0x9B), a			; y block size
 	xor a
 	out 	(0x9B), a
@@ -279,7 +221,7 @@ clrboder:
 	out 	(0x9B), a
 
 	ld		a,11000000B
-	out 	(0x9B), a		; command LMMM
+	out 	(0x9B), a		; command HMMV
 	ret
 
 move_block:
@@ -321,7 +263,7 @@ move_block:
 	out 	(0x9B), a
 	xor a
 	out 	(0x9B), a	
-	ld		a,11*16
+	ld		a,mapHeight*16
 	out 	(0x9B), a
 	xor		a
 	out 	(0x9B), a

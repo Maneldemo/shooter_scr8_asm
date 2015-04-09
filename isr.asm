@@ -8,13 +8,6 @@ RG8SAV equ 0xF3E7 ; VDP Register 8 Save copy.
 
 _jiffy: equ 0xFC9E 
 
-	; global _intinit,_intreset,_scroll_sx,_scroll_dx
-	; global _jiffy
-	; global _xoffset
-	; global _displaypage
-	; global _direction
-	; global _jiffy
-
 
 _isrinit:
 	di
@@ -65,6 +58,7 @@ _scroll:
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a
+[2]	nop	
 	in	a,(0x99)
 	rlca
 	jp	c,vblank
@@ -73,7 +67,8 @@ _scroll:
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a
-	in a,(0x99)
+[2]	nop	
+	in	a,(0x99)
 	rra
 	jp	c,lint	
 	
@@ -96,7 +91,7 @@ lint:
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a		; poll for HBLANK
-
+[2]	nop	
 1:	in	a,(0x99)		; we are in HBLANK already, so wait until end of HBLANK
 	and	0x20
 	jp	nz,1b			

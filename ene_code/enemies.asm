@@ -19,6 +19,8 @@ ms_reset					equ	12
 
 maxspeed:					equ 16		; the actual speed is divided by 4
 max_enem:					equ 10		; max 12
+max_enem1:					equ	5
+max_enem2:					equ	5		; max_enem1 + max_enem2 = max_enem
 max_enem_bullets:			equ 3
 max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
 assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
@@ -65,6 +67,7 @@ rand8:
 	ld      l,a
 	ld      (randSeed),hl
 	ret
+	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;	increase the wave counter
 ; 	and test for landing permission
@@ -89,8 +92,8 @@ land_now_test:
 	
 	ld	a,14			; Land Now
 	call AFXPLAY
-	
 	ret
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 ; NPC initialization 
@@ -154,19 +157,21 @@ wave_timer:
 	ld	e,a
 	ld	d,0
 	and	a
-	sbc	hl,de	; at level 15 frequency is a wave each 2,5 seconds
+	sbc	hl,de					; at level 15 frequency is a wave each 2,5 seconds
 	ld	(assault_wave_timer),hl	; 180 - 2*cur_level
 	
 
 	call	land_now_test
 	
 	call	rand8
-	and	7
+	and	3			;XXXX
 	
-	jp	wave0
+	jp	z,wave0
 	dec	a
 	jp	z,wave1
 	dec	a
+	jp	wave2
+	
 	jp	z,wave2
 	dec	a
 	jp	z,wave3
@@ -188,57 +193,49 @@ spritecolors:
 	db        9, 3,14,15
 	
 wave0:
+	ld  ix,enemies2
+	ld	iyh,max_enem2
+	jr	1f
 wave1:
-	call	rand8
-	and	15
-	ld 	c,a		; Y off set
-	exx
-
+	ld  ix,enemies1
+	ld	iyh,max_enem1
+1:
 	call	rand8
 	and	7
-	ld	l,a
-	ld	h, high spritecolors
-	ld	a,(hl)	
-	ld	iyl,a	; color
-	ld	a,l
-[4]	add	a,a
-
-	add	a,64
+	add	a,4
 	ld	b,a			; frame
 	
 	ld	a,(dxmap)
-	and	0x80
-	jr	z,.pos
+	and	a
+	jp	p,.pos
 .neg
 	ld	de,-64
 	ld	c,+1		; enemies going right
+	ld	a,b
+[4]	add	a,a
+	ld	b,a
 	exx	
 	ld 	de,1		; enemy speed = 1
-	exx
 	jr	1f
 .pos
 	ld	de,256+32
-	ld	c,1+64	; enemies going left
-	ld	a,4
-	add	a,b
+	ld	c,1+64		; enemies going left
+	inc	b
+	ld	a,b
+[4]	add	a,a
 	ld	b,a
 	exx	
 	ld 	de,-1		; enemy speed = -1
-	exx
 1:
-	exx	
-	; ld	a,64
-	; add	a,c
-	ld	a,c
+	ld  bc,enemy_data
 	exx		
+
+	call	rand8
+	and	15			; Y off set
 	
 	ld	hl,(xmap)
 	add	hl,de
 
-	ld  ix,enemies
-	ld	iyh,max_enem
-	ld  de,enemy_data
-	
 1:
 	bit	0,(ix+enemy_data.status)
 	jr  nz,.next
@@ -248,37 +245,37 @@ wave1:
 
 	ld  (ix+enemy_data.kind),0
 	exx
-	ld	b,iyl
-	ld	(ix+enemy_data.color),b
 	ld	(ix+enemy_data.speed),e
 	ld	(ix+enemy_data.speed+1),d
 	exx
 
-	push	bc
-	ld 		bc,16
-	add 	hl,bc 
+	ld 		de,16
+	bit	5,a
+	jr	z,2f
+	ld 		de,-16
+	
+2:	add 	hl,de 
 	ld  	(ix+enemy_data.x),l
 	ld  	(ix+enemy_data.x+1),h
-	pop		bc
-	
 	ld  	(ix+enemy_data.y),a
-	add	a,32
-	
+	add		a,32
 	call	set_size
-
-	add ix,de
+	exx	
+	add ix,bc
+	exx
 	dec	iyh
 	ret	z
-	; cp	191-16
-	cp	11*16-16
-	jr	c,1b
+	cp	mapHeight*16-16
+	jp	c,1b
 	ret
 
 .next
-	add ix,de
+	exx	
+	add ix,bc
+	exx
 	dec	iyh
 	ret	z
-	jr	1b
+	jp	1b
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
@@ -292,23 +289,13 @@ wave2:
 
 	call	rand8
 	and	7
-	ld	l,a
-	ld	h, high spritecolors
-	ld	a,(hl)	
-	ld	iyl,a		; color
+	add	a,4
+[4]	add	a,a
 	
-	ld	a,l
-	add	a,a
-	add	a,a
-	add	a,a
-	add	a,a
-
-	add	a,64
 	ld	b,a			; frame
 
 	exx
 	ld	a,(dxmap)
-	or	2
 [2] sra a			; de' = player speed 
 	ld	e,a
 	rla
@@ -339,9 +326,8 @@ wave2:
 	add	hl,de
 
 	ld  ix,enemies
-	ld	a,64
 	exx	
-	add	a,c			; random offset
+	ld	a,c			; random offset
 	exx	
 
 	ld	iyh,max_enem
@@ -378,7 +364,7 @@ wave2:
 	add ix,de
 	dec	iyh
 	ret	z
-	cp	191-16
+	cp	mapHeight*16-16
 	jr	c,1b
 	ret
 
@@ -884,11 +870,11 @@ npc_loop:
 	jp 	z,enemy2
 [2]	dec a	
 	jp 	z,enemy4
-	dec a	;cp	5
+	dec a			;cp	5
 	jp 	z,enemy5
-	dec a	;cp	6
+	dec a			;cp	6
 	jp 	z,enemy6
-	dec a	;cp	7
+	dec a			;cp	7
 	jp 	z,enemy7
 
 	cp	255-7

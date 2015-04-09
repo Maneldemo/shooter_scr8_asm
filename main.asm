@@ -252,6 +252,8 @@ test_move_right:
 		
 		ld		a,1
 		ld		(_direction),a			; moving right
+		ld		a,4
+		ld		(dxmap),a
 		ret
 test_move_left
 		ld		a,(_xoffset)
@@ -260,6 +262,8 @@ test_move_left
 		
 		ld		a,-1
 		ld		(_direction),a			; moving left
+		ld		a,-4
+		ld		(dxmap),a
 		ret
 ;-------------------------------------
 
@@ -379,6 +383,7 @@ AFXPLAY:
 ;	include vuitpakker.asm
 	include print.asm
 	include plot_line.asm
+	include plot_line2.asm
 	include enemies.asm
 	
 ;-------------------------------------
@@ -528,6 +533,8 @@ speed			dw	0
 any_object:			#0
 ms_bullets:			#enemy_data*max_bullets
 enem_bullets:		#enemy_data*max_enem_bullets
-enemies:			#enemy_data*max_enem
+enemies:			#0
+enemies1:			#enemy_data*max_enem1
+enemies2:			#enemy_data*max_enem2
 
 	ENDMAP
