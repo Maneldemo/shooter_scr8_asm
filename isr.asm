@@ -10,6 +10,8 @@ _jiffy: equ 0xFC9E
 
 
 _isrinit:
+	ei
+	halt 
 	di
 	ld	hl,0x0038
 	ld	(hl),0xC3

@@ -4,6 +4,7 @@
         output "urd_scr8.rom"
 
 		incdir ene_code
+		incdir music
 
 		defpage	 0,0x4000, 0x2000		; page 0 main code + far call routines
 		defpage	 1,0x6000, 0x2000		; page 1 main code + far call routines
@@ -187,7 +188,8 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		(xmap),hl
 								
 		call 	npc_init								
-		call 	npc_init1
+		call 	load_color_pools								
+		; call 	npc_init1
 		
 		; ld		a,1
 		; ld		(_displaypage),a		

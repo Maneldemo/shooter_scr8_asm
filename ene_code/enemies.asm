@@ -164,7 +164,7 @@ wave_timer:
 	call	land_now_test
 	
 	call	rand8
-	and	3			;XXXX
+	and	1			;XXXX
 	
 	jp	z,wave0
 	dec	a
@@ -220,9 +220,10 @@ wave1:
 .pos
 	ld	de,256+32
 	ld	c,1+64		; enemies going left
-	inc	b
 	ld	a,b
-[4]	add	a,a
+[2]	add	a,a
+	inc	a
+[2]	add	a,a
 	ld	b,a
 	exx	
 	ld 	de,-1		; enemy speed = -1

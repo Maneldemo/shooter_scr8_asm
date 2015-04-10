@@ -55,7 +55,7 @@ npc_init1:
 	djnz 	1b
 		
 	; load fake colors 
-	
+load_color_pools
 	ld		c,0
 	ld		de,0FA00h-512
 	call	_vdpsetvramwr
@@ -68,7 +68,7 @@ npc_init1:
 	dec	c
 	jp	nz,2b
 		
-	ld	c,max_enem/2
+	ld	c,max_enem1
 2:	ld	b,16
 	ld	a,8
 1:	out	(0x98),a
@@ -80,7 +80,7 @@ npc_init1:
 	dec	c
 	jp	nz,2b
 
-	ld	c,max_enem/2
+	ld	c,max_enem2
 2:	ld	b,16
 	ld	a,13
 1:	out	(0x98),a
