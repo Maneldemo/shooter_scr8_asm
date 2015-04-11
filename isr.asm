@@ -153,14 +153,14 @@ lint:
 
 	call 	plot_enemy
 	
-	ld	a,00101101B
+	ld	a,00000100B
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
 	
 	ld	hl,.exit
 	push	hl
-	ld	a,(_direction)
+	ld	a,(dxmap)
 	rlc a
 	jr	z,1f
 	jp	nc,inc_xoffset			; >0 == dx

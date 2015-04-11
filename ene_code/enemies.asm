@@ -18,9 +18,9 @@ ms_reset					equ	12
 
 
 maxspeed:					equ 16		; the actual speed is divided by 4
-max_enem:					equ 10		; max 12
-max_enem1:					equ	5
-max_enem2:					equ	5		; max_enem1 + max_enem2 = max_enem
+max_enem:					equ 12		; max 12
+max_enem1:					equ	6
+max_enem2:					equ	6		; max_enem1 + max_enem2 = max_enem
 max_enem_bullets:			equ 3
 max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
 assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
@@ -164,14 +164,12 @@ wave_timer:
 	call	land_now_test
 	
 	call	rand8
-	and	1			;XXXX
+	and	7			
 	
 	jp	z,wave0
 	dec	a
 	jp	z,wave1
 	dec	a
-	jp	wave2
-	
 	jp	z,wave2
 	dec	a
 	jp	z,wave3
@@ -182,15 +180,19 @@ wave_timer:
 	dec	a
 	jp	z,wave6
 	jp	wave7
+	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	; align 0x100
+; spritecolors:
+	; db       15,14, 9, 7
+	; db        9, 3,14,15
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
-;	enemies coming frontally
+;	enemies n#0 coming frontally
 ;
-	align 0x100
-spritecolors:
-	db       15,14, 9, 7
-	db        9, 3,14,15
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 wave0:
 	ld  ix,enemies2
@@ -280,24 +282,12 @@ wave1:
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
-;	enemies coming from back
+;	enemies n#2 coming from back
 ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 wave2:
-	call	rand8
-	and	15
-	ld 	c,a		; Y off set
-	exx
-
-	call	rand8
-	and	7
-	add	a,4
-[4]	add	a,a
-	
-	ld	b,a			; frame
-
-	exx
 	ld	a,(dxmap)
-[2] sra a			; de' = player speed 
+	sra a			; de' = player speed x2
 	ld	e,a
 	rla
 	sbc a,a
@@ -308,32 +298,42 @@ wave2:
 .neg
 	ld	de,256+32
 	ld	c,1+64		; enemies going left
-	ld	a,4
-	add	a,b
-	ld	b,a
-	exx	
-	dec 	de				; enemy speed = player speed -1
-	exx
-	jr	1f
+	
+	call	rand8
+	and	7
+	add	a,4
+[2]	add	a,a
+	inc	a
+[2]	add	a,a
+	ld	b,a			; frame
+	
+	jp	1f
 .pos
 	ld	de,-64
 	ld	c,+1		; enemies going right
-	exx	
-	inc 	de			; enemy speed = player speed +1
-	exx
+
+	call	rand8
+	and	7
+	add	a,4
+[4]	add	a,a
+	ld	b,a			; frame
 	
 1:
+	call	rand8
+	and	15			; Y off set
+	add	a,mapHeight*16-32
+
 	ld	hl,(xmap)
 	add	hl,de
 
-	ld  ix,enemies
-	exx	
-	ld	a,c			; random offset
-	exx	
-
-	ld	iyh,max_enem
+	bit	7,b			; pick up a random bit from frame number
+	ld  ix,enemies1
+	ld	iyh,max_enem1
+	jr	z,1f
+	ld  ix,enemies2
+	ld	iyh,max_enem2
+1:
 	ld  de,enemy_data
-
 1:
 	bit	0,(ix+enemy_data.status)
 	jr  nz,.next
@@ -344,29 +344,29 @@ wave2:
 	ld  (ix+enemy_data.kind),2
 
 	exx	
-	ld	b,iyl
-	ld	(ix+enemy_data.color),b
 	ld	(ix+enemy_data.speed),e
 	ld	(ix+enemy_data.speed+1),d
 	exx
 	
 	push	bc
-	ld bc,16
-	add hl,bc 
+	bit	0,a			; pick up a random bit from Y
+	ld 	bc,8
+	jr z,11f
+	ld 	bc,-8
+11:	add hl,bc 
 	ld  (ix+enemy_data.x),l
 	ld  (ix+enemy_data.x+1),h
 	pop		bc
 	
 	ld  (ix+enemy_data.y),a
-	add	a,32
 
 	call	set_size
 
 	add ix,de
 	dec	iyh
 	ret	z
-	cp	mapHeight*16-16
-	jr	c,1b
+	sub	a,32
+	jp	nc,1b
 	ret
 
 .next
@@ -375,15 +375,13 @@ wave2:
 	ret	z
 	jr	1b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; waving enemies n#5 from back
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 wave3:
-	call	rand8
-	and	15
-	add	a,7
-	ld 	c,a		; Y off set
-		
 	ld	a,(dxmap)
-	or	2
-[2] sra a			; de' = player speed 
+	sra a			; de' = player speed x 2
 	ld	e,a
 	rla
 	sbc a,a
@@ -394,30 +392,27 @@ wave3:
 .neg
 	ld	de,256+32
 	ld	bc,256*100+1+64		; enemies going left
-	exx	
-	dec 	de				; enemy speed = player speed -1
-	exx
 	jr	1f
 .pos
 	ld	de,-64
-	ld	bc,256*96+1		; enemies going right
-	exx	
-	inc 	de			; enemy speed = player speed +1
-	exx
+	ld	bc,256*96+1			; enemies going right
 	
 1:
+	call	rand8
+	and	15					; random Y offset
+	add	a,mapHeight*16-48
+	
 	ld	hl,(xmap)
 	add	hl,de
 
-	ld  ix,enemies
-	ld	a,64
-	exx	
-	add	a,c			; random Y offset
-	exx	
-
-	ld	iyh,max_enem
+	bit	0,a			; pick up a random bit from Y offset
+	ld  ix,enemies1
+	ld	iyh,max_enem1
+	jr	z,1f
+	ld  ix,enemies2
+	ld	iyh,max_enem2
+1:
 	ld  de,enemy_data
-
 1:
 	bit	0,(ix+enemy_data.status)
 	jr  nz,.next
@@ -426,7 +421,7 @@ wave3:
 	ld	(ix+enemy_data.frame),b
 
 	ld  (ix+enemy_data.kind),5
-	ld	(ix+enemy_data.color),10
+	ld	(ix+enemy_data.cntr),0
 
 	exx	
 	ld	(ix+enemy_data.speed),e
@@ -445,6 +440,106 @@ wave3:
 	pop		bc
 	
 	ld  (ix+enemy_data.y),a
+
+	call	set_size
+
+	add ix,de
+	dec	iyh
+	ret	z
+	sub	a,24
+	jp	nc,1b
+	ret
+
+.next
+	add ix,de
+	dec	iyh
+	ret	z
+	jr	1b
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;	enemies n#4 coming from back
+; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+wave4:
+	ld	a,(dxmap)
+	sra a			; de' = player speed x 2
+	ld	e,a
+	rla
+	sbc a,a
+	ld	d,a
+	exx
+	
+_wave4_cont:
+
+	jr	z,.pos				
+.neg
+	ld	de,256+32
+	ld	c,+1+64		; enemies going left
+	
+	call	rand8
+	and	7
+	add	a,4
+[2]	add	a,a
+	inc	a
+[2]	add	a,a
+	ld	b,a			; frame
+
+	jr	1f
+.pos
+	ld	de,-64
+	ld	c,+1		; enemies going right
+
+	call	rand8
+	and	7
+	ld	a,4
+[4]	add	a,a
+	ld	b,a			; frame
+	
+1:
+	call	rand8
+	and	15			; Y off set
+
+	bit	1,a			; pick up a random bit from Y offset
+	jr	z,1f
+	set	7,c			; go up instead of down
+1:
+		
+	ld	hl,(xmap)
+	add	hl,de
+
+	bit	0,a			; pick up a random bit from Y offset
+	ld  ix,enemies1
+	ld	iyh,max_enem1
+	jr	z,1f
+	ld  ix,enemies2
+	ld	iyh,max_enem2
+1:
+	ld  de,enemy_data
+1:
+	bit	0,(ix+enemy_data.status)
+	jr  nz,.next
+
+	ld  (ix+enemy_data.status),c
+	ld	(ix+enemy_data.frame),b
+
+	ld  (ix+enemy_data.kind),4
+
+	exx	
+	ld	(ix+enemy_data.speed),e
+	ld	(ix+enemy_data.speed+1),d
+	bit	7,d
+	exx
+	
+	push	bc
+	ld bc,16
+	jr	z,11f
+	ld bc,-16
+11:	add hl,bc 
+	ld  (ix+enemy_data.x),l
+	ld  (ix+enemy_data.x+1),h
+	pop		bc
+	
+	ld  (ix+enemy_data.y),a
 	add	a,24
 
 	call	set_size
@@ -452,7 +547,7 @@ wave3:
 	add ix,de
 	dec	iyh
 	ret	z
-	cp	191-16
+	cp	mapHeight*16-16
 	jr	c,1b
 	ret
 
@@ -462,122 +557,13 @@ wave3:
 	ret	z
 	jr	1b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;	enemies coming from back
+;
+; spinning enemy #6 
+;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-wave4:
-	call	rand8
-	and	15
-	ld 	c,a		; Y off set
-	exx
-
-	call	rand8
-	and	7
-	ld	l,a
-	ld	h, high spritecolors
-	ld	a,(hl)	
-	ld	iyl,a		; color
-	
-	ld	a,l
-	add	a,a
-	add	a,a
-	add	a,a
-	add	a,a
-
-	add	a,64
-	ld	b,a			; frame
-	
-	exx
-	ld	a,(dxmap)
-	or	2
-[2] sra a			; de' = player speed 
-	ld	e,a
-	rla
-	sbc a,a
-	ld	d,a
-	exx
-
-	jr	z,.pos				
-.neg
-	ld	de,256+32
-	ld	c,+1+64		; enemies going left
-	ld	a,4
-	add	a,b
-	ld	b,a
-	exx	
-	dec 	de				; enemy speed = player speed -1
-	exx
-	jr	1f
-.pos
-	ld	de,-64
-	ld	c,+1		; enemies going right
-	exx	
-	inc 	de				; enemy speed = player speed +1
-	exx
-	
-1:
-	ld	hl,(xmap)
-	add	hl,de
-
-	ld  ix,enemies
-	ld	a,64
-	exx	
-	add	a,c			; random offset
-	exx	
-
-	ld	iyh,max_enem
-	ld  de,enemy_data
-
-1:
-	bit	0,(ix+enemy_data.status)
-	jr  nz,.next
-
-	ld  (ix+enemy_data.status),c
-	ld	(ix+enemy_data.frame),b
-
-	ld  (ix+enemy_data.kind),4
-
-	exx	
-	ld	b,iyl
-	ld	(ix+enemy_data.color),b
-	ld	(ix+enemy_data.speed),e
-	ld	(ix+enemy_data.speed+1),d
-	exx
-	
-	push	bc
-	ld bc,16
-	add hl,bc 
-	ld  (ix+enemy_data.x),l
-	ld  (ix+enemy_data.x+1),h
-	pop		bc
-	
-	ld  (ix+enemy_data.y),a
-	add	a,32
-
-	call	set_size
-
-	add ix,de
-	dec	iyh
-	ret	z
-	cp	191-16
-	jr	c,1b
-	ret
-
-.next
-	add ix,de
-	dec	iyh
-	ret	z
-	jr	1b
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; spinning enemy color 11
 wave5:
-	call	rand8
-	and	15
-	ld 	c,a		; Y off set
-	
 	ld	a,(dxmap)
-	or	2
-[2] sra a			; de' = player speed 
+	sra a			; de' = player speed x 2
 	ld	e,a
 	rla
 	sbc a,a
@@ -588,61 +574,62 @@ wave5:
 .neg
 	ld	de,256+32
 	ld	c,+1+64		; enemies going left
-	exx	
-	dec 	de				; enemy speed = player speed -1
-	exx
 	jr	1f
 .pos
 	ld	de,-64
 	ld	c,+1		; enemies going right
-	exx	
-	inc 	de				; enemy speed = player speed +1
-	exx
 	
 1:
+	call	rand8
+	and	15
+	
+	bit	1,a			; pick up a random bit from Y offset
+	jr	z,1f
+	set	7,c			; go up instead of down
+1:
+	
 	ld	hl,(xmap)
 	add	hl,de
 
-	ld  ix,enemies
-	ld	a,64
-	exx	
-	add	a,c			; random offset
-	exx	
-
-	ld	iyh,max_enem
+	bit	0,a			; pick up a random bit from Y offset
+	ld  ix,enemies1
+	ld	iyh,max_enem1
+	jr	z,1f
+	ld  ix,enemies2
+	ld	iyh,max_enem2
+1:
 	ld  de,enemy_data
-
 1:
 	bit	0,(ix+enemy_data.status)
 	jr  nz,.next
 
 	ld  (ix+enemy_data.status),c
-	; ld	(ix+enemy_data.frame),b
-	
 	ld  (ix+enemy_data.kind),6
 
 	exx	
-	ld	(ix+enemy_data.color),11
 	ld	(ix+enemy_data.speed),e
 	ld	(ix+enemy_data.speed+1),d
+	bit	7,d
 	exx
 	
 	push	bc
 	ld bc,16
-	add hl,bc 
+	jr	z,11f
+	ld bc,-16
+11:	add hl,bc 
 	ld  (ix+enemy_data.x),l
 	ld  (ix+enemy_data.x+1),h
 	pop		bc
 	
 	ld  (ix+enemy_data.y),a
-	add	a,32
+	add	a,24
 
 	call	set_size
 
 	add ix,de
 	dec	iyh
 	ret	z
-	cp	191-16
+	cp	mapHeight*16-16
 	jr	c,1b
 	ret
 
@@ -654,127 +641,28 @@ wave5:
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;	enemies coming from back double speed
+;
+;	enemies n#4 coming from back double speed
+;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 wave6:
-	call	rand8
-	and	15
-	ld 	c,a		; Y off set
-	exx
-
-	call	rand8
-	and	7
-	ld	l,a
-	ld	h, high spritecolors
-	ld	a,(hl)	
-	ld	iyl,a		; color
-	
-	ld	a,l
-	add	a,a
-	add	a,a
-	add	a,a
-	add	a,a
-	
-	add	a,64
-	ld	b,a			; frame
-	exx
-	
 	ld	a,(dxmap)
-	or	2
-[2] sra a			; de' = player speed 
-	ld	e,a
+	ld	e,a			; de' = player speed x 4
 	rla
 	sbc a,a
 	ld	d,a
 	exx
-
-	jr	z,.pos				
-.neg
-	ld	de,256+32
-	ld	c,+1+64		; enemies going left
-	ld	a,4
-	add	a,b
-	ld	b,a
-	exx	
-	dec 	de				; enemy speed = player speed -2
-	dec 	de				
-	exx
-	jr	1f
-.pos
-	ld	de,-64
-	ld	c,+1		; enemies going right
-	exx	
-	inc 	de				; enemy speed = player speed +2
-	inc 	de				
-	exx
+	jp _wave4_cont
 	
-1:
-	ld	hl,(xmap)
-	add	hl,de
 
-	ld  ix,enemies
-	ld	a,64
-	exx	
-	add	a,c			; random offset
-	bit	0,c
-	exx	
-	jr	z,1f		; randomize initial Y direction
-	set	7,c
-	jr	2f
-1:	res	7,c
-2:
-	ld	iyh,max_enem
-	ld  de,enemy_data
-
-1:
-	bit	0,(ix+enemy_data.status)
-	jr  nz,.next
-
-	ld  (ix+enemy_data.status),c
-	ld	(ix+enemy_data.frame),b
-
-	ld  (ix+enemy_data.kind),4
-
-	exx	
-	ld	b,iyl
-	ld	(ix+enemy_data.color),b
-	ld	(ix+enemy_data.speed),e
-	ld	(ix+enemy_data.speed+1),d
-	exx
-	
-	push	bc
-	ld bc,16
-	add hl,bc 
-	ld  (ix+enemy_data.x),l
-	ld  (ix+enemy_data.x+1),h
-	pop		bc
-	
-	ld  (ix+enemy_data.y),a
-	add	a,32
-
-	call	set_size
-
-	add ix,de
-	dec	iyh
-	ret	z
-	cp	191-16
-	jr	c,1b
-	ret
-
-.next
-	add ix,de
-	dec	iyh
-	ret	z
-	jr	1b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;spinning enemy color 7
+;
+;  enemies n#7 (spinning)
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 wave7:
-	call	rand8
-	and	15
-	ld 	c,a		; Y off set
 	ld	a,(dxmap)
-	or	2
-[2] sra a			; de' = player speed 
+	sra a			; de' = player speed x 2
 	ld	e,a
 	rla
 	sbc a,a
@@ -785,41 +673,35 @@ wave7:
 .neg
 	ld	de,256+32
 	ld	c,1+64				; enemies going left
-	exx	
-	dec 	de				; enemy speed = player speed -1
-	exx
 	jr	1f
 .pos
 	ld	de,-64
 	ld	c,+1		; enemies going right
-	exx	
-	inc 	de				; enemy speed = player speed +1
-	exx
 	
 1:
+	call	rand8
+	and	15			; Y off set
+
 	ld	hl,(xmap)
 	add	hl,de
 
-	ld  ix,enemies
-	ld	a,64
-	exx	
-	add	a,c			; random offset
-	exx	
-
-	ld	iyh,max_enem
+	bit	0,a			; pick up a random bit from Y offset
+	ld  ix,enemies1
+	ld	iyh,max_enem1
+	jr	z,1f
+	ld  ix,enemies2
+	ld	iyh,max_enem2
+1:
 	ld  de,enemy_data
-
 1:
 	bit	0,(ix+enemy_data.status)
 	jr  nz,.next
 
 	ld  (ix+enemy_data.status),c
-	; ld	(ix+enemy_data.frame),b	; dummy
 
 	ld  (ix+enemy_data.kind),7
-
+	
 	exx	
-	ld	(ix+enemy_data.color),7
 	ld	(ix+enemy_data.speed),e
 	ld	(ix+enemy_data.speed+1),d
 	exx
@@ -829,17 +711,18 @@ wave7:
 	add hl,bc 
 	ld  (ix+enemy_data.x),l
 	ld  (ix+enemy_data.x+1),h
+	ld	(ix+enemy_data.cntr),l
 	pop		bc
 	
 	ld  (ix+enemy_data.y),a
-	add	a,32
+	add	a,24
 
 	call	set_size
 
 	add ix,de
 	dec	iyh
 	ret	z
-	cp	191-16
+	cp	mapHeight*16-16
 	jr	c,1b
 	ret
 
@@ -848,12 +731,11 @@ wave7:
 	dec	iyh
 	ret	z
 	jr	1b
-
-	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
-;   logic for enemies -  fake for testing
+;   logic for enemies 
 ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 npc_loop:
 	ld  ix,enemies
@@ -961,7 +843,6 @@ enemy1:
 	jp  m,1f
 	ld	(ix+enemy_data.status),0
 1:
-
 	call	rand8
 	and 	127
 	call	z,book_enemy_shoot
@@ -1006,7 +887,6 @@ enemy3:
 	jp  m,1f
 	ld	(ix+enemy_data.status),0
 1:
-
 	call	rand8
 	and 	127
 	call	z,book_enemy_shoot
@@ -1051,20 +931,18 @@ enemy4:
 	jp  m,1f
 	ld	(ix+enemy_data.status),0
 1:
-
 	ld	a,(ix+enemy_data.y)
 
 	bit 7,(ix+enemy_data.status)
 	jr  z,.go_dwn
 .go_up:
 	dec	a
-	cp	64
-	jr	nz,1f
+	jp	nz,1f
 	res	7,(ix+enemy_data.status)
 	jr	1f
 .go_dwn:
 	inc	a
-	cp	191-16
+	cp	mapHeight*16-16
 	jr	nz,1f
 	set	7,(ix+enemy_data.status)
 	; jr	1f
@@ -1151,7 +1029,7 @@ enemy5:
 	ld	(ix+enemy_data.y),a
 	
 	call	rand8
-	and		a
+	and	127
 	call	z,book_enemy_shoot
 
 	call	test_collision_msbullets
@@ -1175,6 +1053,7 @@ enemy6:
 	call	rotate
 	add	a,192+4
 	ld	(ix+enemy_data.frame),a
+	
 	ld	de,(xmap)
 	and	a
 	sbc	hl,de
@@ -1207,16 +1086,14 @@ enemy6:
 	jr  z,.go_dwn
 .go_up:
 	dec	a
-	cp	64
-	jr	nz,1f
+	jp	nz,1f
 	res	7,(ix+enemy_data.status)
 	jr	1f
 .go_dwn:
 	inc	a
-	cp	191-16
+	cp	mapHeight*16-16
 	jr	nz,1f
 	set	7,(ix+enemy_data.status)
-	; jr	1f
 1:
 	ld	(ix+enemy_data.y),a
 
@@ -1271,23 +1148,14 @@ enemy7:
 1:
 	call	set_size	; size varies with frame
 
-	ld	a,(ix+enemy_data.y)
-
-	bit 7,(ix+enemy_data.status)
-	jr  z,.go_dwn
-.go_up:
-	dec	a
-	cp	64
-	jr	nz,1f
-	res	7,(ix+enemy_data.status)
-	jr	1f
-.go_dwn:
+	ld	a,(ix+enemy_data.cntr)
 	inc	a
-	cp	191-16
-	jr	nz,1f
-	set	7,(ix+enemy_data.status)
-	; jr	1f
-1:
+	ld	(ix+enemy_data.cntr),a
+	and	63
+	ld	l,a
+	ld	h,high sinewave
+	ld	a,(hl)
+	add	a,(ix+enemy_data.y)
 	ld	(ix+enemy_data.y),a
 
 	call	rand8

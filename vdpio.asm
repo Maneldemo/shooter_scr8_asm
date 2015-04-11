@@ -156,7 +156,6 @@ set_scr:
 
 
 _waitvdp:
-	di
 	ld a,2
 	out (0x99),a
 	ld a, 0x8f
@@ -170,7 +169,6 @@ _waitvdp:
 	out (0x99),a
 	ld a, 0x8f
 	out (0x99),a
-	ei
 	ret
 
 .inf:

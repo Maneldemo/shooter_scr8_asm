@@ -13,7 +13,6 @@ blank_line:
 	out 	(0x99),a
 	ld 		a, 17+128
 	out 	(0x99),a
-	ei
 	
 	call _waitvdp		; no need ATM
 	
@@ -42,6 +41,7 @@ blank_line:
 
 	ld		a,11000000B
 	out 	(0x9B), a		; command HMMV
+	ei
 	ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -192,7 +192,6 @@ clrboder:
 	out 	(0x99),a
 	ld 		a, 17+128
 	out 	(0x99),a
-	ei
 	
 	call _waitvdp
 	
@@ -222,9 +221,11 @@ clrboder:
 
 	ld		a,11000000B
 	out 	(0x9B), a		; command HMMV
+	ei
 	ret
 
 move_block:
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; input
 ; e = sx	from not _displaypage
@@ -236,7 +237,6 @@ move_block:
 	out 	(0x99),a
 	ld 		a, 17+128
 	out 	(0x99),a
-	ei
 
 	ld 		c, 0x9B
 	
@@ -272,5 +272,6 @@ move_block:
 
 	ld		a,11010000B
 	out 	(0x9B), a		; command HMMM
+	ei
 	ret
 	

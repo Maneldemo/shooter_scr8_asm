@@ -199,8 +199,8 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		(_displaypage),a		
 		call	init_page0
 
-		ld		a,1
-		ld		(_direction),a
+		ld		a,4
+		ld		(dxmap),a		; moving right
 		ld		a,6
 		ld		(cur_level),a
 		ld		a,80
@@ -230,15 +230,22 @@ main_loop:
 		pop	hl				
 		
 .nomove:
+	ld	a,01100000B
+	out	(0x99),a
+	ld	a,7+128
+	out	(0x99),a
+
 		call	wave_timer
 		call	npc_loop
 		call	enemy_bullet_loop
 		
-		call	_print_probe
-		
-		; ld		hl,(_nframes)
-		; inc		hl
-		; ld		(_nframes),hl
+		; call	_print_probe
+
+	xor	a
+	out	(0x99),a
+	ld	a,7+128
+	out	(0x99),a
+
 	
 1:		ld	a,(_jiffy)		; wait for vblank (and not for linit)
 		or	a
@@ -252,20 +259,16 @@ test_move_right:
 		and		a
 		ret		nz
 		
-		ld		a,1
-		ld		(_direction),a			; moving right
 		ld		a,4
-		ld		(dxmap),a
+		ld		(dxmap),a			; moving right
 		ret
 test_move_left
 		ld		a,(_xoffset)
 		cp		15
 		ret		nz
 		
-		ld		a,-1
-		ld		(_direction),a			; moving left
 		ld		a,-4
-		ld		(dxmap),a
+		ld		(dxmap),a			; moving left
 		ret
 ;-------------------------------------
 
@@ -276,13 +279,7 @@ _dw:	ld		a,(_yoffset)
 		ld		(_yoffset),a
 		ret
 
-		; ld		a,(_direction)
-		; and		a
-		; ret		z
-		; ld		(_old_direction),a
-		; xor		a
-		; ld		(_direction),a
-		; ret
+
 		
 _up:	ld		a,(_yoffset)
 		dec		a
@@ -290,11 +287,7 @@ _up:	ld		a,(_yoffset)
 		ld		(_yoffset),a
 		ret
 
-		; ld		a,(_old_direction)
-		; and		a
-		; ret		z
-		; ld		(_direction),a
-		; ret
+
 ;-------------------------------------		
 border_color	equ 	0;	00100101B
 		
@@ -497,8 +490,7 @@ _shadowbuff:		#2
 _currentpage:		#1
 
 _displaypage:		#1
-_direction:			#1
-_old_direction:		#1
+
 _xoffset:			#1
 _yoffset:			#1
 
