@@ -56,15 +56,6 @@ _scroll:
 	di
 	push	af
 	
-	xor	a 			; read S#0
-	out (0x99),a
-	ld a,128+15
-	out (0x99),a
-[2]	nop	
-	in	a,(0x99)
-	rlca
-	jp	c,vblank
-	
 	ld a,1 			; read S#1
 	out (0x99),a
 	ld a,128+15
@@ -73,6 +64,15 @@ _scroll:
 	in	a,(0x99)
 	rra
 	jp	c,lint	
+
+	xor	a 			; read S#0
+	out (0x99),a
+	ld a,128+15
+	out (0x99),a
+[2]	nop	
+	in	a,(0x99)
+	rlca
+	jp	c,vblank
 	
 	pop	af			; none of them (?)
 	ei
@@ -104,7 +104,7 @@ lint:
 	xor	a
 	out	(099h),a
 	ld	a,18+128
-	out	(099h),a		; setadjust 0,0
+	out	(099h),a		; set adjust 0,0
 	
 	LD    A,192-(YSIZE-2)	; SCROLL DOWN
 	OUT   (0x99),A

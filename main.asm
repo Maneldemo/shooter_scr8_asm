@@ -28,7 +28,8 @@ _kBank4: 	equ 0B000h ;- B7FFh (B000h used)
 	
 mapWidth	equ	256
 mapHeight	equ	11
-		
+YSIZE		equ	10*16
+
 	macro setpage_a
 		ld	(_kBank3),a
 		inc	a
@@ -274,7 +275,7 @@ test_move_left
 
 _dw:	ld		a,(_yoffset)
 		inc		a
-		cp		176-YSIZE
+		cp		mapHeight*16-YSIZE
 		ret 	p
 		ld		(_yoffset),a
 		ret
