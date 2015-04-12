@@ -106,7 +106,7 @@ lint:
 	ld	a,18+128
 	out	(099h),a		; set adjust 0,0
 	
-	LD    A,192-(YSIZE-2)	; SCROLL DOWN
+	LD    A,(mapHeight*16)-(YSIZE-2)	; SCROLL DOWN
 	OUT   (0x99),A
 	LD    A,23+128
 	OUT   (0x99),A

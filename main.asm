@@ -94,7 +94,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld	a, :_scorebar
 		setpage_a
 		ld		c,0
-		ld		de,256*(192+8)
+		ld		de,256*(mapHeight*16+8)
 		call	_vdpsetvramwr
 		ld		hl,_scorebar
 		ld		bc,0x0098
@@ -258,17 +258,23 @@ main_loop:
 test_move_right:
 		ld		a,(_xoffset)
 		and		a
+		jp		z,1f
+		ld		a,(_xoffset)
+		cp		15
 		ret		nz
-		
+1:
 		ld		a,4
 		ld		(dxmap),a			; moving right
 		ret
 test_move_left
 		ld		a,(_xoffset)
 		cp		15
+		jr		z,1f
+		ld		a,(_xoffset)
+		and		a
 		ret		nz
 		
-		ld		a,-4
+1:		ld		a,-4
 		ld		(dxmap),a			; moving left
 		ret
 ;-------------------------------------
