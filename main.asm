@@ -258,23 +258,17 @@ main_loop:
 test_move_right:
 		ld		a,(_xoffset)
 		and		a
-		jp		z,1f
-		ld		a,(_xoffset)
-		cp		15
 		ret		nz
-1:
+
 		ld		a,4
 		ld		(dxmap),a			; moving right
 		ret
 test_move_left
 		ld		a,(_xoffset)
 		cp		15
-		jr		z,1f
-		ld		a,(_xoffset)
-		and		a
 		ret		nz
 		
-1:		ld		a,-4
+		ld		a,-4
 		ld		(dxmap),a			; moving left
 		ret
 ;-------------------------------------
@@ -363,6 +357,7 @@ dec_xoffset
 		ld		d,a
 		call	move_block
 .cont	
+.decx
 		ld		hl,(xmap)
 		dec		hl
 		ld		(xmap),hl

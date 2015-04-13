@@ -48,7 +48,8 @@ grid
 
 
 [A,MAP] = imread('ene_code\uridium_rev9.bmp');
-MAP(1,:) = [ 0 0 0];
+MAP(1,:) = [7 0 7]/7;
+
 F = A(1:16,1:16);
 F1 = imapprox(F,MAP,sprtpalrgb, 'nodither');
 
@@ -61,35 +62,34 @@ image(F1)
 colormap(sprtpalrgb);
 axis equal
 
-C = cell(16,1);
-%S = cell(16,1);
+F0 = zeros(size(F));
 F1 = zeros(size(F));
 F2 = zeros(size(F));
-for y=1:16
 
+
+for y=1:16
     e = inf;
-    for c1=1:16
-        for c2=c1+1:16
+    for c1=0:15
+        for c2=(c1+1):15
+            pal = [MAP(1,:); sprtpalrgb(1+[c1, c2, bitor(c1,c2)],:)];
             
-            pal = sprtpalrgb([c1, c2, 1+bitor(c1-1,c2-1)],:)
-            l = F(:,y);
+            l = F(y,:);
             m = imapprox(l,MAP,pal, 'nodither');
             
             ne = sum(sum((MAP(1+l,:)-pal(1+m,:)).^2));
 
             if (ne<e) 
                 e = ne;
-                C{y} = [c1 c1]-1;
-                F1(:,y) = ((m==0)+(m==2)>0)*(c1-1);
-                F2(:,y) = ((m==1)+(m==2)>0)*(c2-1);
+                F0(y,:) = (m>0);
+                F1(y,:) = ((m==1)+(m==3)>0)*c1;
+                F2(y,:) = ((m==2)+(m==3)>0)*c2;
             end
-            
         end
     end
 end
         
 figure;
-image(bitor(F1,F2)+1)
-colormap(sprtpalrgb);
+image(bitand(bitor(F1,F2),F0*15)+2)
+colormap([MAP(1,:); sprtpalrgb]);
 axis equal
 
