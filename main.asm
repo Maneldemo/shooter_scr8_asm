@@ -231,22 +231,23 @@ main_loop:
 		pop	hl				
 		
 .nomove:
+	di
 	ld	a,01100000B
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
-
+	ei
 		call	wave_timer
 		call	npc_loop
 		call	enemy_bullet_loop
 		
 		; call	_print_probe
-
+	di
 	xor	a
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
-
+	ei
 	
 1:		ld	a,(_jiffy)		; wait for vblank (and not for linit)
 		or	a

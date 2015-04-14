@@ -89,7 +89,7 @@ plot_tile:
 		rla
 		srl d 		 ; first shift
 		di
-		out (0x99),a ; set bits 14-16
+		out (0x99),a	; set bits 14-16
 		ld a,14+128
 		out (0x99),a
 		ei

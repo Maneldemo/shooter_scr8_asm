@@ -16,7 +16,7 @@ for g=0:7
     end
 end
 
-[A,MAP] = imread('bmp\Sprite_Palette_OR.bmp'); sprtpaldec = round(MAP(double(A(1:16:256,1))+1,:)*7);
+%[A,MAP] = imread('bmp\Sprite_Palette_OR.bmp'); sprtpaldec = round(MAP(double(A(1:16:256,1))+1,:)*7);
 
       %  green red blue
 sprtpalgrb = [ 0 0 0
@@ -47,20 +47,12 @@ axis equal
 grid
 
 
-[A,MAP] = imread('ene_code\uridium_rev9.bmp');
+name = 'uridium_rev9';
+
+[A,MAP] = imread(['ene_code\' name '.bmp']);
 MAP(1,:) = [7 0 7]/7;
 
 F = A(1:16,1:16);
-F1 = imapprox(F,MAP,sprtpalrgb, 'nodither');
-
-figure;
-image(F)
-colormap(MAP);
-axis equal
-figure;
-image(F1)
-colormap(sprtpalrgb);
-axis equal
 
 F0 = zeros(size(F));
 F1 = zeros(size(F));
@@ -93,3 +85,52 @@ image(bitand(bitor(F1,F2),F0*15)+2)
 colormap([MAP(1,:); sprtpalrgb]);
 axis equal
 
+Y1 = F1>0;
+Y2 = F2>0;
+
+Y = [Y1;Y2];
+figure
+image(Y)
+colormap(flag)
+axis equal
+
+%imwrite(Y*16,MAP,[name '.png'],'png', 'BitDepth',8);
+
+Nframes = size(Y,1)*size(Y,2)/16/16;
+
+frames = cell(32,Nframes);
+
+figure;
+k = 0;
+h = 0;
+for i = 1:size(frames,2)
+    for j = 1:16
+        frames{j,i} = dec2hex(bi2de(Y(h+j,k+[1:8]),'left-msb'),2);
+    end
+    for j=17:32
+        frames{j,i} = dec2hex(bi2de(Y(h+j-16,k+8+[1:8]),'left-msb'),2);
+    end
+    image( [ Y(h+[1:16],k+[1:8]) Y(h+[17:32]-16,k+8+[1:8])]);
+    colormap(MAP);
+    %pause
+    k = k + 16;
+    if (k>=size(Y,2))
+        k = 0;
+        h=h+16;
+    end
+end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% save sprite data
+
+fid = fopen([name '.asm'],'w');
+fprintf (fid,[name ':\n']);
+for i=1:size(frames,2)
+    fprintf (fid,[ name '_%d \n'],i-1);
+    for j=1:32
+        fprintf (fid,'    defb 0x%s \n',frames{j,i});
+    end
+    fprintf (fid,'\n');
+end
+fclose(fid);

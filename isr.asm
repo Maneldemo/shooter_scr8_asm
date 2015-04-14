@@ -22,17 +22,17 @@ _isrinit:
 
 ; set interrupt line
 	LD    A,YSIZE-2
-	OUT   (0x99),A
+	out (0x99),a
 	LD    A,0x93
-	OUT   (0x99),A
+	out (0x99),a
 	
 ; enable line interrupt
 	LD    A,(RG0SAV)
 	OR    0x10
 	LD    (RG0SAV),A
-	OUT   (0x99),A
+	out (0x99),a
 	LD    A,0x80
-	OUT   (0x99),A
+	out (0x99),a
 	ei
 	ret
 	
@@ -42,9 +42,9 @@ _intreset:
 	LD    A,(RG0SAV)
 	and    0xEF
 	LD    (RG0SAV),A
-	OUT   (0x99),A
+	out (0x99),a
 	LD    A,0x80
-	OUT   (0x99),A
+	out (0x99),a
 	ei
 	ret
 	
@@ -107,9 +107,9 @@ lint:
 	out	(099h),a		; set adjust 0,0
 	
 	LD    A,(mapHeight*16)-(YSIZE-2)	; SCROLL DOWN
-	OUT   (0x99),A
+	out (0x99),a
 	LD    A,23+128
-	OUT   (0x99),A
+	out (0x99),a
 
 	ld a,00011111B		; 0XX11111B
 	out (0x99),a
@@ -169,9 +169,9 @@ lint:
 .exit:
 
 	xor		a				; black colour
-	out		(0x99),a
+	out (0x99),a
 	ld		a,7+128
-	out		(0x99),a
+	out (0x99),a
 
 	pop    ix         
 	pop    iy         
@@ -214,15 +214,15 @@ vblank:
 	pop		hl
 
 	LD    A,(_yoffset)		; SCROLL DOWN
-	OUT   (0x99),A
+	out (0x99),a
 	LD    A,23+128
-	OUT   (0x99),A
+	out (0x99),a
 
 	LD    A,(_yoffset)		; set interrupt line
 	add    A,YSIZE-2
-	OUT   (0x99),A
+	out (0x99),a
 	LD    A,0x93
-	OUT   (0x99),A
+	out (0x99),a
 			
 	; ld      a,2              ; wait VDPready
 	; out     (0x99),a         ; select s#2
