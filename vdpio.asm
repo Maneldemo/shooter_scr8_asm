@@ -110,24 +110,23 @@ set_scr:
 	
 	di
 	// sprites 16x16
-	ld		a,(0xF3E0)
-	or		2
-	ld		(0xF3E0),a
+	ld		a,(RG1SAV)
+	or		00000010B
+	ld		(RG1SAV),a
 	out		(0x99),a
 	ld		a,128+1
 	out		(0x99),a
 
 	// border color
-	; ld		a,0x55
 	xor		a
 	out		(0x99),a
 	ld		a,128+7
 	out		(0x99),a
 		
 	// enable sprites + TP
-	ld		a,(0xFFE7)
-	or		32+2
-	ld		(0xFFE7),a
+	ld		a,(RG8SAV)
+	or		00100010B
+	ld		(RG8SAV),a
 	out		(0x99),a
 	ld		a,128+8
 	out		(0x99),a
@@ -137,21 +136,19 @@ set_scr:
 	and 	a
 	jr		nz,1f
 	
-	ld		a,(0xFFE8)		; PAL
+	ld		a,(RG9SAV)		; PAL
 	and		01111111B
-	or		2
-	ld		(0xFFE8),a
+	or		00000010B
 	jr	2f
 1:		
-	ld		a,(0xFFE8)		; NTSC
+	ld		a,(RG9SAV)		; NTSC
 	and		01111101B
-	ld		(0xFFE8),a
-2:	
+2:	ld		(RG9SAV),a
+
 	out		(0x99),a
 	ld		a,128+9
 	out		(0x99),a
 	ei
-
 	ret
 
 

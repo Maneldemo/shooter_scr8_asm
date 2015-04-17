@@ -1,17 +1,48 @@
 
 		; include "header.asm"
 		
-RG0SAV EQU 0xF3DF
-RG1SAV equ 0xF3E0
-RG7SAV equ 0xF3E6 ; border color
-RG8SAV equ 0xF3E7 ; VDP Register 8 Save copy.
+// MSX 1 
+RG0SAV  equ 0xF3DF  
+RG1SAV  equ 0xF3E0  
+RG2SAV  equ 0xF3E1
+RG3SAV  equ 0xF3E2
+RG4SAV  equ 0xF3E3
+RG5SAV  equ 0xF3E4
+RG6SAV  equ 0xF3E5
+RG7SAV  equ 0xF3E6
+// MSX 2
+RG8SAV  equ 0xFFE7 
+RG9SAV  equ 0xFFE8 
+RG10SAV equ 0xFFE9 
+RG11SAV equ 0xFFEA 
+RG12SAV equ 0xFFEB 
+RG13SAV equ 0xFFEC 
+RG14SAV equ 0xFFED 
+RG15SAV equ 0xFFEE 
+RG16SAV equ 0xFFEF 
+RG17SAV equ 0xFFF0 
+RG18SAV equ 0xFFF1 
+RG19SAV equ 0xFFF2 
+RG20SAV equ 0xFFF3 
+RG21SAV equ 0xFFF4 
+RG22SAV equ 0xFFF5 
+RG23SAV equ 0xFFF7 
 
 _jiffy: equ 0xFC9E 
 
-
-_isrinit:
+_fake_isr
+	push	af
+	xor	a 			; read S#0
+	out (0x99),a
+	ld a,128+15
+	out (0x99),a
+[2]	nop	
+	in	a,(0x99)
+	pop	af
 	ei
-	halt 
+	ret
+	
+_isrinit:
 	di
 	ld	hl,0x0038
 	ld	(hl),0xC3
@@ -23,15 +54,15 @@ _isrinit:
 ; set interrupt line
 	LD    A,YSIZE-2
 	out (0x99),a
-	LD    A,0x93
+	LD    A,19+128
 	out (0x99),a
 	
 ; enable line interrupt
 	LD    A,(RG0SAV)
-	OR    0x10
+	OR    00010000B
 	LD    (RG0SAV),A
 	out (0x99),a
-	LD    A,0x80
+	LD    A,0+128
 	out (0x99),a
 	ei
 	ret
@@ -39,11 +70,18 @@ _isrinit:
 _intreset:
 ; disable line interrupt
 	di
+	ld	hl,0x0038
+	ld	(hl),0xC3
+	inc	hl
+	ld	(hl),low _fake_isr
+	inc	hl
+	ld	(hl),high _fake_isr
+		
 	LD    A,(RG0SAV)
-	and    0xEF
+	and    11101111B
 	LD    (RG0SAV),A
 	out (0x99),a
-	LD    A,0x80
+	LD    A,0+128
 	out (0x99),a
 	ei
 	ret
@@ -58,7 +96,7 @@ _scroll:
 	
 	ld a,1 			; read S#1
 	out (0x99),a
-	ld a,128+15
+	ld a,15+128
 	out (0x99),a
 [2]	nop	
 	in	a,(0x99)
@@ -67,7 +105,7 @@ _scroll:
 
 	xor	a 			; read S#0
 	out (0x99),a
-	ld a,128+15
+	ld a,15+128
 	out (0x99),a
 [2]	nop	
 	in	a,(0x99)
@@ -84,7 +122,8 @@ _scroll:
 	
 lint:					
 	ld	a,(RG1SAV)
-	and	0xBF			; disable screen
+	and	010111111B			; disable screen
+	ld	(RG1SAV),a
 	out	(0x99),a
 	ld	a,1+128
 	out	(0x99),a
@@ -117,13 +156,15 @@ lint:
 	out (0x99),a		; score bar in page 0
 
 	ld	a,(RG8SAV)
-	or	2				; disable sprites
+	or	000000010B		; disable sprites
+	ld	(RG8SAV),a
 	out	(0x99),a
 	ld	a,8+128
 	out	(0x99),a
 
 	ld	a,(RG1SAV)
-	or 	0x42			; enable screen
+	or 	01000010B		; enable screen
+	ld	(RG1SAV),a
 	out	(0x99),a
 	ld	a,1+128
 	out	(0x99),a
@@ -168,9 +209,9 @@ lint:
 1:	pop	hl
 .exit:
 
-	xor		a				; black colour
+	xor	a					; black colour
 	out (0x99),a
-	ld		a,7+128
+	ld	a,7+128
 	out (0x99),a
 
 	pop    ix         
@@ -197,6 +238,7 @@ lint:
 vblank:
 	ld	a,(RG8SAV)		; enable sprites
 	and	11111101B
+	ld	(RG8SAV),a
 	out	(0x99),a
 	ld	a,8+128
 	out	(0x99),a
@@ -221,7 +263,7 @@ vblank:
 	LD    A,(_yoffset)		; set interrupt line
 	add    A,YSIZE-2
 	out (0x99),a
-	LD    A,0x93
+	LD    A,19+128
 	out (0x99),a
 			
 	; ld      a,2              ; wait VDPready

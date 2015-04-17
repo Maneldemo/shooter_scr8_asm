@@ -78,8 +78,8 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
         call    search_slotram
 		call	setrompage2
 		call	setrampage0
-		ld		a,0xc9
-		ld		(0x38),a
+
+		call	_intreset
 
 		xor	a
 		ld	(_kBank1),a
@@ -167,7 +167,6 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		; main init
 		
 		; call	init_hero
-		ei
 		
 		ld		hl,0
 		ld		a,h
@@ -195,7 +194,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		; ld		a,1
 		; ld		(_displaypage),a		
 		; call	init_page1
-
+		
 		xor		a
 		ld		(_displaypage),a		
 		call	init_page0
@@ -209,7 +208,8 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 
 		call	_isrinit
 		
-main_loop:
+main_loop: 
+				
 		ld	hl,0
 		ld	(_jiffy),hl
 
