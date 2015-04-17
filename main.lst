@@ -1,4 +1,4 @@
-Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.14 - 23:12:21]
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.17 - 07:48:36]
 
 main.asm
 Errors: 0
@@ -673,17 +673,17 @@ Errors: 0
       22.  00:4292                      
       23.  00:4292                      ; set interrupt line
       24.  00:4292  3E 9E               	LD    A,YSIZE-2
-      25.  00:4294  D3 99               	OUT   (0x99),A
+      25.  00:4294  D3 99               	out (0x99),a
       26.  00:4296  3E 93               	LD    A,0x93
-      27.  00:4298  D3 99               	OUT   (0x99),A
+      27.  00:4298  D3 99               	out (0x99),a
       28.  00:429A                      	
       29.  00:429A                      ; enable line interrupt
       30.  00:429A  3A DF F3            	LD    A,(RG0SAV)
       31.  00:429D  F6 10               	OR    0x10
       32.  00:429F  32 DF F3            	LD    (RG0SAV),A
-      33.  00:42A2  D3 99               	OUT   (0x99),A
+      33.  00:42A2  D3 99               	out (0x99),a
       34.  00:42A4  3E 80               	LD    A,0x80
-      35.  00:42A6  D3 99               	OUT   (0x99),A
+      35.  00:42A6  D3 99               	out (0x99),a
       36.  00:42A8  FB                  	ei
       37.  00:42A9  C9                  	ret
       38.  00:42AA                      	
@@ -693,9 +693,9 @@ Errors: 0
       42.  00:42AB  3A DF F3            	LD    A,(RG0SAV)
       43.  00:42AE  E6 EF               	and    0xEF
       44.  00:42B0  32 DF F3            	LD    (RG0SAV),A
-      45.  00:42B3  D3 99               	OUT   (0x99),A
+      45.  00:42B3  D3 99               	out (0x99),a
       46.  00:42B5  3E 80               	LD    A,0x80
-      47.  00:42B7  D3 99               	OUT   (0x99),A
+      47.  00:42B7  D3 99               	out (0x99),a
       48.  00:42B9  FB                  	ei
       49.  00:42BA  C9                  	ret
       50.  00:42BB                      	
@@ -758,9 +758,9 @@ Errors: 0
      107.  00:4307  D3 99               	out	(099h),a		; set adjust 0,0
      108.  00:4309                      	
      109.  00:4309  3E 12               	LD    A,(mapHeight*16)-(YSIZE-2)	; SCROLL DOWN
-     110.  00:430B  D3 99               	OUT   (0x99),A
+     110.  00:430B  D3 99               	out (0x99),a
      111.  00:430D  3E 97               	LD    A,23+128
-     112.  00:430F  D3 99               	OUT   (0x99),A
+     112.  00:430F  D3 99               	out (0x99),a
      113.  00:4311                      
      114.  00:4311  3E 1F               	ld a,00011111B		; 0XX11111B
      115.  00:4313  D3 99               	out (0x99),a
@@ -820,9 +820,9 @@ Errors: 0
      169.  00:436A                      .exit:
      170.  00:436A                      
      171.  00:436A  AF                  	xor		a				; black colour
-     172.  00:436B  D3 99               	out		(0x99),a
+     172.  00:436B  D3 99               	out (0x99),a
      173.  00:436D  3E 87               	ld		a,7+128
-     174.  00:436F  D3 99               	out		(0x99),a
+     174.  00:436F  D3 99               	out (0x99),a
      175.  00:4371                      
      176.  00:4371  DD E1               	pop    ix         
      177.  00:4373  FD E1               	pop    iy         
@@ -865,15 +865,15 @@ Errors: 0
      214.  00:43A5  E1                  	pop		hl
      215.  00:43A6                      
      216.  00:43A6  3A 82 D3            	LD    A,(_yoffset)		; SCROLL DOWN
-     217.  00:43A9  D3 99               	OUT   (0x99),A
+     217.  00:43A9  D3 99               	out (0x99),a
      218.  00:43AB  3E 97               	LD    A,23+128
-     219.  00:43AD  D3 99               	OUT   (0x99),A
+     219.  00:43AD  D3 99               	out (0x99),a
      220.  00:43AF                      
      221.  00:43AF  3A 82 D3            	LD    A,(_yoffset)		; set interrupt line
      222.  00:43B2  C6 9E               	add    A,YSIZE-2
-     223.  00:43B4  D3 99               	OUT   (0x99),A
+     223.  00:43B4  D3 99               	out (0x99),a
      224.  00:43B6  3E 93               	LD    A,0x93
-     225.  00:43B8  D3 99               	OUT   (0x99),A
+     225.  00:43B8  D3 99               	out (0x99),a
      226.  00:43BA                      			
      227.  00:43BA                      	; ld      a,2              ; wait VDPready
      228.  00:43BA                      	; out     (0x99),a         ; select s#2
@@ -2173,7 +2173,7 @@ Errors: 0
       89.  00:4B34  17                  		rla
       90.  00:4B35  CB 3A               		srl d 		 ; first shift
       91.  00:4B37  F3                  		di
-      92.  00:4B38  D3 99               		out (0x99),a ; set bits 14-16
+      92.  00:4B38  D3 99               		out (0x99),a	; set bits 14-16
       93.  00:4B3A  3E 8E               		ld a,14+128
       94.  00:4B3C  D3 99               		out (0x99),a
       95.  00:4B3E  FB                  		ei
