@@ -36,6 +36,9 @@ YSIZE		equ	10*16
 		ld	(_kBank4),a
 	endmacro
   
+		page 1
+		include	"..\TTplayer\code\ttreplay.asm"
+	
 		page 0
 		
         org 4000h
@@ -69,7 +72,11 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		call 	rand8_init								
 		call	set_scr
 
-		; call 	_set_r800
+		ld e,6
+		call	checkkbd
+		and	00000010B		; CRTL
+		call nz,_set_r800	; if CRTL is pressed do not test for turbo
+		
 ;-------------------------------------
 ;   Power-up routine for 32K ROM
 ;   set pages and sub slot
@@ -232,7 +239,7 @@ main_loop:
 		
 .nomove:
 	di
-	ld	a,01100000B
+	ld	a,00100000B		; green
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
@@ -295,6 +302,7 @@ border_color	equ 	0;	00100101B
 		
 inc_xoffset
 		call	plot_line_rgt
+		call	set_activewindow
 		call	blank_line_lft
 		
 		call	replay_route		; first output data	
@@ -335,6 +343,7 @@ inc_xoffset
 		ret
 dec_xoffset
 		call	plot_line_lft
+		call	set_activewindow
 		call	blank_line_rgt
 
 		call	replay_route		; first output data	
@@ -435,8 +444,7 @@ demo_song:
 	include	"demosong.asm"
 	include	"..\TTplayer\code\ttreplayDAT.asm"
 end_demo_song:	
-	page 0,1
-	include	"..\TTplayer\code\ttreplay.asm"
+
 	
 FINISH:
 

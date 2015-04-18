@@ -36,7 +36,7 @@ _fake_isr
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a
-[2]	nop	
+[4]	nop	
 	in	a,(0x99)
 	pop	af
 	ei
@@ -91,23 +91,22 @@ _intreset:
 ;;;;;;;;;;;;;;;;;;;;;;
 
 _scroll:
-	di
 	push	af
 	
 	ld a,1 			; read S#1
 	out (0x99),a
-	ld a,15+128
+	ld a,128+15
 	out (0x99),a
-[2]	nop	
+[4]	nop	
 	in	a,(0x99)
 	rra
 	jp	c,lint	
 
 	xor	a 			; read S#0
 	out (0x99),a
-	ld a,15+128
+	ld a,128+15
 	out (0x99),a
-[2]	nop	
+[4]	nop	
 	in	a,(0x99)
 	rlca
 	jp	c,vblank
@@ -132,7 +131,7 @@ lint:
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a		; poll for HBLANK
-[2]	nop	
+[4]	nop	
 1:	in	a,(0x99)		; we are in HBLANK already, so wait until end of HBLANK
 	and	0x20
 	jp	nz,1b			
@@ -145,7 +144,7 @@ lint:
 	ld	a,18+128
 	out	(099h),a		; set adjust 0,0
 	
-	LD    A,(mapHeight*16)-(YSIZE-2)	; SCROLL DOWN
+	LD    A,mapHeight*16-(YSIZE-2)	; SCROLL DOWN
 	out (0x99),a
 	LD    A,23+128
 	out (0x99),a
@@ -169,11 +168,6 @@ lint:
 	ld	a,1+128
 	out	(0x99),a
 	
-	ld	a,border_color;00000001B		; dark blue colour
-	out	(0x99),a
-	ld	a,7+128
-	out	(0x99),a
-	
 	push   hl         
 	push   de         
 	push   bc         
@@ -186,15 +180,15 @@ lint:
 	push   af         
 	push   iy         
 	push   ix         
-	
-	ld	a,00100101B		; dark blue colour
+
+	ld	a,10000010B		; cyan 
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
 
 	call 	plot_enemy
 	
-	ld	a,00000100B
+	ld	a,00000100B		; red
 	out	(0x99),a
 	ld	a,7+128
 	out	(0x99),a
@@ -236,43 +230,45 @@ lint:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 
 vblank:
+	push	hl
+	
+	ld	hl,(_jiffy)
+	inc	hl
+	ld	(_jiffy),hl
+	
+	pop		hl	
+	pop		af
+	ei
+	ret
+
+	
+set_activewindow:
+
 	ld	a,(RG8SAV)		; enable sprites
 	and	11111101B
 	ld	(RG8SAV),a
 	out	(0x99),a
 	ld	a,8+128
 	out	(0x99),a
+	
 	ld	a,(_displaypage)
 [5]	add a,a 			; x32
 	or	00011111B
 	out (0x99),a
 	ld a,2+128
 	out (0x99),a
-
-	push	hl
-	ld	hl,(_jiffy)
-	inc	hl
-	ld	(_jiffy),hl
-	pop		hl
-
+	
 	LD    A,(_yoffset)		; SCROLL DOWN
 	out (0x99),a
+	add    A,YSIZE-2
+	ld		l,a
 	LD    A,23+128
 	out (0x99),a
 
-	LD    A,(_yoffset)		; set interrupt line
-	add    A,YSIZE-2
-	out (0x99),a
+	ld    a,l
+	out (0x99),a			; set interrupt line
 	LD    A,19+128
 	out (0x99),a
-			
-	; ld      a,2              ; wait VDPready
-	; out     (0x99),a         ; select s#2
-	; ld      a,15+128
-	; out     (0x99),a
-; 1:	in      a,(0x99)
-	; rra
-	; jp      c,1b			; do not set R#18 if vdp is busy
 
 	ld	a,(_xoffset)		; set R#18 only if not scrolling
 	add	a,-8
@@ -281,6 +277,4 @@ vblank:
 	ld	a,18+128
 	out	(099h),a
 	
-	pop		af
-	ei
 	ret

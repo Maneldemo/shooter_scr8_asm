@@ -105,73 +105,65 @@ RDSLT         equ     0x000c      ;read address HL in slot A
 KILBUF        equ     0x0156      ;clear keyboard buffer
 
 set_scr:
-	ld  	a,8
-	call	chgmod
 	
-	di
 	// sprites 16x16
 	ld		a,(RG1SAV)
 	or		00000010B
 	ld		(RG1SAV),a
-	out		(0x99),a
-	ld		a,128+1
-	out		(0x99),a
 
 	// border color
-	xor		a
-	out		(0x99),a
-	ld		a,128+7
-	out		(0x99),a
+	ld		a,7+128
+	ld		(RG7SAV),a
 		
 	// enable sprites + TP
 	ld		a,(RG8SAV)
 	or		00100010B
 	ld		(RG8SAV),a
-	out		(0x99),a
-	ld		a,128+8
-	out		(0x99),a
 		
-	// Set 192 lines @50Hz (PAL assumed!)
+	// Set @50Hz (only PAL is supported)
 	ld	a,(SEL_NTSC)
 	and 	a
 	jr		nz,1f
 	
-	ld		a,(RG9SAV)		; PAL
-	and		01111111B
-	or		00000010B
+	ld		a,(RG9SAV)		
+	or		00000010B		; PAL
 	jr	2f
 1:		
-	ld		a,(RG9SAV)		; NTSC
-	and		01111101B
+	ld		a,(RG9SAV)		
+	and		11111101B		; NTSC
 2:	ld		(RG9SAV),a
 
+	ld  	a,8
+	call	chgmod
+
+	di
+	ld		a,(RG9SAV)		
+	and		01111111B		; Set 192 lines
+	ld		(RG9SAV),a
 	out		(0x99),a
 	ld		a,128+9
 	out		(0x99),a
 	ei
+	
 	ret
 
 
 _waitvdp:
 	ld a,2
 	out (0x99),a
-	ld a, 0x8f
+	ld a, 128+15
 	out (0x99),a
-[2]	nop
+[4]	nop
 1:  in	a,(0x99)
 	rrca
-	jp c, .inf;1b
+	jp c,1b
 
-	xor a
-	out (0x99),a
-	ld a, 0x8f
-	out (0x99),a
 	ret
 
-.inf:
-	ld	a,r			; random colour
-	out		(0x99),a
-	ld		a,7+128
-	out		(0x99),a
-	jp	1b
+; .inf:
+	; ld	a,r			; random colour
+	; out		(0x99),a
+	; ld		a,7+128
+	; out		(0x99),a
+	; jp	1b
 	
