@@ -139,10 +139,6 @@ lint:
 	and	0x20
 	jp	z,2b
 						; now we are at the start of HBLANK
-	xor	a
-	out	(099h),a
-	ld	a,18+128
-	out	(099h),a		; set adjust 0,0
 	
 	LD    A,mapHeight*16-(YSIZE-2)	; SCROLL DOWN
 	out (0x99),a
@@ -161,6 +157,11 @@ lint:
 	ld	a,8+128
 	out	(0x99),a
 
+	; xor	a
+	; out	(099h),a
+	; ld	a,18+128
+	; out	(099h),a		; set adjust 0,0
+	
 	ld	a,(RG1SAV)
 	or 	01000010B		; enable screen
 	ld	(RG1SAV),a
@@ -232,18 +233,6 @@ lint:
 vblank:
 	push	hl
 	
-	ld	hl,(_jiffy)
-	inc	hl
-	ld	(_jiffy),hl
-	
-	pop		hl	
-	pop		af
-	ei
-	ret
-
-	
-set_activewindow:
-
 	ld	a,(RG8SAV)		; enable sprites
 	and	11111101B
 	ld	(RG8SAV),a
@@ -270,11 +259,25 @@ set_activewindow:
 	LD    A,19+128
 	out (0x99),a
 
+	ld	hl,(_jiffy)
+	inc	hl
+	ld	(_jiffy),hl
+	
+	pop		hl	
+	pop		af
+	ei
+	ret
+
+	
+set_activewindow:
+	call _waitvdp		; no need ATM
+		
 	ld	a,(_xoffset)		; set R#18 only if not scrolling
 	add	a,-8
 	and	0Fh
 	out	(099h),a
 	ld	a,18+128
 	out	(099h),a
-	
 	ret
+	
+

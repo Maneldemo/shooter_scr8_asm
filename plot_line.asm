@@ -14,8 +14,6 @@ blank_line:
 	ld 		a, 17+128
 	out 	(0x99),a
 	
-	call _waitvdp		; no need ATM
-	
 	ld		a,(_xoffset)
 	add		a,e
 	out 	(0x9B), a 			; dx
