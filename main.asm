@@ -28,7 +28,7 @@ _kBank4: 	equ 0B000h ;- B7FFh (B000h used)
 	
 mapWidth	equ	256
 mapHeight	equ	11
-YSIZE		equ	10*16
+YSIZE		equ	10*16+8
 
 	macro setpage_a
 		ld	(_kBank3),a
@@ -101,7 +101,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld	a, :_scorebar
 		setpage_a
 		ld		c,0
-		ld		de,256*(mapHeight*16+8)
+		ld		de,256*(mapHeight*16+4)
 		call	_vdpsetvramwr
 		ld		hl,_scorebar
 		ld		bc,0x0098
@@ -126,25 +126,12 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ldir
 			
 		call	replay_init
-		ld	hl,musbuff
+		ld		hl,musbuff
 		call	replay_loadsong
-
-		; call	_clean_buffs
 
 		ld		e,0
         call	_setpage
 		
-		; unpack level map (bit field for collisions)
-		; ld	a, :_level_bf
-		; setpage_a
-		
-		; ld	bc,	mapWidth*mapHeight
-		; ld	hl,	_level_bf
-		; ld	de,	_cur_level_bf
-		; ldir
-
-
-		;copy in ram the map 
 		
 		ld	a, :_level
 		ld	(_kBank3),a
@@ -154,26 +141,6 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		bc,mapWidth*mapHeight
 		ldir
 				
-		; unpack mc frames
-		; ld		a, :_mc_sprites
-		; setpage_a
-		; xor	a
-		; ld		(_vbit16 ),a
-		; ld		de,	_mc_sprites
-		; ld		bc,192*128+256*128
-		; call	_vuitpakker 
-		
-		; di
-		; ld	a,:int_sprites
-		; ld	(_kBank2),a
-		; call	int_sprites
-		; ld	a,1
-		; ld	(_kBank2),a
-		; ei
-		
-		; main init
-		
-		; call	init_hero
 		
 		ld		hl,0
 		ld		a,h
@@ -196,11 +163,6 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 								
 		call 	npc_init								
 		call 	load_color_pools								
-		; call 	npc_init1
-		
-		; ld		a,1
-		; ld		(_displaypage),a		
-		; call	init_page1
 		
 		xor		a
 		ld		(_displaypage),a		
@@ -238,24 +200,22 @@ main_loop:
 		pop	hl				
 		
 .nomove:
-	di
-	ld	a,00100000B		; green
-	out	(0x99),a
-	ld	a,7+128
-	out	(0x99),a
-	ei
 		call	wave_timer
 		call	npc_loop
 		call	enemy_bullet_loop
+
+		ld	a,255			; random colour
+		out		(0x99),a
+		ld		a,7+128
+		out		(0x99),a
 		
-		; call	_print_probe
-	di
-	xor	a
-	out	(0x99),a
-	ld	a,7+128
-	out	(0x99),a
-	ei
-	
+		call	_waitvdp
+		
+		xor		a
+		out		(0x99),a
+		ld		a,7+128
+		out		(0x99),a
+		
 1:		ld	a,(_jiffy)		; wait for vblank (and not for linit)
 		or	a
 		jr	z,1b
@@ -297,93 +257,6 @@ _up:	ld		a,(_yoffset)
 		ret
 
 
-;-------------------------------------		
-border_color	equ 	0;	00100101B
-		
-inc_xoffset
-		call	plot_line_rgt
-		call	set_activewindow
-		call	blank_line_lft
-		
-		call	replay_route		; first output data	
-		call	replay_play			; calculate next output
-	
-		ld		a,(_xoffset)
-		and		a
-		jr		nz,.case1_15
-.case0
-		ld 		a,(_displaypage)
-		xor		1
-		ld 		d,a
-		ld		e,240
-		ld		l,border_color
-		call	clrboder
-		jr	.cont
-.case1_15
-[4]		add		a,a
-		ld		e,a
-		sub		a,16
-		ld		d,a
-		call	move_block
-.cont
-		ld		hl,(xmap)
-		inc		hl
-		ld		(xmap),hl
-		ld		a,(_xoffset)
-		inc	a
-		and	15
-		ld		(_xoffset),a
-		ret	nz
-		ld		a,(_displaypage)
-		xor		1
-		ld		(_displaypage),a
-		ld		hl,(_levelmap_pos)
-		inc		hl
-		ld		(_levelmap_pos),hl
-		ret
-dec_xoffset
-		call	plot_line_lft
-		call	set_activewindow
-		call	blank_line_rgt
-
-		call	replay_route		; first output data	
-		call	replay_play			; calculate next output
-
-		ld		a,(_xoffset)
-		cp	15
-		jr		nz,.case0_14
-.case15
-		ld 		a,(_displaypage)
-		xor		1
-		ld 		d,a
-		ld		e,0
-		ld		l,border_color
-		call	clrboder
-		jr	.cont
-.case0_14
-[4]		add		a,a
-		ld		e,a
-		add		a,16
-		ld		d,a
-		call	move_block
-.cont	
-.decx
-		ld		hl,(xmap)
-		dec		hl
-		ld		(xmap),hl
-		ld		a,(_xoffset)
-		dec	a
-		and	15
-		ld		(_xoffset),a
-		cp	15
-		ret	nz
-		ld		a,(_displaypage)
-		xor		1
-		ld		(_displaypage),a
-		ld		hl,(_levelmap_pos)
-		dec		hl
-		ld		(_levelmap_pos),hl
-		ret
 ;-------------------------------------
 AFXPLAY:
 		ret

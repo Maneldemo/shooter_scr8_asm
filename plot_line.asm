@@ -13,6 +13,8 @@ blank_line:
 	out 	(0x99),a
 	ld 		a, 17+128
 	out 	(0x99),a
+
+	call _waitvdp		; no need ATM
 	
 	ld		a,(_xoffset)
 	add		a,e
@@ -222,7 +224,6 @@ clrboder:
 	ei
 	ret
 
-move_block:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; input
@@ -230,6 +231,7 @@ move_block:
 ; d = dx	to _displaypage
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+move_block:
 	di
 	ld 		a, 32
 	out 	(0x99),a
