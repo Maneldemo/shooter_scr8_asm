@@ -36,7 +36,8 @@ _fake_isr
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a
-[4]	nop	
+	push hl
+	pop hl
 	in	a,(0x99)
 	pop	af
 	ei
@@ -97,7 +98,8 @@ _scroll:
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a
-[4]	nop	
+	push hl
+	pop hl
 	in	a,(0x99)
 	rra
 	jp	c,lint	
@@ -106,7 +108,8 @@ _scroll:
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a
-[4]	nop	
+	push hl
+	pop hl
 	in	a,(0x99)
 	rlca
 	jp	c,vblank
@@ -131,7 +134,8 @@ lint:
 	out (0x99),a
 	ld a,128+15
 	out (0x99),a		; poll for HBLANK
-[4]	nop	
+	push hl
+	pop hl
 1:	in	a,(0x99)		; we are in HBLANK already, so wait until end of HBLANK
 	and	0x20
 	jp	nz,1b			
@@ -157,11 +161,25 @@ lint:
 	ld	a,8+128
 	out	(0x99),a
 
-	; xor	a
-	; out	(099h),a
-	; ld	a,18+128
-	; out	(099h),a		; set adjust 0,0
+	in	a,(0x99)		
+	rrca
 	
+	ld	a,0
+	out	(099h),a
+	ld	a,46+128
+	out	(099h),a		; stop vdp
+
+	ld	a,0
+	out	(099h),a
+	ld	a,18+128
+	out	(099h),a		; set adjust 0,0
+
+	jr	nc,1f
+	ld		a,11010000B
+	out	(099h),a
+	ld	a,46+128
+	out	(099h),a		; command HMMM
+1:
 	ld	a,(RG1SAV)
 	or 	01000010B		; enable screen
 	ld	(RG1SAV),a
@@ -263,6 +281,8 @@ vblank:
 	inc	hl
 	ld	(_jiffy),hl
 	
+	; call	set_activewindow
+			
 	pop		hl	
 	pop		af
 	ei
