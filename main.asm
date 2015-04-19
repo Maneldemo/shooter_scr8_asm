@@ -204,7 +204,7 @@ main_loop:
 		call	npc_loop
 		call	enemy_bullet_loop
 
-		ld	a,255			; random colour
+		ld	a,00100101B			; random colour
 		out		(0x99),a
 		ld		a,7+128
 		out		(0x99),a

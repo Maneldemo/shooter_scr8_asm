@@ -1,4 +1,4 @@
-Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.19 - 23:19:02]
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.19 - 23:28:45]
 
 main.asm
 Errors: 0
@@ -3244,7 +3244,7 @@ Errors: 0
      119.  00:42D7  C9                  		ret
      120.  00:42D8                      	
      121.  00:42D8                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-     122.  00:42D8                      ; manage scorebar at YSIZE
+     122.  00:42D8                      ; manage score bar at YSIZE
      123.  00:42D8                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
      124.  00:42D8                      waitHBLANK
      125.  00:42D8  3E 02               		ld a,2 				; read S#2
@@ -4518,7 +4518,7 @@ Errors: 0
      204   00:4A53  CD 78 52            		call	npc_loop
      205   00:4A56  CD 39 58            		call	enemy_bullet_loop
      206   00:4A59                      
-     207   00:4A59  3E FF               		ld	a,255			; random colour
+     207   00:4A59  3E 25               		ld	a,00100101B			; random colour
      208   00:4A5B  D3 99               		out		(0x99),a
      209   00:4A5D  3E 87               		ld		a,7+128
      210   00:4A5F  D3 99               		out		(0x99),a

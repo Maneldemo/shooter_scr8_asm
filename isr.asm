@@ -119,7 +119,7 @@ _scroll:
 		ret
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-; manage scorebar at YSIZE
+; manage score bar at YSIZE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 waitHBLANK
 		ld a,2 				; read S#2
