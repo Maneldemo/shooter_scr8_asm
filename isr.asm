@@ -31,427 +31,233 @@ RG23SAV equ 0xFFF7
 _jiffy: equ 0xFC9E 
 
 _fake_isr
-		push	af
-		xor	a 			; read S#0
-		out (0x99),a
-		ld a,128+15
-		out (0x99),a
-		push hl
-		pop hl
-		in	a,(0x99)
-		pop	af
-		ei
-		ret
+	push	af
+	xor	a 			; read S#0
+	out (0x99),a
+	ld a,128+15
+	out (0x99),a
+	push hl
+	pop hl
+	in	a,(0x99)
+	pop	af
+	ei
+	ret
 	
 _isrinit:
-		di
-		ld	hl,0x0038
-		ld	(hl),0xC3
-		inc	hl
-		ld	(hl),low _scroll
-		inc	hl
-		ld	(hl),high _scroll
+	di
+	ld	hl,0x0038
+	ld	(hl),0xC3
+	inc	hl
+	ld	(hl),low _scroll
+	inc	hl
+	ld	(hl),high _scroll
 
 ; set interrupt line
-		LD    A,YSIZE-2
-		out (0x99),a
-		LD    A,19+128
-		out (0x99),a
+	LD    A,YSIZE-2
+	out (0x99),a
+	LD    A,19+128
+	out (0x99),a
 	
 ; enable line interrupt
-		LD    A,(RG0SAV)
-		OR    00010000B
-		LD    (RG0SAV),A
-		out (0x99),a
-		LD    A,0+128
-		out (0x99),a
-		ei
-		ret
+	LD    A,(RG0SAV)
+	OR    00010000B
+	LD    (RG0SAV),A
+	out (0x99),a
+	LD    A,0+128
+	out (0x99),a
+	ei
+	ret
 	
 _intreset:
-		di
-		ld	hl,0x0038
-		ld	(hl),0xC3
-		inc	hl
-		ld	(hl),low _fake_isr
-		inc	hl
-		ld	(hl),high _fake_isr
-
-; disable line interrupt		
-		LD    A,(RG0SAV)
-		and    11101111B
-		LD    (RG0SAV),A
-		out (0x99),a
-		LD    A,0+128
-		out (0x99),a
-		ei
-		ret
+; disable line interrupt
+	di
+	ld	hl,0x0038
+	ld	(hl),0xC3
+	inc	hl
+	ld	(hl),low _fake_isr
+	inc	hl
+	ld	(hl),high _fake_isr
+		
+	LD    A,(RG0SAV)
+	and    11101111B
+	LD    (RG0SAV),A
+	out (0x99),a
+	LD    A,0+128
+	out (0x99),a
+	ei
+	ret
 	
 ;;;;;;;;;;;;;;;;;;;;;;
 ; actual ISR handler
 ;;;;;;;;;;;;;;;;;;;;;;
 
 _scroll:
-		push	af
-		
-		ld a,1 			; read S#1
-		out (0x99),a
-		ld a,128+15
-		out (0x99),a
-		push hl
-		pop hl
-		in	a,(0x99)
-		rra
-		jp	c,lint	
+	push	af
+	
+	ld a,1 			; read S#1
+	out (0x99),a
+	ld a,128+15
+	out (0x99),a
+	push hl
+	pop hl
+	in	a,(0x99)
+	rra
+	jp	c,lint	
 
-		xor	a 			; read S#0
-		out (0x99),a
-		ld a,128+15
-		out (0x99),a
-		push hl
-		pop hl
-		in	a,(0x99)
-		rlca
-		jp	c,vblank
-		
-		pop	af			; none of them (?)
-		ei
-		ret
+	xor	a 			; read S#0
+	out (0x99),a
+	ld a,128+15
+	out (0x99),a
+	push hl
+	pop hl
+	in	a,(0x99)
+	rlca
+	jp	c,vblank
+	
+	pop	af			; none of them (?)
+	ei
+	ret
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 ; manage scorebar at YSIZE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-waitHBLANK
-		ld a,2 				; read S#2
-		out (0x99),a
-		ld a,128+15
-		out (0x99),a		; poll for HBLANK
-		push hl
-		pop hl
-1:		in	a,(0x99)		; we are in HBLANK already, so wait until end of HBLANK
-		and	0x20
-		jp	nz,1b			
-2:		in	a,(0x99)		; wait until end of the active area
-		and	0x20
-		jp	z,2b
-		ret
 	
-lint:	
-		; call	waitHBLANK
+lint:					
+	ld	a,(RG1SAV)
+	and	010111111B			; disable screen
+	ld	(RG1SAV),a
+	out	(0x99),a
+	ld	a,1+128
+	out	(0x99),a
+
+	ld a,2 				; read S#2
+	out (0x99),a
+	ld a,128+15
+	out (0x99),a		; poll for HBLANK
+	push hl
+	pop hl
+1:	in	a,(0x99)		; we are in HBLANK already, so wait until end of HBLANK
+	and	0x20
+	jp	nz,1b			
+2:	in	a,(0x99)		; wait until end of the active area
+	and	0x20
+	jp	z,2b
 						; now we are at the start of HBLANK
 	
-		; ld	a,(RG1SAV)
-		; and	010111111B			; disable screen
-		; ld	(RG1SAV),a
-		; out	(0x99),a
-		; ld	a,1+128
-		; out	(0x99),a
+	LD    A,mapHeight*16-(YSIZE-2)	; SCROLL DOWN
+	out (0x99),a
+	LD    A,23+128
+	out (0x99),a
 
-		ld	a,(RG8SAV)
-		or	000000010B		; disable sprites
-		ld	(RG8SAV),a
-		out	(0x99),a
-		ld	a,8+128
-		out	(0x99),a
+	ld a,00011111B		; 0XX11111B
+	out (0x99),a
+	ld a,2+128			; R#2 
+	out (0x99),a		; score bar in page 0
 
-		LD    A,mapHeight*16-(YSIZE-2)	; SCROLL DOWN
-		out (0x99),a
-		LD    A,23+128
-		out (0x99),a
+	ld	a,(RG8SAV)
+	or	000000010B		; disable sprites
+	ld	(RG8SAV),a
+	out	(0x99),a
+	ld	a,8+128
+	out	(0x99),a
 
-		ld a,00011111B		; 0XX11111B
-		out (0x99),a
-		ld a,2+128			; R#2 
-		out (0x99),a		; score bar in page 0
-
-		xor		a
-		out	(099h),a
-		ld	a,18+128
-		out	(099h),a		; set adjust 0,0
-
-		; call	waitHBLANK
-		
-		; ld	a,(RG1SAV)
-		; or 	01000010B		; enable screen
-		; ld	(RG1SAV),a
-		; out	(0x99),a
-		; ld	a,1+128
-		; out	(0x99),a
+	in	a,(0x99)		
+	rrca
 	
-		push   hl         
-		push   de         
-		push   bc         
-		push   af         
-		exx               
-		ex     af,af'     
-		push   hl         
-		push   de         
-		push   bc         
-		push   af         
-		push   iy         
-		push   ix         
+	ld	a,0
+	out	(099h),a
+	ld	a,46+128
+	out	(099h),a		; stop vdp
 
-		
-		ld	hl,.exit
-		push	hl
-		ld	a,(dxmap)
-		rlc a
-		jr	z,1f
-		jp	nc,_blank_line_lft		; >0 == dx
-		jp	 c,_blank_line_rgt		; <0 == sx
-1:		pop	hl
+	ld	a,0
+	out	(099h),a
+	ld	a,18+128
+	out	(099h),a		; set adjust 0,0
+
+	jr	nc,1f
+	ld		a,11010000B
+	out	(099h),a
+	ld	a,46+128
+	out	(099h),a		; command HMMM
+1:
+	ld	a,(RG1SAV)
+	or 	01000010B		; enable screen
+	ld	(RG1SAV),a
+	out	(0x99),a
+	ld	a,1+128
+	out	(0x99),a
+	
+	push   hl         
+	push   de         
+	push   bc         
+	push   af         
+	exx               
+	ex     af,af'     
+	push   hl         
+	push   de         
+	push   bc         
+	push   af         
+	push   iy         
+	push   ix         
+
+	ld	a,10000010B		; cyan 
+	out	(0x99),a
+	ld	a,7+128
+	out	(0x99),a
+
+	call 	plot_enemy
+	
+	ld	a,00000100B		; red
+	out	(0x99),a
+	ld	a,7+128
+	out	(0x99),a
+	
+	ld	hl,.exit
+	push	hl
+	ld	a,(dxmap)
+	rlc a
+	jr	z,1f
+	jp	nc,inc_xoffset			; >0 == dx
+	jp	 c,dec_xoffset			; <0 == sx
+1:	pop	hl
 .exit:
 
-		xor	a					; black colour
-		out (0x99),a
-		ld	a,7+128
-		out (0x99),a
+	xor	a					; black colour
+	out (0x99),a
+	ld	a,7+128
+	out (0x99),a
 
-		pop    ix         
-		pop    iy         
-		pop    af         
-		pop    bc         
-		pop    de         
-		pop    hl         
-		ex     af,af'     
-		exx               
-		pop    af         
-		pop    bc         
-		pop    de         
-		pop    hl         
+	pop    ix         
+	pop    iy         
+	pop    af         
+	pop    bc         
+	pop    de         
+	pop    hl         
+	ex     af,af'     
+	exx               
+	pop    af         
+	pop    bc         
+	pop    de         
+	pop    hl         
 
-		pop		af
-		ei
-		ret
+	pop		af
+	ei
+	ret
 
-;-------------------------------------		
-border_color	equ 	0;	00100101B
-
-_blank_line_lft:
-		ld	a,00000111B		; blue
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
-
-		call	blank_line_lft
-		call	replay_route		; first output data	
-		
-		xor	a
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
-		ret
-;-------------------------------------	
-		
-inc_xoffset
-		call	.movex
-		; ld	a,11100011B		; cyan 
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-
-		call	plot_line_rgt
-
-		; ld	a,00111101B		; pink
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-		
-		call 	plot_enemy		
-		
-		; ld	a,00000011B		; blue
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-		
-		ld		hl,(xmap)
-		inc		hl
-		ld		(xmap),hl
-		ld		a,(_xoffset)
-		inc	a
-		and	15
-		ld		(_xoffset),a
-		ret	nz
-		ld		a,(_displaypage)
-		xor		1
-		ld		(_displaypage),a
-		ld		hl,(_levelmap_pos)
-		inc		hl
-		ld		(_levelmap_pos),hl
-		ret
-
-.movex
-		ld		a,(_xoffset)
-		and		a
-		jr		nz,.case1_15
-.case0
-		ld 		a,(_displaypage)
-		xor		1
-		ld 		d,a
-		ld		e,240
-		ld		l,border_color
-		jp		clrboder
-		
-.case1_15
-[4]		add		a,a
-		ld		e,a
-		sub		a,16
-		ld		d,a
-		jp		move_block
-
-
-;-------------------------------------	
-
-_blank_line_rgt
-		ld	a,00000111B		; blue
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
-
-		call	blank_line_rgt
-		call	replay_route		; first output data	
-
-		xor	a
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
-		ret
-
-	
-dec_xoffset
-		call	.movex
-		; ld	a,11100011B		; cyan 
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-		call	plot_line_lft
-
-		; ld	a,00111101B		; pink
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-		
-		call 	plot_enemy		
-		
-		; ld	a,00000011B		; blue
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-
-		ld		hl,(xmap)
-		dec		hl
-		ld		(xmap),hl
-		ld		a,(_xoffset)
-		dec	a
-		and	15
-		ld		(_xoffset),a
-		cp	15
-		ret	nz
-		ld		a,(_displaypage)
-		xor		1
-		ld		(_displaypage),a
-		ld		hl,(_levelmap_pos)
-		dec		hl
-		ld		(_levelmap_pos),hl
-		ret
-		
-		
-.movex
-		ld		a,(_xoffset)
-		cp	15
-		jr		nz,.case0_14
-.case15
-		ld 		a,(_displaypage)
-		xor		1
-		ld 		d,a
-		ld		e,0
-		ld		l,border_color
-		jp	clrboder
-		
-.case0_14
-[4]		add		a,a
-		ld		e,a
-		add		a,16
-		ld		d,a
-		jp	move_block
-
-		
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 ;   manage normal vblank routine
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 
 vblank:
-		push   hl         
-		push   de         
-		push   bc         
-		push   af         
-		exx               
-		ex     af,af'     
-		push   hl         
-		push   de         
-		push   bc         
-		push   af         
-		push   iy         
-		push   ix         
-
-		; ld	a,00011100B		; red
-		; out		(0x99),a
-		; ld		a,7+128
-		; out		(0x99),a
-		
-		call	activate_window	
-		
-		; ld	a,11100000B		; green
-		; out		(0x99),a
-		; ld		a,7+128
-		; out		(0x99),a
-
-		ld	hl,.exit
-		push	hl
-		ld	a,(dxmap)
-		rlc a
-		jr	z,1f
-		jp	nc,inc_xoffset	; >0 == dx
-		jp	 c,dec_xoffset	; <0 == sx
-1:		pop	hl
-.exit:
-		
-		ld	hl,(_jiffy)
-		inc	hl
-		ld	(_jiffy),hl
-				
-		; ld	a,00011100B		; red
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-		
-		call	replay_play			; calculate next output
-
-		xor		a		; black
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
+	push	hl
 	
-		pop    ix         
-		pop    iy         
-		pop    af         
-		pop    bc         
-		pop    de         
-		pop    hl         
-		ex     af,af'     
-		exx               
-		pop    af         
-		pop    bc         
-		pop    de         
-		pop    hl         
-
-		pop		af
-		ei
-		ret
-
-;-------------------------------------
-
-activate_window	
+	ld	a,(RG8SAV)		; enable sprites
+	and	11111101B
+	ld	(RG8SAV),a
+	out	(0x99),a
+	ld	a,8+128
+	out	(0x99),a
+	
 	ld	a,(_displaypage)
 [5]	add a,a 			; x32
 	or	00011111B
@@ -470,24 +276,28 @@ activate_window
 	out (0x99),a			; set interrupt line
 	LD    A,19+128
 	out (0x99),a
+
+	ld	hl,(_jiffy)
+	inc	hl
+	ld	(_jiffy),hl
 	
+	; call	set_activewindow
+			
+	pop		hl	
+	pop		af
+	ei
+	ret
+
+	
+set_activewindow:
+	call _waitvdp		; no need ATM
+		
 	ld	a,(_xoffset)		; set R#18 only if not scrolling
 	add	a,-8
 	and	0Fh
 	out	(099h),a
 	ld	a,18+128
 	out	(099h),a
-
-	ld	a,(RG8SAV)		; enable sprites
-	and	11111101B
-	ld	(RG8SAV),a
-	out	(0x99),a
-	ld	a,8+128
-	out	(0x99),a
-
 	ret
-			
-
-	
 	
 

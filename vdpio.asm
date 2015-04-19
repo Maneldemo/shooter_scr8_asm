@@ -112,7 +112,7 @@ set_scr:
 	ld		(RG1SAV),a
 
 	// border color
-	xor		a
+	ld		a,7+128
 	ld		(RG7SAV),a
 		
 	// enable sprites + TP
