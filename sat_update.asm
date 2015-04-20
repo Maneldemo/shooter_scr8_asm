@@ -50,10 +50,10 @@ plot_enemy:
 	
 	ld	d,(ix+enemy_data.y)	; write Y
 	out (c),d
-	out (0x98),a			; write X
+	out (c),a				; write X
 	ld	a,(ix+enemy_data.frame)
-	out (0x98),a			; write shape
-	out (0x98),a			; write crap
+	out (c),a				; write shape
+	out (c),a				; write crap
 	
 .next1
 	ld	de,enemy_data
@@ -85,17 +85,18 @@ plot_enemy:
 	
 	ld	d,(ix+enemy_data.y)	
 	out (c),d				; write Y
-	out (0x98),a			; write X
 	ld  l,a
+	out (c),a				; write X
+
 	ld	a,(ix+enemy_data.frame)
-	out (0x98),a			; write shape
-	out (0x98),a			; write crap
+	out (c),a				; write shape
+	out (c),a				; write crap
 
 	out (c),d				; write Y
-	out (c),l				; write X
 	add	a,8
-	out (0x98),a			; write shape
-	out (0x98),a			; write crap
+	out (c),l				; write X
+	out (c),a				; write shape
+	out (c),a				; write crap
 	
 .next2
 	ld	de,enemy_data
@@ -111,12 +112,12 @@ plot_enemy:
 	
 .spriteoff1
 	ld	a,0xD9
-[4]	out (0x98),a			; write crap
+[4]	out (c),a			; write crap
 	jp	.next1
 
 .spriteoff2
 	ld	a,0xD9
-[8]	out (0x98),a			; write crap
+[8]	out (c),a			; write crap
 	jp	.next2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

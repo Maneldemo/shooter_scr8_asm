@@ -1,4 +1,4 @@
-Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.19 - 23:28:45]
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.20 - 22:26:11]
 
 main.asm
 Errors: 0
@@ -3790,10 +3790,10 @@ Errors: 0
       50.  00:458D                      	
       51.  00:458D  DD 56 00            	ld	d,(ix+enemy_data.y)	; write Y
       52.  00:4590  ED 51               	out (c),d
-      53.  00:4592  D3 98               	out (0x98),a			; write X
+      53.  00:4592  ED 79               	out (c),a				; write X
       54.  00:4594  DD 7E 0A            	ld	a,(ix+enemy_data.frame)
-      55.  00:4597  D3 98               	out (0x98),a			; write shape
-      56.  00:4599  D3 98               	out (0x98),a			; write crap
+      55.  00:4597  ED 79               	out (c),a				; write shape
+      56.  00:4599  ED 79               	out (c),a				; write crap
       57.  00:459B                      	
       58.  00:459B                      .next1
       59.  00:459B  11 0E 00            	ld	de,enemy_data
@@ -3825,43 +3825,44 @@ Errors: 0
       85.  00:45CC                      	
       86.  00:45CC  DD 56 00            	ld	d,(ix+enemy_data.y)	
       87.  00:45CF  ED 51               	out (c),d				; write Y
-      88.  00:45D1  D3 98               	out (0x98),a			; write X
-      89.  00:45D3  6F                  	ld  l,a
-      90.  00:45D4  DD 7E 0A            	ld	a,(ix+enemy_data.frame)
-      91.  00:45D7  D3 98               	out (0x98),a			; write shape
-      92.  00:45D9  D3 98               	out (0x98),a			; write crap
-      93.  00:45DB                      
-      94.  00:45DB  ED 51               	out (c),d				; write Y
-      95.  00:45DD  ED 69               	out (c),l				; write X
-      96.  00:45DF  C6 08               	add	a,8
-      97.  00:45E1  D3 98               	out (0x98),a			; write shape
-      98.  00:45E3  D3 98               	out (0x98),a			; write crap
-      99.  00:45E5                      	
-     100.  00:45E5                      .next2
-     101.  00:45E5  11 0E 00            	ld	de,enemy_data
-     102.  00:45E8  DD 19               	add ix,de
-     103.  00:45EA  10 B8               	djnz	1b
-     104.  00:45EC                      	
-     105.  00:45EC  3E D8               	ld	a,0xD8
-     106.  00:45EE  D3 98               	out (0x98),a			; SAT terminator
-     107.  00:45F0  C9                  	ret
-     108.  00:45F1                      	
+      88.  00:45D1  6F                  	ld  l,a
+      89.  00:45D2  ED 79               	out (c),a				; write X
+      90.  00:45D4                      
+      91.  00:45D4  DD 7E 0A            	ld	a,(ix+enemy_data.frame)
+      92.  00:45D7  ED 79               	out (c),a				; write shape
+      93.  00:45D9  ED 79               	out (c),a				; write crap
+      94.  00:45DB                      
+      95.  00:45DB  ED 51               	out (c),d				; write Y
+      96.  00:45DD  C6 08               	add	a,8
+      97.  00:45DF  ED 69               	out (c),l				; write X
+      98.  00:45E1  ED 79               	out (c),a				; write shape
+      99.  00:45E3  ED 79               	out (c),a				; write crap
+     100.  00:45E5                      	
+     101.  00:45E5                      .next2
+     102.  00:45E5  11 0E 00            	ld	de,enemy_data
+     103.  00:45E8  DD 19               	add ix,de
+     104.  00:45EA  10 B8               	djnz	1b
+     105.  00:45EC                      	
+     106.  00:45EC  3E D8               	ld	a,0xD8
+     107.  00:45EE  D3 98               	out (0x98),a			; SAT terminator
+     108.  00:45F0  C9                  	ret
      109.  00:45F1                      	
-     110.  00:45F1                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     111.  00:45F1                      	
-     112.  00:45F1                      .spriteoff1
-     113.  00:45F1  3E D9               	ld	a,0xD9
-     114.  00:45F3                      [4]	out (0x98),a			; write crap
-     114.  00:45F3  D3 98 D3 98 D3 98 D3 98 
-     115.  00:45FB  C3 9B 45            	jp	.next1
-     116.  00:45FE                      
-     117.  00:45FE                      .spriteoff2
-     118.  00:45FE  3E D9               	ld	a,0xD9
-     119.  00:4600                      [8]	out (0x98),a			; write crap
-     119.  00:4600  D3 98 D3 98 D3 98 D3 98 D3 98 D3 98 D3 98 D3 98 
-     120.  00:4610  C3 E5 45            	jp	.next2
-     121.  00:4613                      
-     122.  00:4613                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     110.  00:45F1                      	
+     111.  00:45F1                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     112.  00:45F1                      	
+     113.  00:45F1                      .spriteoff1
+     114.  00:45F1  3E D9               	ld	a,0xD9
+     115.  00:45F3                      [4]	out (c),a			; write crap
+     115.  00:45F3  ED 79 ED 79 ED 79 ED 79 
+     116.  00:45FB  C3 9B 45            	jp	.next1
+     117.  00:45FE                      
+     118.  00:45FE                      .spriteoff2
+     119.  00:45FE  3E D9               	ld	a,0xD9
+     120.  00:4600                      [8]	out (c),a			; write crap
+     120.  00:4600  ED 79 ED 79 ED 79 ED 79 ED 79 ED 79 ED 79 ED 79 
+     121.  00:4610  C3 E5 45            	jp	.next2
+     122.  00:4613                      
+     123.  00:4613                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       58   00:4613                      		include collision_tst.asm
        1.  00:4613  (00ED)              	align 0x100
        2.  00:4700                      sprite_collision_windows:

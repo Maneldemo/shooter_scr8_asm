@@ -46,13 +46,18 @@ colormap(sprtpalrgb);
 axis equal
 grid
 
+name = 'main ship02.gif';
+[AA,MMAP] = imread(['ene_code\' name]);
+MMAP = MMAP(1:16,:);
+%name = 'uridium_rev9';
+MAP = sprtpalrgb;
 
-name = 'uridium_rev9';
-
-[A,MAP] = imread(['ene_code\' name '.bmp']);
+%[A,MAP] = imread(['ene_code\' name '.bmp']);
 MAP(1,:) = [7 0 7]/7;
 
-F = A(1:16,1:16);
+A= AA(:,:,1,1);
+F = imapprox(A, MMAP, sprtpalrgb,'nodither');
+
 
 F0 = zeros(size(F));
 F1 = zeros(size(F));
