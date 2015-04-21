@@ -20,39 +20,39 @@ _hw_sprite_init:
 		ret
 	
 ;;;;;;;;;;;;fake
-npc_init1:
-	ld  b,max_bullets + max_enem_bullets
-	ld  ix,any_object
-	ld	de,enemy_data
+; npc_init1:
+	; ld  b,max_bullets + max_enem_bullets
+	; ld  ix,any_object
+	; ld	de,enemy_data
 	
-1:	ld  (ix+enemy_data.status),1
-	call	rand8
-	ld	(ix+enemy_data.x+0),a
-	ld	(ix+enemy_data.x+1),3
-	ld	a,b
-	dec a
-[4]	add	a,a
-	ld	(ix+enemy_data.y),a
-	ld	(ix+enemy_data.frame),8*4
-	add ix,de
-	djnz 	1b
+; 1:	ld  (ix+enemy_data.status),1
+	; call	rand8
+	; ld	(ix+enemy_data.x+0),a
+	; ld	(ix+enemy_data.x+1),3
+	; ld	a,b
+	; dec a
+; [4]	add	a,a
+	; ld	(ix+enemy_data.y),a
+	; ld	(ix+enemy_data.frame),8*4
+	; add ix,de
+	; djnz 	1b
 	
-	ld  b,max_enem
-1:	ld  (ix+enemy_data.status),1
-	call	rand8
-	ld	(ix+enemy_data.x+0),a
-	ld	(ix+enemy_data.x+1),2
-	ld	a,b
-	dec a
-[4]	add	a,a
-	ld	(ix+enemy_data.y),a
-	call	rand8
-	and		7
-[4]	add	a,a
-	add	a,16*4
-	ld	(ix+enemy_data.frame),a
-	add ix,de
-	djnz 	1b
+	; ld  b,max_enem
+; 1:	ld  (ix+enemy_data.status),1
+	; call	rand8
+	; ld	(ix+enemy_data.x+0),a
+	; ld	(ix+enemy_data.x+1),2
+	; ld	a,b
+	; dec a
+; [4]	add	a,a
+	; ld	(ix+enemy_data.y),a
+	; call	rand8
+	; and		7
+; [4]	add	a,a
+	; add	a,16*4
+	; ld	(ix+enemy_data.frame),a
+	; add ix,de
+	; djnz 	1b
 		
 	; load fake colors 
 load_color_pools

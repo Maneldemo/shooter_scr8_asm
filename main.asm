@@ -400,7 +400,7 @@ xoff			db	0
 yoff			db	0
 xsize			db	0
 ysize			db	0
-status			db	0	; B7 == DWN/UP | B6 == RIGHT/LEFT | B0 == Inactive/Active
+status			db	0	; B7 = DWN/UP | B6 = RIGHT/LEFT | B5 = ok/wrong clr | B0 = Inactive/Active
 cntr			db	0
 kind			db	0
 frame			db	0

@@ -103,10 +103,12 @@ npc_init:
 	ld  ix,enemies
 	ld  b,max_enem
 	ld	de,enemy_data
-
-1:  ld  (ix+enemy_data.status),0
-	ld  (ix+enemy_data.kind),255
-	ld	(ix+enemy_data.cntr),0
+	xor	a
+	
+1:  ld  (ix+enemy_data.status),a
+	ld  (ix+enemy_data.kind),-1
+	ld	(ix+enemy_data.cntr),a
+	ld	(ix+enemy_data.color),-1
 	ld	(ix+enemy_data.y),0xD9
 
 	add ix,de
