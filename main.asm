@@ -101,7 +101,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld	a, :_scorebar
 		setpage_a
 		ld		c,0
-		ld		de,256*(mapHeight*16+4)
+		ld		de,256*(mapHeight*16+3)
 		call	_vdpsetvramwr
 		ld		hl,_scorebar
 		ld		bc,0x0098

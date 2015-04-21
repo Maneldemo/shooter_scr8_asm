@@ -48,17 +48,39 @@ blank_line:
 ; no input
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-plot_line_lft:
+plot_line_lft1:
 	ld	hl,(_levelmap_pos)
 	ld	e,0
-	jp plot_line
+	jp plot_line1
+plot_line_lft2:
+	ld	hl,(_levelmap_pos)
+	ld	e,0
+	jp plot_line2
+
+
+; plot_line_lft:
+	; ld	hl,(_levelmap_pos)
+	; ld	e,0
+	; jp plot_line
 	
-plot_line_rgt:
+plot_line_rgt1:
 	ld	hl,(_levelmap_pos)
 	ld	de,15
 	add	hl,de
 	ld	e,240
-	jp plot_line
+	jp plot_line1
+plot_line_rgt2:
+	ld	hl,(_levelmap_pos)
+	ld	de,15
+	add	hl,de
+	ld	e,240
+	jp plot_line2
+; plot_line_rgt:
+	; ld	hl,(_levelmap_pos)
+	; ld	de,15
+	; add	hl,de
+	; ld	e,240
+	; jp plot_line
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; input

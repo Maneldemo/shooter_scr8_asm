@@ -7,13 +7,15 @@ _cls:
 		di
 		call	_vdpsetvramwr
 		ld		bc,0x0000
-1:		ld		a,00100101B
+; 1:		ld		a,00100101B
+1:		xor		a
 		out		(0x98),a
 		dec		bc
 		ld		a,b
 		or		c
 		jr	nz,1b
-1:		ld		a,00100101B
+; 1:		ld		a,00100101B
+1:		xor		a
 		out		(0x98),a
 		dec		bc
 		ld		a,b
