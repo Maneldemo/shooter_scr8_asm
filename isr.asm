@@ -36,8 +36,8 @@ _fake_isr
 		out (0x99),a
 		ld a,128+15
 		out (0x99),a
-		push hl
-		pop hl
+		; push hl
+		; pop hl
 		in	a,(0x99)
 		pop	af
 		ei
@@ -98,8 +98,8 @@ _scroll:
 		out (0x99),a
 		ld a,128+15
 		out (0x99),a
-		push hl
-		pop hl
+		; push hl
+		; pop hl
 		in	a,(0x99)
 		rra
 		jp	c,lint	
@@ -108,8 +108,8 @@ _scroll:
 		out (0x99),a
 		ld a,128+15
 		out (0x99),a
-		push hl
-		pop hl
+		; push hl
+		; pop hl
 		in	a,(0x99)
 		rlca
 		jp	c,vblank
@@ -126,8 +126,8 @@ waitHBLANK
 		out (0x99),a
 		ld a,128+15
 		out (0x99),a		; poll for HBLANK
-		push hl
-		pop hl
+		; push hl
+		; pop hl
 1:		in	a,(0x99)		; we are in HBLANK already, so wait until end of HBLANK
 		and	0x20
 		jp	nz,1b			

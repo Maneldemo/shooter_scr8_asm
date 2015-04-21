@@ -153,8 +153,8 @@ _waitvdp:
 	out (0x99),a
 	ld a, 128+15
 	out (0x99),a
-	push hl
-	pop hl
+	; push hl
+	; pop hl
 1:  in	a,(0x99)
 	rrca
 	jp c,1b
