@@ -75,6 +75,7 @@ plot_line_rgt2:
 	add	hl,de
 	ld	e,240
 	jp plot_line2
+	
 ; plot_line_rgt:
 	; ld	hl,(_levelmap_pos)
 	; ld	de,15
@@ -172,35 +173,35 @@ init_page0:
 		ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 		
-init_page1:
-		ld		a,(_displaypage)
-		ld		d,a
-		ld		e,0
-		ld		l,border_color
-		call	clrboder
-		ld		hl,(_levelmap_pos)
-		ld		de,0x0010			; e=x=16, d=y=0
+; init_page1:
+		; ld		a,(_displaypage)
+		; ld		d,a
+		; ld		e,0
+		; ld		l,border_color
+		; call	clrboder
+		; ld		hl,(_levelmap_pos)
+		; ld		de,0x0010			; e=x=16, d=y=0
 		
-		ld		b,11
-2:		push	bc
-		ld		b,15
-1:		ld		a,(hl)
-		call 	plot_tile
-		inc		hl
-		ld	a,16
-		add	a,e
-		ld	e,a
-		djnz	1b
+		; ld		b,11
+; 2:		push	bc
+		; ld		b,15
+; 1:		ld		a,(hl)
+		; call 	plot_tile
+		; inc		hl
+		; ld	a,16
+		; add	a,e
+		; ld	e,a
+		; djnz	1b
 		
-		ld	e,0x10
-		ld	a,e
-		add	a,d
-		ld	d,a
-		ld	bc,mapWidth-15
-		add	hl,bc
-		pop	bc
-		djnz	2b
-		ret
+		; ld	e,0x10
+		; ld	a,e
+		; add	a,d
+		; ld	d,a
+		; ld	bc,mapWidth-15
+		; add	hl,bc
+		; pop	bc
+		; djnz	2b
+		; ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; input
 ; d = page

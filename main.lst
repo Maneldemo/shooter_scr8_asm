@@ -1,4 +1,4 @@
-Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.21 - 22:57:27]
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2015.04.21 - 23:33:57]
 
 main.asm
 Errors: 0
@@ -3414,14 +3414,14 @@ Errors: 0
      287.  00:4390  57                  		ld 		d,a
      288.  00:4391  1E F0               		ld		e,240
      289.  00:4393  2E 00               		ld		l,border_color
-     290.  00:4395  C3 3A 4B            		jp		clrboder
+     290.  00:4395  C3 0C 4B            		jp		clrboder
      291.  00:4398                      		
      292.  00:4398                      .case1_15
      293.  00:4398  87 87 87 87         [4]		add		a,a
      294.  00:439C  5F                  		ld		e,a
      295.  00:439D  D6 10               		sub		a,16
      296.  00:439F  57                  		ld		d,a
-     297.  00:43A0  C3 6B 4B            		jp		move_block
+     297.  00:43A0  C3 3D 4B            		jp		move_block
      298.  00:43A3                      
      299.  00:43A3                      
      300.  00:43A3                      ;-------------------------------------	
@@ -3492,14 +3492,14 @@ Errors: 0
      365.  00:43F4  57                  		ld 		d,a
      366.  00:43F5  1E 00               		ld		e,0
      367.  00:43F7  2E 00               		ld		l,border_color
-     368.  00:43F9  C3 3A 4B            		jp	clrboder
+     368.  00:43F9  C3 0C 4B            		jp	clrboder
      369.  00:43FC                      		
      370.  00:43FC                      .case0_14
      371.  00:43FC  87 87 87 87         [4]		add		a,a
      372.  00:4400  5F                  		ld		e,a
      373.  00:4401  C6 10               		add		a,16
      374.  00:4403  57                  		ld		d,a
-     375.  00:4404  C3 6B 4B            		jp	move_block
+     375.  00:4404  C3 3D 4B            		jp	move_block
      376.  00:4407                      
      377.  00:4407                      		
      378.  00:4407                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
@@ -4379,7 +4379,7 @@ Errors: 0
       69   00:4852  AF                  		xor	a
       70   00:4853  32 4F D3            _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
       71   00:4856                      
-      72   00:4856  CD D4 4D            		call 	rand8_init								
+      72   00:4856  CD A6 4D            		call 	rand8_init								
       73   00:4859  CD EB 41            		call	set_scr
       74   00:485C                      
       75   00:485C  1E 06               		ld e,6
@@ -4477,7 +4477,7 @@ Errors: 0
      161   00:4907  21 00 01            		ld		hl,16*16
      162   00:490A  22 8C D3            		ld		(xmap),hl
      163   00:490D                      								
-     164   00:490D  CD 08 4E            		call 	npc_init								
+     164   00:490D  CD DA 4D            		call 	npc_init								
      165   00:4910  CD BA 44            		call 	load_color_pools								
      166   00:4913                      		
      167   00:4913  AF                  		xor		a
@@ -4516,8 +4516,8 @@ Errors: 0
      200   00:494F  E1                  		pop	hl				
      201   00:4950                      		
      202   00:4950                      .nomove:
-     203   00:4950  CD 4E 4E            		call	wave_timer
-     204   00:4953  CD D2 51            		call	npc_loop
+     203   00:4950  CD 20 4E            		call	wave_timer
+     204   00:4953  CD A4 51            		call	npc_loop
      205   00:4956  CD 39 57            		call	enemy_bullet_loop
      206   00:4959                      
      207   00:4959  3E 25               		ld	a,00100101B			; random colour
@@ -4739,11 +4739,11 @@ Errors: 0
       51.  00:4A6B                      plot_line_lft1:
       52.  00:4A6B  2A 7B D3            	ld	hl,(_levelmap_pos)
       53.  00:4A6E  1E 00               	ld	e,0
-      54.  00:4A70  C3 AB 4B            	jp plot_line1
+      54.  00:4A70  C3 7D 4B            	jp plot_line1
       55.  00:4A73                      plot_line_lft2:
       56.  00:4A73  2A 7B D3            	ld	hl,(_levelmap_pos)
       57.  00:4A76  1E 00               	ld	e,0
-      58.  00:4A78  C3 C2 4B            	jp plot_line2
+      58.  00:4A78  C3 94 4B            	jp plot_line2
       59.  00:4A7B                      
       60.  00:4A7B                      
       61.  00:4A7B                      ; plot_line_lft:
@@ -4756,1524 +4756,1525 @@ Errors: 0
       68.  00:4A7E  11 0F 00            	ld	de,15
       69.  00:4A81  19                  	add	hl,de
       70.  00:4A82  1E F0               	ld	e,240
-      71.  00:4A84  C3 AB 4B            	jp plot_line1
+      71.  00:4A84  C3 7D 4B            	jp plot_line1
       72.  00:4A87                      plot_line_rgt2:
       73.  00:4A87  2A 7B D3            	ld	hl,(_levelmap_pos)
       74.  00:4A8A  11 0F 00            	ld	de,15
       75.  00:4A8D  19                  	add	hl,de
       76.  00:4A8E  1E F0               	ld	e,240
-      77.  00:4A90  C3 C2 4B            	jp plot_line2
-      78.  00:4A93                      ; plot_line_rgt:
-      79.  00:4A93                      	; ld	hl,(_levelmap_pos)
-      80.  00:4A93                      	; ld	de,15
-      81.  00:4A93                      	; add	hl,de
-      82.  00:4A93                      	; ld	e,240
-      83.  00:4A93                      	; jp plot_line
-      84.  00:4A93                      	
-      85.  00:4A93                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      86.  00:4A93                      ; input
-      87.  00:4A93                      ; de = y,x configured in window map 256x256
-      88.  00:4A93                      ; a  tile to be plot
-      89.  00:4A93                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      90.  00:4A93                      plot_tile:
-      91.  00:4A93  D5                  		push	de
-      92.  00:4A94  D9                  		exx
-      93.  00:4A95  D1                  		pop		de
-      94.  00:4A96                      		
-      95.  00:4A96  67                  		ld	h,a
-      96.  00:4A97  07 07 07            [3]		rlca
-      97.  00:4A9A  E6 07               		and	00000111B
-      98.  00:4A9C  C6 04               		add	a,:_tiles0
-      99.  00:4A9E  32 00 B0            		ld	(_kBank4),a
-     100.  00:4AA1  7C                  		ld	a,h
-     101.  00:4AA2  E6 1F               		and	00011111B
-     102.  00:4AA4  C6 A0               		add	a,high _tiles0
-     103.  00:4AA6  67                  		ld	h,a
-     104.  00:4AA7  2E 00               		ld	l,0
-     105.  00:4AA9                      
-     106.  00:4AA9  3A 80 D3            		ld	a,(_displaypage)
-     107.  00:4AAC                      					; de = y*256+x
-     108.  00:4AAC  CB 02               		rlc d		; set VDP for writing at address ADE (17-bit) ;
-     109.  00:4AAE  17                  		rla
-     110.  00:4AAF  CB 02               		rlc d
-     111.  00:4AB1  17                  		rla
-     112.  00:4AB2  CB 3A               		srl d 		 ; first shift
-     113.  00:4AB4  F3                  		di
-     114.  00:4AB5  D3 99               		out (0x99),a	; set bits 14-16
-     115.  00:4AB7  3E 8E               		ld a,14+128
-     116.  00:4AB9  D3 99               		out (0x99),a
-     117.  00:4ABB  FB                  		ei
-     118.  00:4ABC  CB 3A               		srl d 		 ;  second shift.     
-     119.  00:4ABE  CB F2               		set 6,d		 ;  write access
-     120.  00:4AC0                      
-     121.  00:4AC0  01 98 10            		ld	bc,16*256+0x98
-     122.  00:4AC3                      	
-     123.  00:4AC3  C5                  2:		push	bc
-     124.  00:4AC4  06 10               		ld	b,16
-     125.  00:4AC6  F3                  		di
-     126.  00:4AC7  7B                  1:		ld a,e 		;set bits 0-7
-     127.  00:4AC8  D3 99               		out (0x99),a
-     128.  00:4ACA  7A                  		ld a,d 		;set bits 8-13
-     129.  00:4ACB  D3 99               		out (0x99),a
-     130.  00:4ACD  14                  		inc	d
-     131.  00:4ACE  ED A3               		outi
-     132.  00:4AD0  C2 C7 4A            		jp nz,1b
-     133.  00:4AD3  FB                  		ei
-     134.  00:4AD4  3E F0               		ld	a,-16
-     135.  00:4AD6  82                  		add	a,d
-     136.  00:4AD7  57                  		ld	d,a
-     137.  00:4AD8  1C                  		inc	e
-     138.  00:4AD9  C1                  		pop	bc
-     139.  00:4ADA  10 E7               		djnz 2b
-     140.  00:4ADC  D9                  		exx
-     141.  00:4ADD  C9                  		ret
-     142.  00:4ADE                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     143.  00:4ADE                      ; 		
-     144.  00:4ADE                      init_page0:
-     145.  00:4ADE  3A 80 D3            		ld		a,(_displaypage)
-     146.  00:4AE1  57                  		ld		d,a
-     147.  00:4AE2  1E F0               		ld		e,240
-     148.  00:4AE4  2E 00               		ld		l,border_color
-     149.  00:4AE6  CD 3A 4B            		call	clrboder
-     150.  00:4AE9  2A 7B D3            		ld		hl,(_levelmap_pos)
-     151.  00:4AEC  11 00 00            		ld		de,0x0000			; e=x=0, d=y=0
-     152.  00:4AEF                      		
-     153.  00:4AEF  06 0B               		ld		b,11
-     154.  00:4AF1  C5                  2:		push	bc
-     155.  00:4AF2  06 0F               		ld		b,15
-     156.  00:4AF4  7E                  1:		ld		a,(hl)
-     157.  00:4AF5  CD 93 4A            		call 	plot_tile
-     158.  00:4AF8  23                  		inc		hl
-     159.  00:4AF9  3E 10               		ld	a,16
-     160.  00:4AFB  83                  		add	a,e
-     161.  00:4AFC  5F                  		ld	e,a
-     162.  00:4AFD  10 F5               		djnz	1b
-     163.  00:4AFF                      				
-     164.  00:4AFF  58                  		ld	e,b
-     165.  00:4B00  3E 10               		ld	a,16
-     166.  00:4B02  82                  		add	a,d
-     167.  00:4B03  57                  		ld	d,a
-     168.  00:4B04  01 F1 00            		ld	bc,mapWidth-15
-     169.  00:4B07  09                  		add	hl,bc
-     170.  00:4B08  C1                  		pop	bc
-     171.  00:4B09  10 E6               		djnz	2b
-     172.  00:4B0B  C9                  		ret
-     173.  00:4B0C                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     174.  00:4B0C                      ; 		
-     175.  00:4B0C                      init_page1:
-     176.  00:4B0C  3A 80 D3            		ld		a,(_displaypage)
-     177.  00:4B0F  57                  		ld		d,a
-     178.  00:4B10  1E 00               		ld		e,0
-     179.  00:4B12  2E 00               		ld		l,border_color
-     180.  00:4B14  CD 3A 4B            		call	clrboder
-     181.  00:4B17  2A 7B D3            		ld		hl,(_levelmap_pos)
-     182.  00:4B1A  11 10 00            		ld		de,0x0010			; e=x=16, d=y=0
-     183.  00:4B1D                      		
-     184.  00:4B1D  06 0B               		ld		b,11
-     185.  00:4B1F  C5                  2:		push	bc
-     186.  00:4B20  06 0F               		ld		b,15
-     187.  00:4B22  7E                  1:		ld		a,(hl)
-     188.  00:4B23  CD 93 4A            		call 	plot_tile
-     189.  00:4B26  23                  		inc		hl
-     190.  00:4B27  3E 10               		ld	a,16
-     191.  00:4B29  83                  		add	a,e
-     192.  00:4B2A  5F                  		ld	e,a
-     193.  00:4B2B  10 F5               		djnz	1b
-     194.  00:4B2D                      		
-     195.  00:4B2D  1E 10               		ld	e,0x10
-     196.  00:4B2F  7B                  		ld	a,e
-     197.  00:4B30  82                  		add	a,d
-     198.  00:4B31  57                  		ld	d,a
-     199.  00:4B32  01 F1 00            		ld	bc,mapWidth-15
-     200.  00:4B35  09                  		add	hl,bc
-     201.  00:4B36  C1                  		pop	bc
-     202.  00:4B37  10 E6               		djnz	2b
-     203.  00:4B39  C9                  		ret
-     204.  00:4B3A                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     205.  00:4B3A                      ; input
-     206.  00:4B3A                      ; d = page
-     207.  00:4B3A                      ; e = dx
-     208.  00:4B3A                      ; l = background color
-     209.  00:4B3A                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     210.  00:4B3A                      		
-     211.  00:4B3A                      clrboder:
-     212.  00:4B3A  F3                  	di
-     213.  00:4B3B  3E 24               	ld 		a, 36
-     214.  00:4B3D  D3 99               	out 	(0x99),a
-     215.  00:4B3F  3E 91               	ld 		a, 17+128
-     216.  00:4B41  D3 99               	out 	(0x99),a
-     217.  00:4B43                      	
-     218.  00:4B43  CD 2A 42            	call _waitvdp
-     219.  00:4B46                      	
-     220.  00:4B46  7B                  	ld		a,e
-     221.  00:4B47  D3 9B               	out 	(0x9B), a 			; dx
-     222.  00:4B49  AF                  	xor		a
-     223.  00:4B4A  D3 9B               	out 	(0x9B), a			; dx (high)
-     224.  00:4B4C                      	
-     225.  00:4B4C  D3 9B               	out 	(0x9B), a			; dy
-     226.  00:4B4E  7A                  	ld 		a,d					; destination page
-     227.  00:4B4F  D3 9B               	out 	(0x9B), a			; dy (high-> page 0 or 1)
-     228.  00:4B51                      	
-     229.  00:4B51  3E 10               	ld a,16
-     230.  00:4B53  D3 9B               	out 	(0x9B), a			; x block size
-     231.  00:4B55  AF                  	xor	a
-     232.  00:4B56  D3 9B               	out 	(0x9B), a
-     233.  00:4B58                      
-     234.  00:4B58  3E B0               	ld		a,mapHeight*16
-     235.  00:4B5A  D3 9B               	out 	(0x9B), a			; y block size
-     236.  00:4B5C  AF                  	xor a
-     237.  00:4B5D  D3 9B               	out 	(0x9B), a
-     238.  00:4B5F                      
-     239.  00:4B5F  7D                  	ld		a,l
-     240.  00:4B60  D3 9B               	out 	(0x9B), a			; color
-     241.  00:4B62  AF                  	xor a
-     242.  00:4B63  D3 9B               	out 	(0x9B), a
-     243.  00:4B65                      
-     244.  00:4B65  3E C0               	ld		a,11000000B
-     245.  00:4B67  D3 9B               	out 	(0x9B), a		; command HMMV
-     246.  00:4B69  FB                  	ei
-     247.  00:4B6A  C9                  	ret
-     248.  00:4B6B                      
-     249.  00:4B6B                      
-     250.  00:4B6B                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     251.  00:4B6B                      ; input
-     252.  00:4B6B                      ; e = sx	from not _displaypage
-     253.  00:4B6B                      ; d = dx	to _displaypage
-     254.  00:4B6B                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     255.  00:4B6B                      
-     256.  00:4B6B                      move_block:
-     257.  00:4B6B  F3                  	di
-     258.  00:4B6C  3E 20               	ld 		a, 32
-     259.  00:4B6E  D3 99               	out 	(0x99),a
-     260.  00:4B70  3E 91               	ld 		a, 17+128
-     261.  00:4B72  D3 99               	out 	(0x99),a
-     262.  00:4B74                      
-     263.  00:4B74  0E 9B               	ld 		c, 0x9B
-     264.  00:4B76                      	
-     265.  00:4B76  CD 2A 42            	call _waitvdp		; no need ATM
-     266.  00:4B79                      	
-     267.  00:4B79  ED 59               	out		(c), e 		; sx
-     268.  00:4B7B  AF                  	xor a
-     269.  00:4B7C  D3 9B               	out		(0x9B), a 	; sx (high)
-     270.  00:4B7E                      	
-     271.  00:4B7E  D3 9B               	out		(0x9B), a 	; sy
-     272.  00:4B80  3A 80 D3            	ld 		a,(_displaypage)	; source page
-     273.  00:4B83  D3 9B               	out 	(0x9B), a 	; sy 	(high-> page 0 or 1)
-     274.  00:4B85                      
-     275.  00:4B85  ED 51               	out 	(c), d 		; dx
-     276.  00:4B87  AF                  	xor a
-     277.  00:4B88  D3 9B               	out 	(0x9B), a	; dx (high)
-     278.  00:4B8A                      	
-     279.  00:4B8A  D3 9B               	out 	(0x9B), a 		; dy
-     280.  00:4B8C  3A 80 D3            	ld 		a,(_displaypage)	; destination page
-     281.  00:4B8F  EE 01               	xor	1				
-     282.  00:4B91  D3 9B               	out 	(0x9B), a	; dy 	(high-> page 0 or 1)
-     283.  00:4B93                      
-     284.  00:4B93  3E 10               	ld 		a,16 		; block size
-     285.  00:4B95  D3 9B               	out 	(0x9B), a
-     286.  00:4B97  AF                  	xor a
-     287.  00:4B98  D3 9B               	out 	(0x9B), a	
-     288.  00:4B9A  3E B0               	ld		a,mapHeight*16
-     289.  00:4B9C  D3 9B               	out 	(0x9B), a
-     290.  00:4B9E  AF                  	xor		a
-     291.  00:4B9F  D3 9B               	out 	(0x9B), a
-     292.  00:4BA1  D3 9B               	out 	(0x9B), a
-     293.  00:4BA3  D3 9B               	out 	(0x9B), a
-     294.  00:4BA5                      
-     295.  00:4BA5  3E D0               	ld		a,11010000B
-     296.  00:4BA7  D3 9B               	out 	(0x9B), a		; command HMMM
-     297.  00:4BA9  FB                  	ei
-     298.  00:4BAA  C9                  	ret
-     299.  00:4BAB                      	
-     266   00:4BAB                      	include plot_line2.asm
-       1.  00:4BAB                      plot_line1:
-       2.  00:4BAB  3A 81 D3            	ld	a,(_xoffset)
-       3.  00:4BAE  83                  	add a,e
-       4.  00:4BAF  5F                  	ld	e,a		; de = y*256+x
-       5.  00:4BB0                      
-       6.  00:4BB0  3A 80 D3            	ld	a,(_displaypage)
-       7.  00:4BB3  87 87               [2] add a,a
-       8.  00:4BB5  F3                  	di
-       9.  00:4BB6  D3 99               	out (0x99),a 	; set bits 14-16
-      10.  00:4BB8  3E 8E               	ld a,14+128
-      11.  00:4BBA  D3 99               	out (0x99),a
-      12.  00:4BBC  FB                  	ei
-      13.  00:4BBD  16 40               	ld	d,0x40		; write access
-      14.  00:4BBF  C3 03 4C            	jp	_1stblock	; trace 16 pixels
-      15.  00:4BC2                      
-      16.  00:4BC2                      plot_line2:
-      17.  00:4BC2  24                  	inc	h
-      18.  00:4BC3  3A 81 D3            	ld	a,(_xoffset)
-      19.  00:4BC6  83                  	add a,e
-      20.  00:4BC7  5F                  	ld	e,a		; de = y*256+x
-      21.  00:4BC8                      
-      22.  00:4BC8  3A 80 D3            	ld	a,(_displaypage)
-      23.  00:4BCB  87 87               [2] add a,a
-      24.  00:4BCD  F3                  	di
-      25.  00:4BCE  D3 99               	out (0x99),a 	; set bits 14-16
-      26.  00:4BD0  3E 8E               	ld a,14+128
-      27.  00:4BD2  D3 99               	out (0x99),a
-      28.  00:4BD4  FB                  	ei
-      29.  00:4BD5  16 50               	ld	d,0x50		; write access
-      30.  00:4BD7  CD 5B 4C            	call	_2nd	; trace 48 pixels
-      31.  00:4BDA                      	
-      32.  00:4BDA  3A 80 D3            	ld	a,(_displaypage)
-      33.  00:4BDD  87 87               [2] add a,a
-      34.  00:4BDF  F6 01               	or	1
-      35.  00:4BE1  F3                  	di
-      36.  00:4BE2  D3 99               	out (0x99),a 	; set bits 14-16
-      37.  00:4BE4  3E 8E               	ld a,14+128
-      38.  00:4BE6  D3 99               	out (0x99),a
-      39.  00:4BE8  FB                  	ei
-      40.  00:4BE9  16 40               	ld	d,0x40		; write access
-      41.  00:4BEB  CD 2E 4C            	call	_1st	; trace 64 pixels
-      42.  00:4BEE                      	
-      43.  00:4BEE  3A 80 D3            	ld	a,(_displaypage)
-      44.  00:4BF1  87 87               [2] add a,a
-      45.  00:4BF3  F6 02               	or	2
-      46.  00:4BF5  F3                  	di
-      47.  00:4BF6  D3 99               	out (0x99),a 	; set bits 14-16
-      48.  00:4BF8  3E 8E               	ld a,14+128
-      49.  00:4BFA  D3 99               	out (0x99),a
-      50.  00:4BFC  FB                  	ei
-      51.  00:4BFD  16 40               	ld	d,0x40		; write access
-      52.  00:4BFF  CD 5B 4C            	call	_2nd	; trace 48 pixels
-      53.  00:4C02                      
-      54.  00:4C02  C9                  	ret
-      55.  00:4C03                      
-      56.  00:4C03                      
-      57.  00:4C03                      ; plot_line:
-      58.  00:4C03                      	; ld	a,(_xoffset)
-      59.  00:4C03                      	; add a,e
-      60.  00:4C03                      	; ld	e,a		; de = y*256+x
-      61.  00:4C03                      
-      62.  00:4C03                      	; ld	a,(_displaypage)
-      63.  00:4C03                      ; [2] add a,a
-      64.  00:4C03                      	; di
-      65.  00:4C03                      	; out (0x99),a 	; set bits 14-16
-      66.  00:4C03                      	; ld a,14+128
-      67.  00:4C03                      	; out (0x99),a
-      68.  00:4C03                      	; ei
-      69.  00:4C03                      	; ld	d,0x40		; write access
-      70.  00:4C03                      	; call	_1st
-      71.  00:4C03                      	
-      72.  00:4C03                      	; ld	a,(_displaypage)
-      73.  00:4C03                      ; [2] add a,a
-      74.  00:4C03                      	; or	1
-      75.  00:4C03                      	; di
-      76.  00:4C03                      	; out (0x99),a 	; set bits 14-16
-      77.  00:4C03                      	; ld a,14+128
-      78.  00:4C03                      	; out (0x99),a
-      79.  00:4C03                      	; ei
-      80.  00:4C03                      	; ld	d,0x40		; write access
-      81.  00:4C03                      	; call	_1st	
-      82.  00:4C03                      	
-      83.  00:4C03                      	; ld	a,(_displaypage)
-      84.  00:4C03                      ; [2] add a,a
-      85.  00:4C03                      	; or	2
-      86.  00:4C03                      	; di
-      87.  00:4C03                      	; out (0x99),a 	; set bits 14-16
-      88.  00:4C03                      	; ld a,14+128
-      89.  00:4C03                      	; out (0x99),a
-      90.  00:4C03                      	; ei
-      91.  00:4C03                      	; ld	d,0x40		; write access
-      92.  00:4C03                      	; call	_2nd
-      93.  00:4C03                      
-      94.  00:4C03                      	; ret
-      95.  00:4C03                      	
-      96.  00:4C03                      _1stblock:
-      97.  00:4C03                      ; hl ->   Map in RAM
-      98.  00:4C03  7E                  	ld	a,(hl)
-      99.  00:4C04  07 07 07            [3]	rlca
-     100.  00:4C07  E6 07               	and	00000111B
-     101.  00:4C09  C6 04               	add	a,:_tiles0
-     102.  00:4C0B  32 00 B0            	ld	(_kBank4),a
-     103.  00:4C0E  7E                  	ld	a,(hl)
-     104.  00:4C0F  E6 1F               	and	00011111B
-     105.  00:4C11  C6 A0               	add	a,high _tiles0
-     106.  00:4C13  67                  	ld	h,a
-     107.  00:4C14  3A 81 D3            	ld	a,(_xoffset)
-     108.  00:4C17  87 87 87 87         [4]	add	a,a
-     109.  00:4C1B  6F                  	ld	l,a
-     110.  00:4C1C                      
-     111.  00:4C1C                      	; hl -> tile column
-     112.  00:4C1C                      
-     113.  00:4C1C  01 98 10            	ld	bc,16*256+0x98
-     114.  00:4C1F  F3                  	di
-     115.  00:4C20  7B                  1:	ld a,e 		;set bits 0-7
-     116.  00:4C21  D3 99               	out (0x99),a
-     117.  00:4C23  7A                  	ld a,d 		;set bits 8-13
-     118.  00:4C24  D3 99               	out (0x99),a
-     119.  00:4C26  14                  	inc	d
-     120.  00:4C27  ED A3               	outi
-     121.  00:4C29  C2 20 4C            	jp	nz,1b
-     122.  00:4C2C  FB                  	ei
-     123.  00:4C2D  C9                  	ret
-     124.  00:4C2E                      	
-     125.  00:4C2E                      _1st:
-     126.  00:4C2E                      ; hl ->   Map in RAM
-     127.  00:4C2E  E5                  	push	hl
-     128.  00:4C2F                      		
-     129.  00:4C2F  7E                  	ld	a,(hl)
-     130.  00:4C30  07 07 07            [3]	rlca
-     131.  00:4C33  E6 07               	and	00000111B
-     132.  00:4C35  C6 04               	add	a,:_tiles0
-     133.  00:4C37  32 00 B0            	ld	(_kBank4),a
-     134.  00:4C3A  7E                  	ld	a,(hl)
-     135.  00:4C3B  E6 1F               	and	00011111B
-     136.  00:4C3D  C6 A0               	add	a,high _tiles0
-     137.  00:4C3F  67                  	ld	h,a
-     138.  00:4C40  3A 81 D3            	ld	a,(_xoffset)
-     139.  00:4C43  87 87 87 87         [4]	add	a,a
-     140.  00:4C47  6F                  	ld	l,a
-     141.  00:4C48                      
-     142.  00:4C48                      	; hl -> tile column
-     143.  00:4C48                      
-     144.  00:4C48  01 98 10            	ld	bc,16*256+0x98
-     145.  00:4C4B  F3                  	di
-     146.  00:4C4C  7B                  1:	ld a,e 		;set bits 0-7
-     147.  00:4C4D  D3 99               	out (0x99),a
-     148.  00:4C4F  7A                  	ld a,d 		;set bits 8-13
-     149.  00:4C50  D3 99               	out (0x99),a
-     150.  00:4C52  14                  	inc	d
-     151.  00:4C53  ED A3               	outi
-     152.  00:4C55  C2 4C 4C            	jp	nz,1b
-     153.  00:4C58  FB                  	ei
-     154.  00:4C59                      	
-     155.  00:4C59  E1                  	pop	hl
-     156.  00:4C5A  24                  	inc h
-     157.  00:4C5B                      _2nd:
-     158.  00:4C5B                      	repeat 3
-     159.  00:4C5B                    < 	push	hl
-     160.  00:4C5B                    < 		
-     161.  00:4C5B                    < 	ld	a,(hl)
-     162.  00:4C5B                    < [3]	rlca
-     163.  00:4C5B                    < 	and	00000111B
-     164.  00:4C5B                    < 	add	a,:_tiles0
-     165.  00:4C5B                    < 	ld	(_kBank4),a
-     166.  00:4C5B                    < 	ld	a,(hl)
-     167.  00:4C5B                    < 	and	00011111B
-     168.  00:4C5B                    < 	add	a,high _tiles0
-     169.  00:4C5B                    < 	ld	h,a
-     170.  00:4C5B                    < 	ld	a,(_xoffset)
-     171.  00:4C5B                    < [4]	add	a,a
-     172.  00:4C5B                    < 	ld	l,a
-     173.  00:4C5B                    < 
-     174.  00:4C5B                    < 	; hl -> tile column
-     175.  00:4C5B                    < 
-     176.  00:4C5B                    < 	ld	bc,16*256+0x98
-     177.  00:4C5B                    < 	di
-     178.  00:4C5B                    < 1:	ld a,e 		;set bits 0-7
-     179.  00:4C5B                    < 	out (0x99),a
-     180.  00:4C5B                    < 	ld a,d 		;set bits 8-13
-     181.  00:4C5B                    < 	out (0x99),a
-     182.  00:4C5B                    < 	inc	d
-     183.  00:4C5B                    < 	outi
-     184.  00:4C5B                    < 	jp	nz,1b
-     185.  00:4C5B                    < 	ei
-     186.  00:4C5B                    < 	
-     187.  00:4C5B                    < 	pop	hl
-     188.  00:4C5B                    < 	inc h
-     189.  00:4C5B                    < 	endrepeat
-     189.  00:4C5B  E5 7E 07 07 07 E6 07 C6 04 32 00 B0 7E E6 1F C6 
-     189.  00:4C6B  A0 67 3A 81 D3 87 87 87 87 6F 01 98 10 F3 7B D3 
-     189.  00:4C7B  99 7A D3 99 14 ED A3 C2 79 4C FB E1 24 E5 7E 07 
-     189.  00:4C8B  07 07 E6 07 C6 04 32 00 B0 7E E6 1F C6 A0 67 3A 
-     189.  00:4C9B  81 D3 87 87 87 87 6F 01 98 10 F3 7B D3 99 7A D3 
-     189.  00:4CAB  99 14 ED A3 C2 A6 4C FB E1 24 E5 7E 07 07 07 E6 
-     189.  00:4CBB  07 C6 04 32 00 B0 7E E6 1F C6 A0 67 3A 81 D3 87 
-     189.  00:4CCB  87 87 87 6F 01 98 10 F3 7B D3 99 7A D3 99 14 ED 
-     189.  00:4CDB  A3 C2 D3 4C FB E1 24 
-     190.  00:4CE2  C9                  	ret
-     191.  00:4CE3                      	
-     267   00:4CE3                      	include enemies.asm
-       1.  00:4CE3                      	
-       2.  00:4CE3  (00:0000)           ms_fly__right				equ	0
-       3.  00:4CE3  (00:0001)           ms_spin_face_right			equ	1
-       4.  00:4CE3  (00:0002)           ms_side_dwn_face_right		equ	2
-       5.  00:4CE3  (00:0003)           ms_side_up__face_right		equ	3
-       6.  00:4CE3                      
-       7.  00:4CE3  (00:0004)           ms_fly__left				equ	4
-       8.  00:4CE3  (00:0005)           ms_spin_face_left			equ	5
-       9.  00:4CE3  (00:0006)           ms_side_dwn_face_left		equ	6
-      10.  00:4CE3  (00:0007)           ms_side_up__face_left		equ	7
-      11.  00:4CE3                      
-      12.  00:4CE3  (00:0008)           ms_loop_right2left			equ	8
-      13.  00:4CE3  (00:0009)           ms_loop_left2right			equ	9
-      14.  00:4CE3                      
-      15.  00:4CE3  (00:000A)           ms_explode					equ	10
-      16.  00:4CE3  (00:000B)           ms_landing					equ	11
-      17.  00:4CE3  (00:000C)           ms_reset					equ	12
-      18.  00:4CE3                      
-      19.  00:4CE3                      
-      20.  00:4CE3  (00:0010)           maxspeed:					equ 16		; the actual speed is divided by 4
-      21.  00:4CE3  (00:000C)           max_enem:					equ 12		; max 12
-      22.  00:4CE3  (00:0006)           max_enem1:					equ	6
-      23.  00:4CE3  (00:0006)           max_enem2:					equ	6		; max_enem1 + max_enem2 = max_enem
-      24.  00:4CE3  (00:0003)           max_enem_bullets:			equ 3
-      25.  00:4CE3  (00:0003)           max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
-      26.  00:4CE3  (00:00B4)           assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
-      27.  00:4CE3  (00:0002)           enemy_bullet_speed:			equ	2	
-      28.  00:4CE3  (00:0078)           xship_rel:					equ (128-8)
-      29.  00:4CE3                      
-      30.  00:4CE3                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      31.  00:4CE3                      ms_ani:
-      32.  00:4CE3                      	include ms_demo_ani.asm
-       1:  00:4CE3                      ms_demo_ani:
-       2:  00:4CE3  22                      defb 34 
-       3:  00:4CE4  0A                      defb 10 
-       4:  00:4CE5  08                      defb 8 
-       5:  00:4CE6  07                      defb 7 
-       6:  00:4CE7  06                      defb 6 
-       7:  00:4CE8  01                      defb 1 
-       8:  00:4CE9  05                      defb 5 
-       9:  00:4CEA  0B                      defb 11 
-      10:  00:4CEB  27                      defb 39 
-      11:  00:4CEC  1E                      defb 30 
-      12:  00:4CED  17                      defb 23 
-      13:  00:4CEE  0E                      defb 14 
-      14:  00:4CEF  10                      defb 16 
-      15:  00:4CF0  0F                      defb 15 
-      16:  00:4CF1  1B                      defb 27 
-      17:  00:4CF2  20                      defb 32 
-      18:  00:4CF3  26                      defb 38 
-      19:  00:4CF4  25                      defb 37 
-      20:  00:4CF5  09                      defb 9 
-      21:  00:4CF6  03                      defb 3 
-      22:  00:4CF7  00                      defb 0 
-      23:  00:4CF8  02                      defb 2 
-      24:  00:4CF9  04                      defb 4 
-      25:  00:4CFA  23                      defb 35 
-      26:  00:4CFB  24                      defb 36 
-      27:  00:4CFC  1F                      defb 31 
-      28:  00:4CFD  19                      defb 25 
-      29:  00:4CFE  14                      defb 20 
-      30:  00:4CFF  11                      defb 17 
-      31:  00:4D00  15                      defb 21 
-      32:  00:4D01  1A                      defb 26 
-      33:  00:4D02  1D                      defb 29 
-      34:  00:4D03  22                      defb 34 
-      35:  00:4D04  1D                      defb 29 
-      36:  00:4D05  1A                      defb 26 
-      37:  00:4D06  15                      defb 21 
-      38:  00:4D07  11                      defb 17 
-      39:  00:4D08  15                      defb 21 
-      40:  00:4D09  1A                      defb 26 
-      41:  00:4D0A  1D                      defb 29 
-      42:  00:4D0B  22                      defb 34 
-      43:  00:4D0C  1C                      defb 28 
-      44:  00:4D0D  16                      defb 22 
-      45:  00:4D0E  13                      defb 19 
-      46:  00:4D0F  0C                      defb 12 
-      47:  00:4D10  13                      defb 19 
-      48:  00:4D11  16                      defb 22 
-      49:  00:4D12  1C                      defb 28 
-      50:  00:4D13  26                      defb 38 
-      51:  00:4D14  21                      defb 33 
-      52:  00:4D15  18                      defb 24 
-      53:  00:4D16  12                      defb 18 
-      54:  00:4D17  0D                      defb 13 
-      55:  00:4D18  12                      defb 18 
-      56:  00:4D19  18                      defb 24 
-      57:  00:4D1A  21                      defb 33 
-      58:  00:4D1B  26                      defb 38 
-      59:  00:4D1C  20                      defb 32 
-      60:  00:4D1D  1B                      defb 27 
-      61:  00:4D1E  0F                      defb 15 
-      62:  00:4D1F  10                      defb 16 
-      63:  00:4D20  0F                      defb 15 
-      64:  00:4D21  1B                      defb 27 
-      65:  00:4D22  20                      defb 32 
-      66:  00:4D23  28                      defb 40 
-      67:  00:4D24  29                      defb 41 
-      68:  00:4D25  2A                      defb 42 
-      69:  00:4D26  2B                      defb 43 
-      70:  00:4D27  2C                      defb 44 
-      71:  00:4D28  2D                      defb 45 
-      72:  00:4D29  2E                      defb 46 
-      73:  00:4D2A  2F                      defb 47 
-      74:  00:4D2B  30                      defb 48 
-      75:  00:4D2C  31                      defb 49 
-      76:  00:4D2D  32                      defb 50 
-      77:  00:4D2E  33                      defb 51 
-      78:  00:4D2F  34                      defb 52 
-      79:  00:4D30  35                      defb 53 
-      80:  00:4D31  36                      defb 54 
-      81:  00:4D32  37                      defb 55 
-      33.  00:4D33                      ms_col_win:
-      34.  00:4D33                      	include ms_demo_frm_coll_wind.asm
-       1:  00:4D33                      ms_demo_coll_wind:
-       2:  00:4D33  07 0D 01 0F             defb 7,13,1,15 
-       3:  00:4D37  07 0B 01 0F             defb 7,11,1,15 
-       4:  00:4D3B  05 09 01 0F             defb 5,9,1,15 
-       5:  00:4D3F  04 0D 01 0F             defb 4,13,1,15 
-       6:  00:4D43  04 0C 01 0F             defb 4,12,1,15 
-       7:  00:4D47  04 0C 01 0F             defb 4,12,1,15 
-       8:  00:4D4B  03 09 01 0F             defb 3,9,1,15 
-       9:  00:4D4F  03 0C 01 0F             defb 3,12,1,15 
-      10:  00:4D53  03 0D 01 0F             defb 3,13,1,15 
-      11:  00:4D57  03 0D 01 0F             defb 3,13,1,15 
-      12:  00:4D5B  03 0F 01 0F             defb 3,15,1,15 
-      13:  00:4D5F  03 0F 01 0F             defb 3,15,1,15 
-      14:  00:4D63  01 0F 07 0D             defb 1,15,7,13 
-      15:  00:4D67  01 0F 04 0A             defb 1,15,4,10 
-      16:  00:4D6B  01 0F 07 0C             defb 1,15,7,12 
-      17:  00:4D6F  01 0F 06 0C             defb 1,15,6,12 
-      18:  00:4D73  01 0F 07 0D             defb 1,15,7,13 
-      19:  00:4D77  01 0F 04 0A             defb 1,15,4,10 
-      20:  00:4D7B  01 0F 05 0B             defb 1,15,5,11 
-      21:  00:4D7F  01 0F 06 0C             defb 1,15,6,12 
-      22:  00:4D83  01 0F 05 0A             defb 1,15,5,10 
-      23:  00:4D87  01 0F 05 0B             defb 1,15,5,11 
-      24:  00:4D8B  01 0F 05 0C             defb 1,15,5,12 
-      25:  00:4D8F  01 0F 06 0D             defb 1,15,6,13 
-      26:  00:4D93  01 0F 05 0C             defb 1,15,5,12 
-      27:  00:4D97  01 0F 04 0B             defb 1,15,4,11 
-      28:  00:4D9B  01 0F 05 0C             defb 1,15,5,12 
-      29:  00:4D9F  01 0F 05 0C             defb 1,15,5,12 
-      30:  00:4DA3  01 0F 03 0E             defb 1,15,3,14 
-      31:  00:4DA7  01 0F 03 0E             defb 1,15,3,14 
-      32:  00:4DAB  01 0F 05 0F             defb 1,15,5,15 
-      33:  00:4DAF  01 0F 02 0C             defb 1,15,2,12 
-      34:  00:4DB3  01 0F 03 0E             defb 1,15,3,14 
-      35:  00:4DB7  01 0F 03 0E             defb 1,15,3,14 
-      36:  00:4DBB  01 0F 01 0F             defb 1,15,1,15 
-      37:  00:4DBF  01 0D 01 0F             defb 1,13,1,15 
-      38:  00:4DC3  01 0F 01 0F             defb 1,15,1,15 
-      39:  00:4DC7  01 0D 01 0F             defb 1,13,1,15 
-      40:  00:4DCB  01 0F 01 0F             defb 1,15,1,15 
-      41:  00:4DCF  01 0F 01 0F             defb 1,15,1,15 
-      42:  00:4DD3                      
-      35.  00:4DD3                      
-      36.  00:4DD3                      ;--------------------------------------------------------------------
-      37.  00:4DD3                      ;--------------------------------------------------------------------
-      38.  00:4DD3                      add_bc_score_bin
-      39.  00:4DD3  C9                  	ret
-      40.  00:4DD4                      ;--------------------------------------------------------------------
-      41.  00:4DD4                      
-      42.  00:4DD4                      ; Fast random number generator using the same method
-      43.  00:4DD4                      ; as the CDMA used in cellular telephones
-      44.  00:4DD4                      ;--------------------------------------------------------------------
-      45.  00:4DD4                      ; init random seed 
-      46.  00:4DD4                      
-      47.  00:4DD4                      rand8_init:
-      48.  00:4DD4  2A 9E FC            	LD      HL,(_jiffy)
-      49.  00:4DD7  CB C5               	SET		0,L
-      50.  00:4DD9  22 83 D3            	LD      (randSeed),HL
-      51.  00:4DDC  C9                  	RET
-      52.  00:4DDD                      
-      53.  00:4DDD                      
-      54.  00:4DDD                      ; -------------------------------------------------------------------
-      55.  00:4DDD                      ; rand8
-      56.  00:4DDD                      ; -------------------------------------------------------------------
-      57.  00:4DDD                      ;
-      58.  00:4DDD                      ; choose a random number in the set [0,127] with uniform distribution
-      59.  00:4DDD                      ; return: A = random value
-      60.  00:4DDD                      
-      61.  00:4DDD                      rand8:
-      62.  00:4DDD  2A 83 D3            	ld      hl,(randSeed)
-      63.  00:4DE0  29                  	add     hl,hl
-      64.  00:4DE1  9F                  	sbc     a,a
-      65.  00:4DE2  E6 83               	and     083h
-      66.  00:4DE4  AD                  	xor     l
-      67.  00:4DE5  6F                  	ld      l,a
-      68.  00:4DE6  22 83 D3            	ld      (randSeed),hl
-      69.  00:4DE9  C9                  	ret
-      70.  00:4DEA                      	
-      71.  00:4DEA                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      72.  00:4DEA                      ;	increase the wave counter
-      73.  00:4DEA                      ; 	and test for landing permission
-      74.  00:4DEA                      	
-      75.  00:4DEA                      land_now_test:
-      76.  00:4DEA  3A 86 D3            	ld	a,(wave_count)
-      77.  00:4DED  3C                  	inc	a
-      78.  00:4DEE  32 86 D3            	ld	(wave_count),a
-      79.  00:4DF1  5F                  	ld	e,a
-      80.  00:4DF2  3A 85 D3            	ld	a,(cur_level)
-      81.  00:4DF5  0F 0F               [2]	rrca
-      82.  00:4DF7  E6 0F               	and	15
-      83.  00:4DF9  C6 19               	add	a,25
-      84.  00:4DFB  BB                  	cp	e				; 'land now' counter after  25+cur_level/4 waves
-      85.  00:4DFC  C0                  	ret nz
-      86.  00:4DFD                      
-      87.  00:4DFD                      	; ld	hl,land_now
-      88.  00:4DFD                      	; ld	de,0x1C00+8*3*32
-      89.  00:4DFD                      	; call	print_strf
-      90.  00:4DFD  3E FF               	ld	a,-1
-      91.  00:4DFF  32 87 D3            	ld	(landing_permission),a
-      92.  00:4E02                      	
-      93.  00:4E02  3E 0E               	ld	a,14			; Land Now
-      94.  00:4E04  CD 9F 49            	call AFXPLAY
-      95.  00:4E07  C9                  	ret
-      96.  00:4E08                      
-      97.  00:4E08                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      98.  00:4E08                      ;
-      99.  00:4E08                      ; NPC initialization 
-     100.  00:4E08                      ; it removes also bullets
-     101.  00:4E08                      ;
-     102.  00:4E08                      npc_init:
-     103.  00:4E08  DD 21 E9 D3         	ld  ix,enemies
-     104.  00:4E0C  06 0C               	ld  b,max_enem
-     105.  00:4E0E  11 0E 00            	ld	de,enemy_data
-     106.  00:4E11  AF                  	xor	a
-     107.  00:4E12                      	
-     108.  00:4E12  DD 77 07            1:  ld  (ix+enemy_data.status),a
-     109.  00:4E15  DD 36 09 FF         	ld  (ix+enemy_data.kind),-1
-     110.  00:4E19  DD 77 08            	ld	(ix+enemy_data.cntr),a
-     111.  00:4E1C  DD 36 0B FF         	ld	(ix+enemy_data.color),-1
-     112.  00:4E20  DD 36 00 D9         	ld	(ix+enemy_data.y),0xD9
-     113.  00:4E24                      
-     114.  00:4E24  DD 19               	add ix,de
-     115.  00:4E26  10 EA               	djnz    1b
-     116.  00:4E28                      
-     117.  00:4E28  21 B4 00            	ld	hl,assault_wave_timer_preset
-     118.  00:4E2B  22 88 D3            	ld	(assault_wave_timer),hl
-     119.  00:4E2E  AF                  	xor	a
-     120.  00:4E2F  32 86 D3            	ld	(wave_count),a
-     121.  00:4E32  32 87 D3            	ld	(landing_permission),a
-     122.  00:4E35                      	
-     123.  00:4E35                      ; turn off MS and enemy bullets
-     124.  00:4E35                      
-     125.  00:4E35                      bull_init:
-     126.  00:4E35  AF                  	xor a
-     127.  00:4E36  32 8A D3            	ld  (bullet_rate),a
-     128.  00:4E39                      
-     129.  00:4E39  DD 21 95 D3         	ld  ix,ms_bullets
-     130.  00:4E3D  06 06               	ld	b,max_bullets+max_enem_bullets
-     131.  00:4E3F  11 0E 00            	ld  de,enemy_data
-     132.  00:4E42                      	
-     133.  00:4E42  DD 77 07            1:	ld  (ix+enemy_data.status),a
-     134.  00:4E45  DD 36 0B 0F         	ld	(ix+enemy_data.color),15
-     135.  00:4E49  DD 19               	add ix,de
-     136.  00:4E4B  10 F5               	djnz	1b
-     137.  00:4E4D                      
-     138.  00:4E4D  C9                  	ret
-     139.  00:4E4E                      
-     140.  00:4E4E                      
-     141.  00:4E4E                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     142.  00:4E4E                      ;
-     143.  00:4E4E                      ;	timer for wave assaults
-     144.  00:4E4E                      ;
-     145.  00:4E4E                      wave_timer:
-     146.  00:4E4E  2A 88 D3            	ld	hl,(assault_wave_timer)
-     147.  00:4E51  2B                  	dec	hl
-     148.  00:4E52  7C                  	ld	a,h
-     149.  00:4E53  B5                  	or	l
-     150.  00:4E54  22 88 D3            	ld	(assault_wave_timer),hl
-     151.  00:4E57  C0                  	ret	nz
-     152.  00:4E58                      
-     153.  00:4E58  3E 01               	ld	a,1			; wave incoming
-     154.  00:4E5A  CD 9F 49            	call AFXPLAY
-     155.  00:4E5D                      	
-     156.  00:4E5D  21 B4 00            	ld	hl,assault_wave_timer_preset
-     157.  00:4E60  3A 85 D3            	ld	a,(cur_level)
-     158.  00:4E63  87                  	add	a,a
-     159.  00:4E64  5F                  	ld	e,a
-     160.  00:4E65  16 00               	ld	d,0
-     161.  00:4E67  A7                  	and	a
-     162.  00:4E68  ED 52               	sbc	hl,de					; at level 15 frequency is a wave each 2,5 seconds
-     163.  00:4E6A  22 88 D3            	ld	(assault_wave_timer),hl	; 180 - 2*cur_level
-     164.  00:4E6D                      	
-     165.  00:4E6D                      
-     166.  00:4E6D  CD EA 4D            	call	land_now_test
-     167.  00:4E70                      	
-     168.  00:4E70  CD DD 4D            	call	rand8
-     169.  00:4E73  E6 07               	and	7			
-     170.  00:4E75                      	
-     171.  00:4E75  CA 93 4E            	jp	z,wave0
-     172.  00:4E78  3D                  	dec	a
-     173.  00:4E79  CA 9C 4E            	jp	z,wave1
-     174.  00:4E7C  3D                  	dec	a
-     175.  00:4E7D  CA 28 4F            	jp	z,wave2
-     176.  00:4E80  3D                  	dec	a
-     177.  00:4E81  CA BD 4F            	jp	z,wave3
-     178.  00:4E84  3D                  	dec	a
-     179.  00:4E85  CA 3E 50            	jp	z,wave4
-     180.  00:4E88  3D                  	dec	a
-     181.  00:4E89  CA D7 50            	jp	z,wave5
-     182.  00:4E8C  3D                  	dec	a
-     183.  00:4E8D  CA 54 51            	jp	z,wave6
-     184.  00:4E90  C3 5F 51            	jp	wave7
-     185.  00:4E93                      	
-     186.  00:4E93                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     187.  00:4E93                      
-     188.  00:4E93                      	; align 0x100
-     189.  00:4E93                      ; spritecolors:
-     190.  00:4E93                      	; db       15,14, 9, 7
-     191.  00:4E93                      	; db        9, 3,14,15
-     192.  00:4E93                      
-     193.  00:4E93                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     194.  00:4E93                      ;
-     195.  00:4E93                      ;	enemies n#0 coming frontally
-     196.  00:4E93                      ;
-     197.  00:4E93                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     198.  00:4E93                      	
-     199.  00:4E93                      wave0:
-     200.  00:4E93  DD 21 3D D4         	ld  ix,enemies2
-     201.  00:4E97  FD 26 06            	ld	iyh,max_enem2
-     202.  00:4E9A  18 07               	jr	1f
-     203.  00:4E9C                      wave1:
-     204.  00:4E9C  DD 21 E9 D3         	ld  ix,enemies1
-     205.  00:4EA0  FD 26 06            	ld	iyh,max_enem1
-     206.  00:4EA3                      1:
-     207.  00:4EA3  CD DD 4D            	call	rand8
-     208.  00:4EA6  E6 07               	and	7
-     209.  00:4EA8  C6 04               	add	a,4
-     210.  00:4EAA  47                  	ld	b,a			; frame
-     211.  00:4EAB                      	
-     212.  00:4EAB  3A 8B D3            	ld	a,(dxmap)
-     213.  00:4EAE  A7                  	and	a
-     214.  00:4EAF  F2 C3 4E            	jp	p,.pos
-     215.  00:4EB2                      .neg
-     216.  00:4EB2  11 C0 FF            	ld	de,-64
-     217.  00:4EB5  0E 01               	ld	c,+1		; enemies going right
-     218.  00:4EB7  78                  	ld	a,b
-     219.  00:4EB8  87 87 87 87         [4]	add	a,a
-     220.  00:4EBC  47                  	ld	b,a
-     221.  00:4EBD  D9                  	exx	
-     222.  00:4EBE  11 01 00            	ld 	de,1		; enemy speed = 1
-     223.  00:4EC1  18 10               	jr	1f
-     224.  00:4EC3                      .pos
-     225.  00:4EC3  11 20 01            	ld	de,256+32
-     226.  00:4EC6  0E 41               	ld	c,1+64		; enemies going left
-     227.  00:4EC8  78                  	ld	a,b
-     228.  00:4EC9  87 87               [2]	add	a,a
-     229.  00:4ECB  3C                  	inc	a
-     230.  00:4ECC  87 87               [2]	add	a,a
-     231.  00:4ECE  47                  	ld	b,a
-     232.  00:4ECF  D9                  	exx	
-     233.  00:4ED0  11 FF FF            	ld 	de,-1		; enemy speed = -1
-     234.  00:4ED3                      1:
-     235.  00:4ED3  01 0E 00            	ld  bc,enemy_data
-     236.  00:4ED6  D9                  	exx		
-     237.  00:4ED7                      
-     238.  00:4ED7  CD DD 4D            	call	rand8
-     239.  00:4EDA  E6 0F               	and	15			; Y off set
-     240.  00:4EDC                      	
-     241.  00:4EDC  2A 8C D3            	ld	hl,(xmap)
-     242.  00:4EDF  19                  	add	hl,de
-     243.  00:4EE0                      
-     244.  00:4EE0                      1:
-     245.  00:4EE0  DD CB 07 46         	bit	0,(ix+enemy_data.status)
-     246.  00:4EE4  20 38               	jr  nz,.next
-     247.  00:4EE6                      
-     248.  00:4EE6  DD 71 07            	ld  (ix+enemy_data.status),c
-     249.  00:4EE9  DD 70 0A            	ld	(ix+enemy_data.frame),b
-     250.  00:4EEC                      
-     251.  00:4EEC  DD 36 09 00         	ld  (ix+enemy_data.kind),0
-     252.  00:4EF0  D9                  	exx
-     253.  00:4EF1  DD 73 0C            	ld	(ix+enemy_data.speed),e
-     254.  00:4EF4  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
-     255.  00:4EF7  D9                  	exx
-     256.  00:4EF8                      
-     257.  00:4EF8  11 10 00            	ld 		de,16
-     258.  00:4EFB  CB 6F               	bit	5,a
-     259.  00:4EFD  28 03               	jr	z,2f
-     260.  00:4EFF  11 F0 FF            	ld 		de,-16
-     261.  00:4F02                      	
-     262.  00:4F02  19                  2:	add 	hl,de 
-     263.  00:4F03  DD 75 01            	ld  	(ix+enemy_data.x),l
-     264.  00:4F06  DD 74 02            	ld  	(ix+enemy_data.x+1),h
-     265.  00:4F09  DD 77 00            	ld  	(ix+enemy_data.y),a
-     266.  00:4F0C  C6 20               	add		a,32
-     267.  00:4F0E  CD 00 47            	call	set_size
-     268.  00:4F11  D9                  	exx	
-     269.  00:4F12  DD 09               	add ix,bc
-     270.  00:4F14  D9                  	exx
-     271.  00:4F15  FD 25               	dec	iyh
-     272.  00:4F17  C8                  	ret	z
-     273.  00:4F18  FE A0               	cp	mapHeight*16-16
-     274.  00:4F1A  DA E0 4E            	jp	c,1b
-     275.  00:4F1D  C9                  	ret
-     276.  00:4F1E                      
-     277.  00:4F1E                      .next
-     278.  00:4F1E  D9                  	exx	
-     279.  00:4F1F  DD 09               	add ix,bc
-     280.  00:4F21  D9                  	exx
-     281.  00:4F22  FD 25               	dec	iyh
-     282.  00:4F24  C8                  	ret	z
-     283.  00:4F25  C3 E0 4E            	jp	1b
-     284.  00:4F28                      	
-     285.  00:4F28                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     286.  00:4F28                      ;
-     287.  00:4F28                      ;	enemies n#2 coming from back
-     288.  00:4F28                      ;
-     289.  00:4F28                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     290.  00:4F28                      wave2:
-     291.  00:4F28  3A 8B D3            	ld	a,(dxmap)
-     292.  00:4F2B  CB 2F               	sra a			; de' = player speed x2
-     293.  00:4F2D  5F                  	ld	e,a
-     294.  00:4F2E  17                  	rla
-     295.  00:4F2F  9F                  	sbc a,a
-     296.  00:4F30  57                  	ld	d,a
-     297.  00:4F31  D9                  	exx
-     298.  00:4F32                      
-     299.  00:4F32  28 15               	jr	z,.pos				
-     300.  00:4F34                      .neg
-     301.  00:4F34  11 20 01            	ld	de,256+32
-     302.  00:4F37  0E 41               	ld	c,1+64		; enemies going left
-     303.  00:4F39                      	
-     304.  00:4F39  CD DD 4D            	call	rand8
-     305.  00:4F3C  E6 07               	and	7
-     306.  00:4F3E  C6 04               	add	a,4
-     307.  00:4F40  87 87               [2]	add	a,a
-     308.  00:4F42  3C                  	inc	a
-     309.  00:4F43  87 87               [2]	add	a,a
-     310.  00:4F45  47                  	ld	b,a			; frame
-     311.  00:4F46                      	
-     312.  00:4F46  C3 5A 4F            	jp	1f
-     313.  00:4F49                      .pos
-     314.  00:4F49  11 C0 FF            	ld	de,-64
-     315.  00:4F4C  0E 01               	ld	c,+1		; enemies going right
-     316.  00:4F4E                      
-     317.  00:4F4E  CD DD 4D            	call	rand8
-     318.  00:4F51  E6 07               	and	7
-     319.  00:4F53  C6 04               	add	a,4
-     320.  00:4F55  87 87 87 87         [4]	add	a,a
-     321.  00:4F59  47                  	ld	b,a			; frame
-     322.  00:4F5A                      	
-     323.  00:4F5A                      1:
-     324.  00:4F5A  CD DD 4D            	call	rand8
-     325.  00:4F5D  E6 0F               	and	15			; Y off set
-     326.  00:4F5F  C6 90               	add	a,mapHeight*16-32
-     327.  00:4F61                      
-     328.  00:4F61  2A 8C D3            	ld	hl,(xmap)
-     329.  00:4F64  19                  	add	hl,de
-     330.  00:4F65                      
-     331.  00:4F65  CB 78               	bit	7,b			; pick up a random bit from frame number
-     332.  00:4F67  DD 21 E9 D3         	ld  ix,enemies1
-     333.  00:4F6B  FD 26 06            	ld	iyh,max_enem1
-     334.  00:4F6E  28 07               	jr	z,1f
-     335.  00:4F70  DD 21 3D D4         	ld  ix,enemies2
-     336.  00:4F74  FD 26 06            	ld	iyh,max_enem2
-     337.  00:4F77                      1:
-     338.  00:4F77  11 0E 00            	ld  de,enemy_data
-     339.  00:4F7A                      1:
-     340.  00:4F7A  DD CB 07 46         	bit	0,(ix+enemy_data.status)
-     341.  00:4F7E  20 36               	jr  nz,.next
-     342.  00:4F80                      
-     343.  00:4F80  DD 71 07            	ld  (ix+enemy_data.status),c
-     344.  00:4F83  DD 70 0A            	ld	(ix+enemy_data.frame),b
-     345.  00:4F86                      
-     346.  00:4F86  DD 36 09 02         	ld  (ix+enemy_data.kind),2
-     347.  00:4F8A                      
-     348.  00:4F8A  D9                  	exx	
-     349.  00:4F8B  DD 73 0C            	ld	(ix+enemy_data.speed),e
-     350.  00:4F8E  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
-     351.  00:4F91  D9                  	exx
-     352.  00:4F92                      	
-     353.  00:4F92  C5                  	push	bc
-     354.  00:4F93  CB 47               	bit	0,a			; pick up a random bit from Y
-     355.  00:4F95  01 08 00            	ld 	bc,8
-     356.  00:4F98  28 03               	jr z,11f
-     357.  00:4F9A  01 F8 FF            	ld 	bc,-8
-     358.  00:4F9D  09                  11:	add hl,bc 
-     359.  00:4F9E  DD 75 01            	ld  (ix+enemy_data.x),l
-     360.  00:4FA1  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     361.  00:4FA4  C1                  	pop		bc
-     362.  00:4FA5                      	
-     363.  00:4FA5  DD 77 00            	ld  (ix+enemy_data.y),a
-     364.  00:4FA8                      
-     365.  00:4FA8  CD 00 47            	call	set_size
-     366.  00:4FAB                      
-     367.  00:4FAB  DD 19               	add ix,de
-     368.  00:4FAD  FD 25               	dec	iyh
-     369.  00:4FAF  C8                  	ret	z
-     370.  00:4FB0  D6 20               	sub	a,32
-     371.  00:4FB2  D2 7A 4F            	jp	nc,1b
-     372.  00:4FB5  C9                  	ret
-     373.  00:4FB6                      
-     374.  00:4FB6                      .next
-     375.  00:4FB6  DD 19               	add ix,de
-     376.  00:4FB8  FD 25               	dec	iyh
-     377.  00:4FBA  C8                  	ret	z
-     378.  00:4FBB  18 BD               	jr	1b
-     379.  00:4FBD                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     380.  00:4FBD                      ;
-     381.  00:4FBD                      ; waving enemies n#5 from back
-     382.  00:4FBD                      ;
-     383.  00:4FBD                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     384.  00:4FBD                      wave3:
-     385.  00:4FBD  3A 8B D3            	ld	a,(dxmap)
-     386.  00:4FC0  CB 2F               	sra a			; de' = player speed x 2
-     387.  00:4FC2  5F                  	ld	e,a
-     388.  00:4FC3  17                  	rla
-     389.  00:4FC4  9F                  	sbc a,a
-     390.  00:4FC5  57                  	ld	d,a
-     391.  00:4FC6  D9                  	exx
-     392.  00:4FC7                      
-     393.  00:4FC7  28 08               	jr	z,.pos				
-     394.  00:4FC9                      .neg
-     395.  00:4FC9  11 20 01            	ld	de,256+32
-     396.  00:4FCC  01 41 64            	ld	bc,256*100+1+64		; enemies going left
-     397.  00:4FCF  18 06               	jr	1f
-     398.  00:4FD1                      .pos
-     399.  00:4FD1  11 C0 FF            	ld	de,-64
-     400.  00:4FD4  01 01 60            	ld	bc,256*96+1			; enemies going right
-     401.  00:4FD7                      	
-     402.  00:4FD7                      1:
-     403.  00:4FD7  CD DD 4D            	call	rand8
-     404.  00:4FDA  E6 0F               	and	15					; random Y offset
-     405.  00:4FDC  C6 80               	add	a,mapHeight*16-48
-     406.  00:4FDE                      	
-     407.  00:4FDE  2A 8C D3            	ld	hl,(xmap)
-     408.  00:4FE1  19                  	add	hl,de
-     409.  00:4FE2                      
-     410.  00:4FE2  CB 47               	bit	0,a			; pick up a random bit from Y offset
-     411.  00:4FE4  DD 21 E9 D3         	ld  ix,enemies1
-     412.  00:4FE8  FD 26 06            	ld	iyh,max_enem1
-     413.  00:4FEB  28 07               	jr	z,1f
-     414.  00:4FED  DD 21 3D D4         	ld  ix,enemies2
-     415.  00:4FF1  FD 26 06            	ld	iyh,max_enem2
-     416.  00:4FF4                      1:
-     417.  00:4FF4  11 0E 00            	ld  de,enemy_data
-     418.  00:4FF7                      1:
-     419.  00:4FF7  DD CB 07 46         	bit	0,(ix+enemy_data.status)
-     420.  00:4FFB  20 3A               	jr  nz,.next
-     421.  00:4FFD                      
-     422.  00:4FFD  DD 71 07            	ld  (ix+enemy_data.status),c
-     423.  00:5000  DD 70 0A            	ld	(ix+enemy_data.frame),b
-     424.  00:5003                      
-     425.  00:5003  DD 36 09 05         	ld  (ix+enemy_data.kind),5
-     426.  00:5007  DD 36 08 00         	ld	(ix+enemy_data.cntr),0
-     427.  00:500B                      
-     428.  00:500B  D9                  	exx	
-     429.  00:500C  DD 73 0C            	ld	(ix+enemy_data.speed),e
-     430.  00:500F  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
-     431.  00:5012  D9                  	exx
-     432.  00:5013                      	
-     433.  00:5013  C5                  	push	bc
-     434.  00:5014  CB 67               	bit	4,a
-     435.  00:5016  01 10 00            	ld bc,16
-     436.  00:5019  28 03               	jr	z,2f
-     437.  00:501B  01 F0 FF            	ld	bc,-16
-     438.  00:501E                      2:	
-     439.  00:501E  09                  	add hl,bc 
-     440.  00:501F  DD 75 01            	ld  (ix+enemy_data.x),l
-     441.  00:5022  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     442.  00:5025  C1                  	pop		bc
-     443.  00:5026                      	
-     444.  00:5026  DD 77 00            	ld  (ix+enemy_data.y),a
-     445.  00:5029                      
-     446.  00:5029  CD 00 47            	call	set_size
-     447.  00:502C                      
-     448.  00:502C  DD 19               	add ix,de
-     449.  00:502E  FD 25               	dec	iyh
-     450.  00:5030  C8                  	ret	z
-     451.  00:5031  D6 18               	sub	a,24
-     452.  00:5033  D2 F7 4F            	jp	nc,1b
-     453.  00:5036  C9                  	ret
-     454.  00:5037                      
-     455.  00:5037                      .next
-     456.  00:5037  DD 19               	add ix,de
-     457.  00:5039  FD 25               	dec	iyh
-     458.  00:503B  C8                  	ret	z
-     459.  00:503C  18 B9               	jr	1b
-     460.  00:503E                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     461.  00:503E                      ;
-     462.  00:503E                      ;	enemies n#4 coming from back
-     463.  00:503E                      ; 
-     464.  00:503E                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     465.  00:503E                      wave4:
-     466.  00:503E  3A 8B D3            	ld	a,(dxmap)
-     467.  00:5041  CB 2F               	sra a			; de' = player speed x 2
-     468.  00:5043  5F                  	ld	e,a
-     469.  00:5044  17                  	rla
-     470.  00:5045  9F                  	sbc a,a
-     471.  00:5046  57                  	ld	d,a
-     472.  00:5047  D9                  	exx
-     473.  00:5048                      	
-     474.  00:5048                      _wave4_cont:
-     475.  00:5048                      
-     476.  00:5048  28 14               	jr	z,.pos				
-     477.  00:504A                      .neg
-     478.  00:504A  11 20 01            	ld	de,256+32
-     479.  00:504D  0E 41               	ld	c,+1+64		; enemies going left
-     480.  00:504F                      	
-     481.  00:504F  CD DD 4D            	call	rand8
-     482.  00:5052  E6 07               	and	7
-     483.  00:5054  C6 04               	add	a,4
-     484.  00:5056  87 87               [2]	add	a,a
-     485.  00:5058  3C                  	inc	a
-     486.  00:5059  87 87               [2]	add	a,a
-     487.  00:505B  47                  	ld	b,a			; frame
-     488.  00:505C                      
-     489.  00:505C  18 11               	jr	1f
-     490.  00:505E                      .pos
-     491.  00:505E  11 C0 FF            	ld	de,-64
-     492.  00:5061  0E 01               	ld	c,+1		; enemies going right
-     493.  00:5063                      
-     494.  00:5063  CD DD 4D            	call	rand8
-     495.  00:5066  E6 07               	and	7
-     496.  00:5068  3E 04               	ld	a,4
-     497.  00:506A  87 87 87 87         [4]	add	a,a
-     498.  00:506E  47                  	ld	b,a			; frame
-     499.  00:506F                      	
-     500.  00:506F                      1:
-     501.  00:506F  CD DD 4D            	call	rand8
-     502.  00:5072  E6 0F               	and	15			; Y off set
-     503.  00:5074                      
-     504.  00:5074  CB 4F               	bit	1,a			; pick up a random bit from Y offset
-     505.  00:5076  28 02               	jr	z,1f
-     506.  00:5078  CB F9               	set	7,c			; go up instead of down
-     507.  00:507A                      1:
-     508.  00:507A                      		
-     509.  00:507A  2A 8C D3            	ld	hl,(xmap)
-     510.  00:507D  19                  	add	hl,de
-     511.  00:507E                      
-     512.  00:507E  CB 47               	bit	0,a			; pick up a random bit from Y offset
-     513.  00:5080  DD 21 E9 D3         	ld  ix,enemies1
-     514.  00:5084  FD 26 06            	ld	iyh,max_enem1
-     515.  00:5087  28 07               	jr	z,1f
-     516.  00:5089  DD 21 3D D4         	ld  ix,enemies2
-     517.  00:508D  FD 26 06            	ld	iyh,max_enem2
-     518.  00:5090                      1:
-     519.  00:5090  11 0E 00            	ld  de,enemy_data
-     520.  00:5093                      1:
-     521.  00:5093  DD CB 07 46         	bit	0,(ix+enemy_data.status)
-     522.  00:5097  20 37               	jr  nz,.next
-     523.  00:5099                      
-     524.  00:5099  DD 71 07            	ld  (ix+enemy_data.status),c
-     525.  00:509C  DD 70 0A            	ld	(ix+enemy_data.frame),b
-     526.  00:509F                      
-     527.  00:509F  DD 36 09 04         	ld  (ix+enemy_data.kind),4
-     528.  00:50A3                      
-     529.  00:50A3  D9                  	exx	
-     530.  00:50A4  DD 73 0C            	ld	(ix+enemy_data.speed),e
-     531.  00:50A7  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
-     532.  00:50AA  CB 7A               	bit	7,d
-     533.  00:50AC  D9                  	exx
-     534.  00:50AD                      	
-     535.  00:50AD  C5                  	push	bc
-     536.  00:50AE  01 10 00            	ld bc,16
-     537.  00:50B1  28 03               	jr	z,11f
-     538.  00:50B3  01 F0 FF            	ld bc,-16
-     539.  00:50B6  09                  11:	add hl,bc 
-     540.  00:50B7  DD 75 01            	ld  (ix+enemy_data.x),l
-     541.  00:50BA  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     542.  00:50BD  C1                  	pop		bc
-     543.  00:50BE                      	
-     544.  00:50BE  DD 77 00            	ld  (ix+enemy_data.y),a
-     545.  00:50C1  C6 18               	add	a,24
-     546.  00:50C3                      
-     547.  00:50C3  CD 00 47            	call	set_size
-     548.  00:50C6                      
-     549.  00:50C6  DD 19               	add ix,de
-     550.  00:50C8  FD 25               	dec	iyh
-     551.  00:50CA  C8                  	ret	z
-     552.  00:50CB  FE A0               	cp	mapHeight*16-16
-     553.  00:50CD  38 C4               	jr	c,1b
-     554.  00:50CF  C9                  	ret
-     555.  00:50D0                      
-     556.  00:50D0                      .next
-     557.  00:50D0  DD 19               	add ix,de
-     558.  00:50D2  FD 25               	dec	iyh
-     559.  00:50D4  C8                  	ret	z
-     560.  00:50D5  18 BC               	jr	1b
-     561.  00:50D7                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     562.  00:50D7                      ;
-     563.  00:50D7                      ; spinning enemy #6 
-     564.  00:50D7                      ;
-     565.  00:50D7                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     566.  00:50D7                      wave5:
-     567.  00:50D7  3A 8B D3            	ld	a,(dxmap)
-     568.  00:50DA  CB 2F               	sra a			; de' = player speed x 2
-     569.  00:50DC  5F                  	ld	e,a
-     570.  00:50DD  17                  	rla
-     571.  00:50DE  9F                  	sbc a,a
-     572.  00:50DF  57                  	ld	d,a
-     573.  00:50E0  D9                  	exx
-     574.  00:50E1                      
-     575.  00:50E1  28 07               	jr	z,.pos				
-     576.  00:50E3                      .neg
-     577.  00:50E3  11 20 01            	ld	de,256+32
-     578.  00:50E6  0E 41               	ld	c,+1+64		; enemies going left
-     579.  00:50E8  18 05               	jr	1f
-     580.  00:50EA                      .pos
-     581.  00:50EA  11 C0 FF            	ld	de,-64
-     582.  00:50ED  0E 01               	ld	c,+1		; enemies going right
-     583.  00:50EF                      	
-     584.  00:50EF                      1:
-     585.  00:50EF  CD DD 4D            	call	rand8
-     586.  00:50F2  E6 0F               	and	15
-     587.  00:50F4                      	
-     588.  00:50F4  CB 4F               	bit	1,a			; pick up a random bit from Y offset
-     589.  00:50F6  28 02               	jr	z,1f
-     590.  00:50F8  CB F9               	set	7,c			; go up instead of down
-     591.  00:50FA                      1:
-     592.  00:50FA                      	
-     593.  00:50FA  2A 8C D3            	ld	hl,(xmap)
-     594.  00:50FD  19                  	add	hl,de
-     595.  00:50FE                      
-     596.  00:50FE  CB 47               	bit	0,a			; pick up a random bit from Y offset
-     597.  00:5100  DD 21 E9 D3         	ld  ix,enemies1
-     598.  00:5104  FD 26 06            	ld	iyh,max_enem1
-     599.  00:5107  28 07               	jr	z,1f
-     600.  00:5109  DD 21 3D D4         	ld  ix,enemies2
-     601.  00:510D  FD 26 06            	ld	iyh,max_enem2
-     602.  00:5110                      1:
-     603.  00:5110  11 0E 00            	ld  de,enemy_data
-     604.  00:5113                      1:
-     605.  00:5113  DD CB 07 46         	bit	0,(ix+enemy_data.status)
-     606.  00:5117  20 34               	jr  nz,.next
-     607.  00:5119                      
-     608.  00:5119  DD 71 07            	ld  (ix+enemy_data.status),c
-     609.  00:511C  DD 36 09 06         	ld  (ix+enemy_data.kind),6
-     610.  00:5120                      
-     611.  00:5120  D9                  	exx	
-     612.  00:5121  DD 73 0C            	ld	(ix+enemy_data.speed),e
-     613.  00:5124  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
-     614.  00:5127  CB 7A               	bit	7,d
-     615.  00:5129  D9                  	exx
-     616.  00:512A                      	
-     617.  00:512A  C5                  	push	bc
-     618.  00:512B  01 10 00            	ld bc,16
-     619.  00:512E  28 03               	jr	z,11f
-     620.  00:5130  01 F0 FF            	ld bc,-16
-     621.  00:5133  09                  11:	add hl,bc 
-     622.  00:5134  DD 75 01            	ld  (ix+enemy_data.x),l
-     623.  00:5137  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     624.  00:513A  C1                  	pop		bc
-     625.  00:513B                      	
-     626.  00:513B  DD 77 00            	ld  (ix+enemy_data.y),a
-     627.  00:513E  C6 18               	add	a,24
-     628.  00:5140                      
-     629.  00:5140  CD 00 47            	call	set_size
-     630.  00:5143                      
-     631.  00:5143  DD 19               	add ix,de
-     632.  00:5145  FD 25               	dec	iyh
-     633.  00:5147  C8                  	ret	z
-     634.  00:5148  FE A0               	cp	mapHeight*16-16
-     635.  00:514A  38 C7               	jr	c,1b
-     636.  00:514C  C9                  	ret
-     637.  00:514D                      
-     638.  00:514D                      .next
-     639.  00:514D  DD 19               	add ix,de
-     640.  00:514F  FD 25               	dec	iyh
-     641.  00:5151  C8                  	ret	z
-     642.  00:5152  18 BF               	jr	1b
-     643.  00:5154                      
-     644.  00:5154                      
-     645.  00:5154                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     646.  00:5154                      ;
-     647.  00:5154                      ;	enemies n#4 coming from back double speed
-     648.  00:5154                      ;
-     649.  00:5154                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     650.  00:5154                      wave6:
-     651.  00:5154  3A 8B D3            	ld	a,(dxmap)
-     652.  00:5157  5F                  	ld	e,a			; de' = player speed x 4
-     653.  00:5158  17                  	rla
-     654.  00:5159  9F                  	sbc a,a
-     655.  00:515A  57                  	ld	d,a
-     656.  00:515B  D9                  	exx
-     657.  00:515C  C3 48 50            	jp _wave4_cont
-     658.  00:515F                      	
-     659.  00:515F                      
-     660.  00:515F                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     661.  00:515F                      ;
-     662.  00:515F                      ;  enemies n#7 (spinning)
-     663.  00:515F                      ;
-     664.  00:515F                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     665.  00:515F                      wave7:
-     666.  00:515F  3A 8B D3            	ld	a,(dxmap)
-     667.  00:5162  CB 2F               	sra a			; de' = player speed x 2
-     668.  00:5164  5F                  	ld	e,a
-     669.  00:5165  17                  	rla
-     670.  00:5166  9F                  	sbc a,a
-     671.  00:5167  57                  	ld	d,a
-     672.  00:5168  D9                  	exx
-     673.  00:5169                      
-     674.  00:5169  28 07               	jr	z,.pos				
-     675.  00:516B                      .neg
-     676.  00:516B  11 20 01            	ld	de,256+32
-     677.  00:516E  0E 41               	ld	c,1+64				; enemies going left
-     678.  00:5170  18 05               	jr	1f
-     679.  00:5172                      .pos
-     680.  00:5172  11 C0 FF            	ld	de,-64
-     681.  00:5175  0E 01               	ld	c,+1		; enemies going right
-     682.  00:5177                      	
-     683.  00:5177                      1:
-     684.  00:5177  CD DD 4D            	call	rand8
-     685.  00:517A  E6 0F               	and	15			; Y off set
-     686.  00:517C                      
-     687.  00:517C  2A 8C D3            	ld	hl,(xmap)
-     688.  00:517F  19                  	add	hl,de
-     689.  00:5180                      
-     690.  00:5180  CB 47               	bit	0,a			; pick up a random bit from Y offset
-     691.  00:5182  DD 21 E9 D3         	ld  ix,enemies1
-     692.  00:5186  FD 26 06            	ld	iyh,max_enem1
-     693.  00:5189  28 07               	jr	z,1f
-     694.  00:518B  DD 21 3D D4         	ld  ix,enemies2
-     695.  00:518F  FD 26 06            	ld	iyh,max_enem2
-     696.  00:5192                      1:
-     697.  00:5192  11 0E 00            	ld  de,enemy_data
-     698.  00:5195                      1:
-     699.  00:5195  DD CB 07 46         	bit	0,(ix+enemy_data.status)
-     700.  00:5199  20 30               	jr  nz,.next
-     701.  00:519B                      
-     702.  00:519B  DD 71 07            	ld  (ix+enemy_data.status),c
-     703.  00:519E                      
-     704.  00:519E  DD 36 09 07         	ld  (ix+enemy_data.kind),7
-     705.  00:51A2                      	
-     706.  00:51A2  D9                  	exx	
-     707.  00:51A3  DD 73 0C            	ld	(ix+enemy_data.speed),e
-     708.  00:51A6  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
-     709.  00:51A9  D9                  	exx
-     710.  00:51AA                      	
-     711.  00:51AA  C5                  	push	bc
-     712.  00:51AB  01 10 00            	ld bc,16
-     713.  00:51AE  09                  	add hl,bc 
-     714.  00:51AF  DD 75 01            	ld  (ix+enemy_data.x),l
-     715.  00:51B2  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     716.  00:51B5  DD 75 08            	ld	(ix+enemy_data.cntr),l
-     717.  00:51B8  C1                  	pop		bc
-     718.  00:51B9                      	
-     719.  00:51B9  DD 77 00            	ld  (ix+enemy_data.y),a
-     720.  00:51BC  C6 18               	add	a,24
-     721.  00:51BE                      
-     722.  00:51BE  CD 00 47            	call	set_size
-     723.  00:51C1                      
-     724.  00:51C1  DD 19               	add ix,de
-     725.  00:51C3  FD 25               	dec	iyh
-     726.  00:51C5  C8                  	ret	z
-     727.  00:51C6  FE A0               	cp	mapHeight*16-16
-     728.  00:51C8  38 CB               	jr	c,1b
-     729.  00:51CA  C9                  	ret
-     730.  00:51CB                      
-     731.  00:51CB                      .next
-     732.  00:51CB  DD 19               	add ix,de
-     733.  00:51CD  FD 25               	dec	iyh
-     734.  00:51CF  C8                  	ret	z
-     735.  00:51D0  18 C3               	jr	1b
-     736.  00:51D2                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     737.  00:51D2                      ;
-     738.  00:51D2                      ;   logic for enemies 
-     739.  00:51D2                      ;
-     740.  00:51D2                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     741.  00:51D2                      
-     742.  00:51D2                      npc_loop:
-     743.  00:51D2  DD 21 E9 D3         	ld  ix,enemies
-     744.  00:51D6  06 0C               	ld  b,max_enem
-     745.  00:51D8                      
-     746.  00:51D8  C5                  1:	push	bc
-     747.  00:51D9  DD 7E 07            	ld  a,(ix+enemy_data.status)
-     748.  00:51DC  E6 01               	and 1
-     749.  00:51DE  28 22               	jr  z,next
-     750.  00:51E0                      
-     751.  00:51E0  DD 7E 09            	ld	a,(ix+enemy_data.kind)
-     752.  00:51E3  A7                  	and	a
-     753.  00:51E4  CA 56 52            	jp	z,enemy0
-     754.  00:51E7  3D 3D               [2]	dec a	
-     755.  00:51E9  CA B1 52            	jp 	z,enemy2
-     756.  00:51EC  3D 3D               [2]	dec a	
-     757.  00:51EE  CA 05 53            	jp 	z,enemy4
-     758.  00:51F1  3D                  	dec a			;cp	5
-     759.  00:51F2  CA 40 55            	jp 	z,enemy5
-     760.  00:51F5  3D                  	dec a			;cp	6
-     761.  00:51F6  CA A7 55            	jp 	z,enemy6
-     762.  00:51F9  3D                  	dec a			;cp	7
-     763.  00:51FA  CA 2D 56            	jp 	z,enemy7
-     764.  00:51FD                      
-     765.  00:51FD  FE F8               	cp	255-7
-     766.  00:51FF  CA 32 52            	jp z,enemy255
-     767.  00:5202                      
-     768.  00:5202                      next:
-     769.  00:5202  C1                  	pop	bc
-     770.  00:5203  11 0E 00            	ld  de,enemy_data
-     771.  00:5206  DD 19               	add ix,de
-     772.  00:5208  10 CE               	djnz    1b
-     773.  00:520A  C9                  	ret
-     774.  00:520B                      ;;;;;;;;;;;;;;;;;;;;
-     775.  00:520B                      npcdies:
-     776.  00:520B  FD 36 07 00         	ld  (iy+enemy_data.status),0	; turn off this bullet
-     777.  00:520F                      
-     778.  00:520F  DD 36 0B 0A         	ld	(ix+enemy_data.color),10	; start explosion
-     779.  00:5213  DD 36 09 FF         	ld	(ix+enemy_data.kind),255
-     780.  00:5217  DD 36 08 02         	ld	(ix+enemy_data.cntr),2
-     781.  00:521B  DD 36 0A 0C         	ld	(ix+enemy_data.frame),12
-     782.  00:521F                      
-     783.  00:521F  CD DD 4D            	call	rand8
-     784.  00:5222  E6 03               	and	3
-     785.  00:5224  C6 02               	add	a,2			; random enemy explosion
-     786.  00:5226  CD 9F 49            	call AFXPLAY
-     787.  00:5229                      
-     788.  00:5229  01 64 00            	ld	bc,100		; score for destruction of a flying enemy
-     789.  00:522C  CD D3 4D            	call	add_bc_score_bin
-     790.  00:522F  C3 02 52            	jp	next
-     791.  00:5232                      	
-     792.  00:5232                      ;;;;;;;;;;;;;;;;;;;;
-     793.  00:5232                      ; explosion
-     794.  00:5232                      ;;;;;;;;;;;;;;;;;;;;
-     795.  00:5232                      enemy255:
-     796.  00:5232  DD 35 08            	dec	(ix+enemy_data.cntr)
-     797.  00:5235  C2 02 52            	jp	nz,next
-     798.  00:5238  DD 36 08 02         	ld	(ix+enemy_data.cntr),2
-     799.  00:523C  DD 34 0A            	inc	(ix+enemy_data.frame)
-     800.  00:523F  DD 7E 0A            	ld	a,(ix+enemy_data.frame)
-     801.  00:5242  FE 10               	cp	16
-     802.  00:5244  38 BC               	jr	c,next
-     803.  00:5246  DD 36 0B 08         	ld	(ix+enemy_data.color),8		; start explosion
-     804.  00:524A  FE 1F               	cp	23+8
-     805.  00:524C  C2 02 52            	jp	nz,next
-     806.  00:524F  DD 36 07 00         	ld	(ix+enemy_data.status),0
-     807.  00:5253  C3 02 52            	jp	next
-     808.  00:5256                      
-     809.  00:5256                      ;;;;;;;;;;;;;;;;;;;;
-     810.  00:5256                      
-     811.  00:5256                      enemy0:
-     812.  00:5256                      enemy1:
-     813.  00:5256  DD CB 07 76         	bit 6,(ix+enemy_data.status)
-     814.  00:525A  28 23               	jr  z,.go_right
-     815.  00:525C                      .go_left:
-     816.  00:525C                      
-     817.  00:525C  DD 6E 01            	ld	l,(ix+enemy_data.x)
-     818.  00:525F  DD 66 02            	ld	h,(ix+enemy_data.x+1)
-     819.  00:5262  2B                  	dec	hl
-     820.  00:5263  DD 75 01            	ld  (ix+enemy_data.x),l
-     821.  00:5266  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     822.  00:5269  ED 5B 8C D3         	ld	de,(xmap)
-     823.  00:526D  A7                  	and	a
-     824.  00:526E  ED 52               	sbc	hl,de
-     825.  00:5270  11 E0 FF            	ld	de,-32
-     826.  00:5273  A7                  	and	a
-     827.  00:5274  ED 52               	sbc	hl,de
-     828.  00:5276  F2 A0 52            	jp  p,1f
-     829.  00:5279  DD 36 07 00         	ld	(ix+enemy_data.status),0
-     830.  00:527D  18 21               	jr  1f
-     831.  00:527F                      
-     832.  00:527F                      .go_right:
-     833.  00:527F                      
-     834.  00:527F  DD 6E 01            	ld	l,(ix+enemy_data.x)
-     835.  00:5282  DD 66 02            	ld	h,(ix+enemy_data.x+1)
-     836.  00:5285  23                  	inc	hl
-     837.  00:5286  DD 75 01            	ld  (ix+enemy_data.x),l
-     838.  00:5289  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     839.  00:528C  ED 5B 8C D3         	ld	de,(xmap)
-     840.  00:5290  A7                  	and	a
-     841.  00:5291  ED 52               	sbc	hl,de
-     842.  00:5293  11 20 01            	ld	de,256+32
-     843.  00:5296  A7                  	and	a
-     844.  00:5297  ED 52               	sbc	hl,de
-     845.  00:5299  FA A0 52            	jp  m,1f
-     846.  00:529C  DD 36 07 00         	ld	(ix+enemy_data.status),0
-     847.  00:52A0                      1:
-     848.  00:52A0  CD DD 4D            	call	rand8
-     849.  00:52A3  E6 7F               	and 	127
-     850.  00:52A5  CC A7 56            	call	z,book_enemy_shoot
-     851.  00:52A8                      
-     852.  00:52A8  CD 80 47            	call	test_collision_msbullets
-     853.  00:52AB  D2 02 52            	jp	nc,next
-     854.  00:52AE  C3 0B 52            	jp	npcdies
-     855.  00:52B1                      
-     856.  00:52B1                      ;;;;;;;;;;;;;;;;;;;;
-     857.  00:52B1                      enemy2:
-     858.  00:52B1                      enemy3:
-     859.  00:52B1  DD 6E 01            	ld	l,(ix+enemy_data.x)
-     860.  00:52B4  DD 66 02            	ld	h,(ix+enemy_data.x+1)
-     861.  00:52B7  DD 5E 0C            	ld	e,(ix+enemy_data.speed)
-     862.  00:52BA  DD 56 0D            	ld	d,(ix+enemy_data.speed+1)
-     863.  00:52BD  19                  	add	hl,de
-     864.  00:52BE  DD 75 01            	ld  (ix+enemy_data.x),l
-     865.  00:52C1  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     866.  00:52C4                      	
-     867.  00:52C4  DD CB 07 76         	bit 6,(ix+enemy_data.status)
-     868.  00:52C8  28 16               	jr  z,.go_right
-     869.  00:52CA                      .go_left:
-     870.  00:52CA                      
-     871.  00:52CA  ED 5B 8C D3         	ld	de,(xmap)
-     872.  00:52CE  A7                  	and	a
-     873.  00:52CF  ED 52               	sbc	hl,de
-     874.  00:52D1  11 E0 FF            	ld	de,-32
-     875.  00:52D4  A7                  	and	a
-     876.  00:52D5  ED 52               	sbc	hl,de
-     877.  00:52D7  F2 F4 52            	jp  p,1f
-     878.  00:52DA  DD 36 07 00         	ld	(ix+enemy_data.status),0
-     879.  00:52DE  18 14               	jr  1f
-     880.  00:52E0                      
-     881.  00:52E0                      .go_right:
-     882.  00:52E0                      
-     883.  00:52E0  ED 5B 8C D3         	ld	de,(xmap)
-     884.  00:52E4  A7                  	and	a
-     885.  00:52E5  ED 52               	sbc	hl,de
-     886.  00:52E7  11 20 01            	ld	de,256+32
-     887.  00:52EA  A7                  	and	a
-     888.  00:52EB  ED 52               	sbc	hl,de
-     889.  00:52ED  FA F4 52            	jp  m,1f
-     890.  00:52F0  DD 36 07 00         	ld	(ix+enemy_data.status),0
-     891.  00:52F4                      1:
-     892.  00:52F4  CD DD 4D            	call	rand8
-     893.  00:52F7  E6 7F               	and 	127
-     894.  00:52F9  CC A7 56            	call	z,book_enemy_shoot
-     895.  00:52FC                      
-     896.  00:52FC  CD 80 47            	call	test_collision_msbullets
-     897.  00:52FF  D2 02 52            	jp	nc,next
-     898.  00:5302  C3 0B 52            	jp 	npcdies
-     899.  00:5305                      	
-     900.  00:5305                      	
-     901.  00:5305                      ;;;;;;;;;;;;;;;;;;;;
-     902.  00:5305                      enemy4:
-     903.  00:5305  DD 6E 01            	ld	l,(ix+enemy_data.x)
-     904.  00:5308  DD 66 02            	ld	h,(ix+enemy_data.x+1)
-     905.  00:530B  DD 5E 0C            	ld	e,(ix+enemy_data.speed)
-     906.  00:530E  DD 56 0D            	ld	d,(ix+enemy_data.speed+1)
-     907.  00:5311  19                  	add	hl,de
-     908.  00:5312  DD 75 01            	ld  (ix+enemy_data.x),l
-     909.  00:5315  DD 74 02            	ld  (ix+enemy_data.x+1),h
-     910.  00:5318                      	
-     911.  00:5318  DD CB 07 76         	bit 6,(ix+enemy_data.status)
-     912.  00:531C  28 16               	jr  z,.go_right
-     913.  00:531E                      .go_left:
-     914.  00:531E                      
-     915.  00:531E  ED 5B 8C D3         	ld	de,(xmap)
-     916.  00:5322  A7                  	and	a
-     917.  00:5323  ED 52               	sbc	hl,de
-     918.  00:5325  11 E0 FF            	ld	de,-32
-     919.  00:5328  A7                  	and	a
-     920.  00:5329  ED 52               	sbc	hl,de
-     921.  00:532B  F2 48 53            	jp  p,1f
-     922.  00:532E  DD 36 07 00         	ld	(ix+enemy_data.status),0
-     923.  00:5332  18 14               	jr  1f
-     924.  00:5334                      
-     925.  00:5334                      .go_right:
-     926.  00:5334                      
-     927.  00:5334  ED 5B 8C D3         	ld	de,(xmap)
-     928.  00:5338  A7                  	and	a
-     929.  00:5339  ED 52               	sbc	hl,de
-     930.  00:533B  11 20 01            	ld	de,256+32
-     931.  00:533E  A7                  	and	a
-     932.  00:533F  ED 52               	sbc	hl,de
-     933.  00:5341  FA 48 53            	jp  m,1f
-     934.  00:5344  DD 36 07 00         	ld	(ix+enemy_data.status),0
-     935.  00:5348                      1:
-     936.  00:5348  DD 7E 00            	ld	a,(ix+enemy_data.y)
-     937.  00:534B                      
-     938.  00:534B  DD CB 07 7E         	bit 7,(ix+enemy_data.status)
-     939.  00:534F  28 0A               	jr  z,.go_dwn
-     940.  00:5351                      .go_up:
-     941.  00:5351  3D                  	dec	a
-     942.  00:5352  C2 64 53            	jp	nz,1f
-     943.  00:5355  DD CB 07 BE         	res	7,(ix+enemy_data.status)
-     944.  00:5359  18 09               	jr	1f
-     945.  00:535B                      .go_dwn:
-     946.  00:535B  3C                  	inc	a
-     947.  00:535C  FE A0               	cp	mapHeight*16-16
-     948.  00:535E  20 04               	jr	nz,1f
-     949.  00:5360  DD CB 07 FE         	set	7,(ix+enemy_data.status)
-     950.  00:5364                      	; jr	1f
-     951.  00:5364                      1:
-     952.  00:5364  DD 77 00            	ld	(ix+enemy_data.y),a
-     953.  00:5367                      
-     954.  00:5367  CD DD 4D            	call	rand8
-     955.  00:536A  E6 7F               	and 	127
-     956.  00:536C  CC A7 56            	call	z,book_enemy_shoot
-     957.  00:536F                      
-     958.  00:536F  CD 80 47            	call	test_collision_msbullets
-     959.  00:5372  D2 02 52            	jp	nc,next
-     960.  00:5375  C3 0B 52            	jp 	npcdies
-     961.  00:5378                      	
-     962.  00:5378                      	
-     963.  00:5378                      ;;;;;;;;;;;;;;;;;;;;
-     964.  00:5378  (0088)              	align 0x100
+      77.  00:4A90  C3 94 4B            	jp plot_line2
+      78.  00:4A93                      	
+      79.  00:4A93                      ; plot_line_rgt:
+      80.  00:4A93                      	; ld	hl,(_levelmap_pos)
+      81.  00:4A93                      	; ld	de,15
+      82.  00:4A93                      	; add	hl,de
+      83.  00:4A93                      	; ld	e,240
+      84.  00:4A93                      	; jp plot_line
+      85.  00:4A93                      	
+      86.  00:4A93                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      87.  00:4A93                      ; input
+      88.  00:4A93                      ; de = y,x configured in window map 256x256
+      89.  00:4A93                      ; a  tile to be plot
+      90.  00:4A93                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      91.  00:4A93                      plot_tile:
+      92.  00:4A93  D5                  		push	de
+      93.  00:4A94  D9                  		exx
+      94.  00:4A95  D1                  		pop		de
+      95.  00:4A96                      		
+      96.  00:4A96  67                  		ld	h,a
+      97.  00:4A97  07 07 07            [3]		rlca
+      98.  00:4A9A  E6 07               		and	00000111B
+      99.  00:4A9C  C6 04               		add	a,:_tiles0
+     100.  00:4A9E  32 00 B0            		ld	(_kBank4),a
+     101.  00:4AA1  7C                  		ld	a,h
+     102.  00:4AA2  E6 1F               		and	00011111B
+     103.  00:4AA4  C6 A0               		add	a,high _tiles0
+     104.  00:4AA6  67                  		ld	h,a
+     105.  00:4AA7  2E 00               		ld	l,0
+     106.  00:4AA9                      
+     107.  00:4AA9  3A 80 D3            		ld	a,(_displaypage)
+     108.  00:4AAC                      					; de = y*256+x
+     109.  00:4AAC  CB 02               		rlc d		; set VDP for writing at address ADE (17-bit) ;
+     110.  00:4AAE  17                  		rla
+     111.  00:4AAF  CB 02               		rlc d
+     112.  00:4AB1  17                  		rla
+     113.  00:4AB2  CB 3A               		srl d 		 ; first shift
+     114.  00:4AB4  F3                  		di
+     115.  00:4AB5  D3 99               		out (0x99),a	; set bits 14-16
+     116.  00:4AB7  3E 8E               		ld a,14+128
+     117.  00:4AB9  D3 99               		out (0x99),a
+     118.  00:4ABB  FB                  		ei
+     119.  00:4ABC  CB 3A               		srl d 		 ;  second shift.     
+     120.  00:4ABE  CB F2               		set 6,d		 ;  write access
+     121.  00:4AC0                      
+     122.  00:4AC0  01 98 10            		ld	bc,16*256+0x98
+     123.  00:4AC3                      	
+     124.  00:4AC3  C5                  2:		push	bc
+     125.  00:4AC4  06 10               		ld	b,16
+     126.  00:4AC6  F3                  		di
+     127.  00:4AC7  7B                  1:		ld a,e 		;set bits 0-7
+     128.  00:4AC8  D3 99               		out (0x99),a
+     129.  00:4ACA  7A                  		ld a,d 		;set bits 8-13
+     130.  00:4ACB  D3 99               		out (0x99),a
+     131.  00:4ACD  14                  		inc	d
+     132.  00:4ACE  ED A3               		outi
+     133.  00:4AD0  C2 C7 4A            		jp nz,1b
+     134.  00:4AD3  FB                  		ei
+     135.  00:4AD4  3E F0               		ld	a,-16
+     136.  00:4AD6  82                  		add	a,d
+     137.  00:4AD7  57                  		ld	d,a
+     138.  00:4AD8  1C                  		inc	e
+     139.  00:4AD9  C1                  		pop	bc
+     140.  00:4ADA  10 E7               		djnz 2b
+     141.  00:4ADC  D9                  		exx
+     142.  00:4ADD  C9                  		ret
+     143.  00:4ADE                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     144.  00:4ADE                      ; 		
+     145.  00:4ADE                      init_page0:
+     146.  00:4ADE  3A 80 D3            		ld		a,(_displaypage)
+     147.  00:4AE1  57                  		ld		d,a
+     148.  00:4AE2  1E F0               		ld		e,240
+     149.  00:4AE4  2E 00               		ld		l,border_color
+     150.  00:4AE6  CD 0C 4B            		call	clrboder
+     151.  00:4AE9  2A 7B D3            		ld		hl,(_levelmap_pos)
+     152.  00:4AEC  11 00 00            		ld		de,0x0000			; e=x=0, d=y=0
+     153.  00:4AEF                      		
+     154.  00:4AEF  06 0B               		ld		b,11
+     155.  00:4AF1  C5                  2:		push	bc
+     156.  00:4AF2  06 0F               		ld		b,15
+     157.  00:4AF4  7E                  1:		ld		a,(hl)
+     158.  00:4AF5  CD 93 4A            		call 	plot_tile
+     159.  00:4AF8  23                  		inc		hl
+     160.  00:4AF9  3E 10               		ld	a,16
+     161.  00:4AFB  83                  		add	a,e
+     162.  00:4AFC  5F                  		ld	e,a
+     163.  00:4AFD  10 F5               		djnz	1b
+     164.  00:4AFF                      				
+     165.  00:4AFF  58                  		ld	e,b
+     166.  00:4B00  3E 10               		ld	a,16
+     167.  00:4B02  82                  		add	a,d
+     168.  00:4B03  57                  		ld	d,a
+     169.  00:4B04  01 F1 00            		ld	bc,mapWidth-15
+     170.  00:4B07  09                  		add	hl,bc
+     171.  00:4B08  C1                  		pop	bc
+     172.  00:4B09  10 E6               		djnz	2b
+     173.  00:4B0B  C9                  		ret
+     174.  00:4B0C                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     175.  00:4B0C                      ; 		
+     176.  00:4B0C                      ; init_page1:
+     177.  00:4B0C                      		; ld		a,(_displaypage)
+     178.  00:4B0C                      		; ld		d,a
+     179.  00:4B0C                      		; ld		e,0
+     180.  00:4B0C                      		; ld		l,border_color
+     181.  00:4B0C                      		; call	clrboder
+     182.  00:4B0C                      		; ld		hl,(_levelmap_pos)
+     183.  00:4B0C                      		; ld		de,0x0010			; e=x=16, d=y=0
+     184.  00:4B0C                      		
+     185.  00:4B0C                      		; ld		b,11
+     186.  00:4B0C                      ; 2:		push	bc
+     187.  00:4B0C                      		; ld		b,15
+     188.  00:4B0C                      ; 1:		ld		a,(hl)
+     189.  00:4B0C                      		; call 	plot_tile
+     190.  00:4B0C                      		; inc		hl
+     191.  00:4B0C                      		; ld	a,16
+     192.  00:4B0C                      		; add	a,e
+     193.  00:4B0C                      		; ld	e,a
+     194.  00:4B0C                      		; djnz	1b
+     195.  00:4B0C                      		
+     196.  00:4B0C                      		; ld	e,0x10
+     197.  00:4B0C                      		; ld	a,e
+     198.  00:4B0C                      		; add	a,d
+     199.  00:4B0C                      		; ld	d,a
+     200.  00:4B0C                      		; ld	bc,mapWidth-15
+     201.  00:4B0C                      		; add	hl,bc
+     202.  00:4B0C                      		; pop	bc
+     203.  00:4B0C                      		; djnz	2b
+     204.  00:4B0C                      		; ret
+     205.  00:4B0C                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     206.  00:4B0C                      ; input
+     207.  00:4B0C                      ; d = page
+     208.  00:4B0C                      ; e = dx
+     209.  00:4B0C                      ; l = background color
+     210.  00:4B0C                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     211.  00:4B0C                      		
+     212.  00:4B0C                      clrboder:
+     213.  00:4B0C  F3                  	di
+     214.  00:4B0D  3E 24               	ld 		a, 36
+     215.  00:4B0F  D3 99               	out 	(0x99),a
+     216.  00:4B11  3E 91               	ld 		a, 17+128
+     217.  00:4B13  D3 99               	out 	(0x99),a
+     218.  00:4B15                      	
+     219.  00:4B15  CD 2A 42            	call _waitvdp
+     220.  00:4B18                      	
+     221.  00:4B18  7B                  	ld		a,e
+     222.  00:4B19  D3 9B               	out 	(0x9B), a 			; dx
+     223.  00:4B1B  AF                  	xor		a
+     224.  00:4B1C  D3 9B               	out 	(0x9B), a			; dx (high)
+     225.  00:4B1E                      	
+     226.  00:4B1E  D3 9B               	out 	(0x9B), a			; dy
+     227.  00:4B20  7A                  	ld 		a,d					; destination page
+     228.  00:4B21  D3 9B               	out 	(0x9B), a			; dy (high-> page 0 or 1)
+     229.  00:4B23                      	
+     230.  00:4B23  3E 10               	ld a,16
+     231.  00:4B25  D3 9B               	out 	(0x9B), a			; x block size
+     232.  00:4B27  AF                  	xor	a
+     233.  00:4B28  D3 9B               	out 	(0x9B), a
+     234.  00:4B2A                      
+     235.  00:4B2A  3E B0               	ld		a,mapHeight*16
+     236.  00:4B2C  D3 9B               	out 	(0x9B), a			; y block size
+     237.  00:4B2E  AF                  	xor a
+     238.  00:4B2F  D3 9B               	out 	(0x9B), a
+     239.  00:4B31                      
+     240.  00:4B31  7D                  	ld		a,l
+     241.  00:4B32  D3 9B               	out 	(0x9B), a			; color
+     242.  00:4B34  AF                  	xor a
+     243.  00:4B35  D3 9B               	out 	(0x9B), a
+     244.  00:4B37                      
+     245.  00:4B37  3E C0               	ld		a,11000000B
+     246.  00:4B39  D3 9B               	out 	(0x9B), a		; command HMMV
+     247.  00:4B3B  FB                  	ei
+     248.  00:4B3C  C9                  	ret
+     249.  00:4B3D                      
+     250.  00:4B3D                      
+     251.  00:4B3D                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     252.  00:4B3D                      ; input
+     253.  00:4B3D                      ; e = sx	from not _displaypage
+     254.  00:4B3D                      ; d = dx	to _displaypage
+     255.  00:4B3D                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     256.  00:4B3D                      
+     257.  00:4B3D                      move_block:
+     258.  00:4B3D  F3                  	di
+     259.  00:4B3E  3E 20               	ld 		a, 32
+     260.  00:4B40  D3 99               	out 	(0x99),a
+     261.  00:4B42  3E 91               	ld 		a, 17+128
+     262.  00:4B44  D3 99               	out 	(0x99),a
+     263.  00:4B46                      
+     264.  00:4B46  0E 9B               	ld 		c, 0x9B
+     265.  00:4B48                      	
+     266.  00:4B48  CD 2A 42            	call _waitvdp		; no need ATM
+     267.  00:4B4B                      	
+     268.  00:4B4B  ED 59               	out		(c), e 		; sx
+     269.  00:4B4D  AF                  	xor a
+     270.  00:4B4E  D3 9B               	out		(0x9B), a 	; sx (high)
+     271.  00:4B50                      	
+     272.  00:4B50  D3 9B               	out		(0x9B), a 	; sy
+     273.  00:4B52  3A 80 D3            	ld 		a,(_displaypage)	; source page
+     274.  00:4B55  D3 9B               	out 	(0x9B), a 	; sy 	(high-> page 0 or 1)
+     275.  00:4B57                      
+     276.  00:4B57  ED 51               	out 	(c), d 		; dx
+     277.  00:4B59  AF                  	xor a
+     278.  00:4B5A  D3 9B               	out 	(0x9B), a	; dx (high)
+     279.  00:4B5C                      	
+     280.  00:4B5C  D3 9B               	out 	(0x9B), a 		; dy
+     281.  00:4B5E  3A 80 D3            	ld 		a,(_displaypage)	; destination page
+     282.  00:4B61  EE 01               	xor	1				
+     283.  00:4B63  D3 9B               	out 	(0x9B), a	; dy 	(high-> page 0 or 1)
+     284.  00:4B65                      
+     285.  00:4B65  3E 10               	ld 		a,16 		; block size
+     286.  00:4B67  D3 9B               	out 	(0x9B), a
+     287.  00:4B69  AF                  	xor a
+     288.  00:4B6A  D3 9B               	out 	(0x9B), a	
+     289.  00:4B6C  3E B0               	ld		a,mapHeight*16
+     290.  00:4B6E  D3 9B               	out 	(0x9B), a
+     291.  00:4B70  AF                  	xor		a
+     292.  00:4B71  D3 9B               	out 	(0x9B), a
+     293.  00:4B73  D3 9B               	out 	(0x9B), a
+     294.  00:4B75  D3 9B               	out 	(0x9B), a
+     295.  00:4B77                      
+     296.  00:4B77  3E D0               	ld		a,11010000B
+     297.  00:4B79  D3 9B               	out 	(0x9B), a		; command HMMM
+     298.  00:4B7B  FB                  	ei
+     299.  00:4B7C  C9                  	ret
+     300.  00:4B7D                      	
+     266   00:4B7D                      	include plot_line2.asm
+       1.  00:4B7D                      plot_line1:
+       2.  00:4B7D  3A 81 D3            	ld	a,(_xoffset)
+       3.  00:4B80  83                  	add a,e
+       4.  00:4B81  5F                  	ld	e,a		; de = y*256+x
+       5.  00:4B82                      
+       6.  00:4B82  3A 80 D3            	ld	a,(_displaypage)
+       7.  00:4B85  87 87               [2] add a,a
+       8.  00:4B87  F3                  	di
+       9.  00:4B88  D3 99               	out (0x99),a 	; set bits 14-16
+      10.  00:4B8A  3E 8E               	ld a,14+128
+      11.  00:4B8C  D3 99               	out (0x99),a
+      12.  00:4B8E  FB                  	ei
+      13.  00:4B8F  16 40               	ld	d,0x40		; write access
+      14.  00:4B91  C3 D5 4B            	jp	_1stblock	; trace 16 pixels
+      15.  00:4B94                      
+      16.  00:4B94                      plot_line2:
+      17.  00:4B94  24                  	inc	h
+      18.  00:4B95  3A 81 D3            	ld	a,(_xoffset)
+      19.  00:4B98  83                  	add a,e
+      20.  00:4B99  5F                  	ld	e,a		; de = y*256+x
+      21.  00:4B9A                      
+      22.  00:4B9A  3A 80 D3            	ld	a,(_displaypage)
+      23.  00:4B9D  87 87               [2] add a,a
+      24.  00:4B9F  F3                  	di
+      25.  00:4BA0  D3 99               	out (0x99),a 	; set bits 14-16
+      26.  00:4BA2  3E 8E               	ld a,14+128
+      27.  00:4BA4  D3 99               	out (0x99),a
+      28.  00:4BA6  FB                  	ei
+      29.  00:4BA7  16 50               	ld	d,0x50		; write access
+      30.  00:4BA9  CD 2D 4C            	call	_2nd	; trace 48 pixels
+      31.  00:4BAC                      	
+      32.  00:4BAC  3A 80 D3            	ld	a,(_displaypage)
+      33.  00:4BAF  87 87               [2] add a,a
+      34.  00:4BB1  F6 01               	or	1
+      35.  00:4BB3  F3                  	di
+      36.  00:4BB4  D3 99               	out (0x99),a 	; set bits 14-16
+      37.  00:4BB6  3E 8E               	ld a,14+128
+      38.  00:4BB8  D3 99               	out (0x99),a
+      39.  00:4BBA  FB                  	ei
+      40.  00:4BBB  16 40               	ld	d,0x40		; write access
+      41.  00:4BBD  CD 00 4C            	call	_1st	; trace 64 pixels
+      42.  00:4BC0                      	
+      43.  00:4BC0  3A 80 D3            	ld	a,(_displaypage)
+      44.  00:4BC3  87 87               [2] add a,a
+      45.  00:4BC5  F6 02               	or	2
+      46.  00:4BC7  F3                  	di
+      47.  00:4BC8  D3 99               	out (0x99),a 	; set bits 14-16
+      48.  00:4BCA  3E 8E               	ld a,14+128
+      49.  00:4BCC  D3 99               	out (0x99),a
+      50.  00:4BCE  FB                  	ei
+      51.  00:4BCF  16 40               	ld	d,0x40		; write access
+      52.  00:4BD1  CD 2D 4C            	call	_2nd	; trace 48 pixels
+      53.  00:4BD4                      
+      54.  00:4BD4  C9                  	ret
+      55.  00:4BD5                      
+      56.  00:4BD5                      
+      57.  00:4BD5                      ; plot_line:
+      58.  00:4BD5                      	; ld	a,(_xoffset)
+      59.  00:4BD5                      	; add a,e
+      60.  00:4BD5                      	; ld	e,a		; de = y*256+x
+      61.  00:4BD5                      
+      62.  00:4BD5                      	; ld	a,(_displaypage)
+      63.  00:4BD5                      ; [2] add a,a
+      64.  00:4BD5                      	; di
+      65.  00:4BD5                      	; out (0x99),a 	; set bits 14-16
+      66.  00:4BD5                      	; ld a,14+128
+      67.  00:4BD5                      	; out (0x99),a
+      68.  00:4BD5                      	; ei
+      69.  00:4BD5                      	; ld	d,0x40		; write access
+      70.  00:4BD5                      	; call	_1st
+      71.  00:4BD5                      	
+      72.  00:4BD5                      	; ld	a,(_displaypage)
+      73.  00:4BD5                      ; [2] add a,a
+      74.  00:4BD5                      	; or	1
+      75.  00:4BD5                      	; di
+      76.  00:4BD5                      	; out (0x99),a 	; set bits 14-16
+      77.  00:4BD5                      	; ld a,14+128
+      78.  00:4BD5                      	; out (0x99),a
+      79.  00:4BD5                      	; ei
+      80.  00:4BD5                      	; ld	d,0x40		; write access
+      81.  00:4BD5                      	; call	_1st	
+      82.  00:4BD5                      	
+      83.  00:4BD5                      	; ld	a,(_displaypage)
+      84.  00:4BD5                      ; [2] add a,a
+      85.  00:4BD5                      	; or	2
+      86.  00:4BD5                      	; di
+      87.  00:4BD5                      	; out (0x99),a 	; set bits 14-16
+      88.  00:4BD5                      	; ld a,14+128
+      89.  00:4BD5                      	; out (0x99),a
+      90.  00:4BD5                      	; ei
+      91.  00:4BD5                      	; ld	d,0x40		; write access
+      92.  00:4BD5                      	; call	_2nd
+      93.  00:4BD5                      
+      94.  00:4BD5                      	; ret
+      95.  00:4BD5                      	
+      96.  00:4BD5                      _1stblock:
+      97.  00:4BD5                      ; hl ->   Map in RAM
+      98.  00:4BD5  7E                  	ld	a,(hl)
+      99.  00:4BD6  07 07 07            [3]	rlca
+     100.  00:4BD9  E6 07               	and	00000111B
+     101.  00:4BDB  C6 04               	add	a,:_tiles0
+     102.  00:4BDD  32 00 B0            	ld	(_kBank4),a
+     103.  00:4BE0  7E                  	ld	a,(hl)
+     104.  00:4BE1  E6 1F               	and	00011111B
+     105.  00:4BE3  C6 A0               	add	a,high _tiles0
+     106.  00:4BE5  67                  	ld	h,a
+     107.  00:4BE6  3A 81 D3            	ld	a,(_xoffset)
+     108.  00:4BE9  87 87 87 87         [4]	add	a,a
+     109.  00:4BED  6F                  	ld	l,a
+     110.  00:4BEE                      
+     111.  00:4BEE                      	; hl -> tile column
+     112.  00:4BEE                      
+     113.  00:4BEE  01 98 10            	ld	bc,16*256+0x98
+     114.  00:4BF1  F3                  	di
+     115.  00:4BF2  7B                  1:	ld a,e 		;set bits 0-7
+     116.  00:4BF3  D3 99               	out (0x99),a
+     117.  00:4BF5  7A                  	ld a,d 		;set bits 8-13
+     118.  00:4BF6  D3 99               	out (0x99),a
+     119.  00:4BF8  14                  	inc	d
+     120.  00:4BF9  ED A3               	outi
+     121.  00:4BFB  C2 F2 4B            	jp	nz,1b
+     122.  00:4BFE  FB                  	ei
+     123.  00:4BFF  C9                  	ret
+     124.  00:4C00                      	
+     125.  00:4C00                      _1st:
+     126.  00:4C00                      ; hl ->   Map in RAM
+     127.  00:4C00  E5                  	push	hl
+     128.  00:4C01                      		
+     129.  00:4C01  7E                  	ld	a,(hl)
+     130.  00:4C02  07 07 07            [3]	rlca
+     131.  00:4C05  E6 07               	and	00000111B
+     132.  00:4C07  C6 04               	add	a,:_tiles0
+     133.  00:4C09  32 00 B0            	ld	(_kBank4),a
+     134.  00:4C0C  7E                  	ld	a,(hl)
+     135.  00:4C0D  E6 1F               	and	00011111B
+     136.  00:4C0F  C6 A0               	add	a,high _tiles0
+     137.  00:4C11  67                  	ld	h,a
+     138.  00:4C12  3A 81 D3            	ld	a,(_xoffset)
+     139.  00:4C15  87 87 87 87         [4]	add	a,a
+     140.  00:4C19  6F                  	ld	l,a
+     141.  00:4C1A                      
+     142.  00:4C1A                      	; hl -> tile column
+     143.  00:4C1A                      
+     144.  00:4C1A  01 98 10            	ld	bc,16*256+0x98
+     145.  00:4C1D  F3                  	di
+     146.  00:4C1E  7B                  1:	ld a,e 		;set bits 0-7
+     147.  00:4C1F  D3 99               	out (0x99),a
+     148.  00:4C21  7A                  	ld a,d 		;set bits 8-13
+     149.  00:4C22  D3 99               	out (0x99),a
+     150.  00:4C24  14                  	inc	d
+     151.  00:4C25  ED A3               	outi
+     152.  00:4C27  C2 1E 4C            	jp	nz,1b
+     153.  00:4C2A  FB                  	ei
+     154.  00:4C2B                      	
+     155.  00:4C2B  E1                  	pop	hl
+     156.  00:4C2C  24                  	inc h
+     157.  00:4C2D                      _2nd:
+     158.  00:4C2D                      	repeat 3
+     159.  00:4C2D                    < 	push	hl
+     160.  00:4C2D                    < 		
+     161.  00:4C2D                    < 	ld	a,(hl)
+     162.  00:4C2D                    < [3]	rlca
+     163.  00:4C2D                    < 	and	00000111B
+     164.  00:4C2D                    < 	add	a,:_tiles0
+     165.  00:4C2D                    < 	ld	(_kBank4),a
+     166.  00:4C2D                    < 	ld	a,(hl)
+     167.  00:4C2D                    < 	and	00011111B
+     168.  00:4C2D                    < 	add	a,high _tiles0
+     169.  00:4C2D                    < 	ld	h,a
+     170.  00:4C2D                    < 	ld	a,(_xoffset)
+     171.  00:4C2D                    < [4]	add	a,a
+     172.  00:4C2D                    < 	ld	l,a
+     173.  00:4C2D                    < 
+     174.  00:4C2D                    < 	; hl -> tile column
+     175.  00:4C2D                    < 
+     176.  00:4C2D                    < 	ld	bc,16*256+0x98
+     177.  00:4C2D                    < 	di
+     178.  00:4C2D                    < 1:	ld a,e 		;set bits 0-7
+     179.  00:4C2D                    < 	out (0x99),a
+     180.  00:4C2D                    < 	ld a,d 		;set bits 8-13
+     181.  00:4C2D                    < 	out (0x99),a
+     182.  00:4C2D                    < 	inc	d
+     183.  00:4C2D                    < 	outi
+     184.  00:4C2D                    < 	jp	nz,1b
+     185.  00:4C2D                    < 	ei
+     186.  00:4C2D                    < 	
+     187.  00:4C2D                    < 	pop	hl
+     188.  00:4C2D                    < 	inc h
+     189.  00:4C2D                    < 	endrepeat
+     189.  00:4C2D  E5 7E 07 07 07 E6 07 C6 04 32 00 B0 7E E6 1F C6 
+     189.  00:4C3D  A0 67 3A 81 D3 87 87 87 87 6F 01 98 10 F3 7B D3 
+     189.  00:4C4D  99 7A D3 99 14 ED A3 C2 4B 4C FB E1 24 E5 7E 07 
+     189.  00:4C5D  07 07 E6 07 C6 04 32 00 B0 7E E6 1F C6 A0 67 3A 
+     189.  00:4C6D  81 D3 87 87 87 87 6F 01 98 10 F3 7B D3 99 7A D3 
+     189.  00:4C7D  99 14 ED A3 C2 78 4C FB E1 24 E5 7E 07 07 07 E6 
+     189.  00:4C8D  07 C6 04 32 00 B0 7E E6 1F C6 A0 67 3A 81 D3 87 
+     189.  00:4C9D  87 87 87 6F 01 98 10 F3 7B D3 99 7A D3 99 14 ED 
+     189.  00:4CAD  A3 C2 A5 4C FB E1 24 
+     190.  00:4CB4  C9                  	ret
+     191.  00:4CB5                      	
+     267   00:4CB5                      	include enemies.asm
+       1.  00:4CB5                      	
+       2.  00:4CB5  (00:0000)           ms_fly__right				equ	0
+       3.  00:4CB5  (00:0001)           ms_spin_face_right			equ	1
+       4.  00:4CB5  (00:0002)           ms_side_dwn_face_right		equ	2
+       5.  00:4CB5  (00:0003)           ms_side_up__face_right		equ	3
+       6.  00:4CB5                      
+       7.  00:4CB5  (00:0004)           ms_fly__left				equ	4
+       8.  00:4CB5  (00:0005)           ms_spin_face_left			equ	5
+       9.  00:4CB5  (00:0006)           ms_side_dwn_face_left		equ	6
+      10.  00:4CB5  (00:0007)           ms_side_up__face_left		equ	7
+      11.  00:4CB5                      
+      12.  00:4CB5  (00:0008)           ms_loop_right2left			equ	8
+      13.  00:4CB5  (00:0009)           ms_loop_left2right			equ	9
+      14.  00:4CB5                      
+      15.  00:4CB5  (00:000A)           ms_explode					equ	10
+      16.  00:4CB5  (00:000B)           ms_landing					equ	11
+      17.  00:4CB5  (00:000C)           ms_reset					equ	12
+      18.  00:4CB5                      
+      19.  00:4CB5                      
+      20.  00:4CB5  (00:0010)           maxspeed:					equ 16		; the actual speed is divided by 4
+      21.  00:4CB5  (00:000C)           max_enem:					equ 12		; max 12
+      22.  00:4CB5  (00:0006)           max_enem1:					equ	6
+      23.  00:4CB5  (00:0006)           max_enem2:					equ	6		; max_enem1 + max_enem2 = max_enem
+      24.  00:4CB5  (00:0003)           max_enem_bullets:			equ 3
+      25.  00:4CB5  (00:0003)           max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
+      26.  00:4CB5  (00:00B4)           assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
+      27.  00:4CB5  (00:0002)           enemy_bullet_speed:			equ	2	
+      28.  00:4CB5  (00:0078)           xship_rel:					equ (128-8)
+      29.  00:4CB5                      
+      30.  00:4CB5                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      31.  00:4CB5                      ms_ani:
+      32.  00:4CB5                      	include ms_demo_ani.asm
+       1:  00:4CB5                      ms_demo_ani:
+       2:  00:4CB5  22                      defb 34 
+       3:  00:4CB6  0A                      defb 10 
+       4:  00:4CB7  08                      defb 8 
+       5:  00:4CB8  07                      defb 7 
+       6:  00:4CB9  06                      defb 6 
+       7:  00:4CBA  01                      defb 1 
+       8:  00:4CBB  05                      defb 5 
+       9:  00:4CBC  0B                      defb 11 
+      10:  00:4CBD  27                      defb 39 
+      11:  00:4CBE  1E                      defb 30 
+      12:  00:4CBF  17                      defb 23 
+      13:  00:4CC0  0E                      defb 14 
+      14:  00:4CC1  10                      defb 16 
+      15:  00:4CC2  0F                      defb 15 
+      16:  00:4CC3  1B                      defb 27 
+      17:  00:4CC4  20                      defb 32 
+      18:  00:4CC5  26                      defb 38 
+      19:  00:4CC6  25                      defb 37 
+      20:  00:4CC7  09                      defb 9 
+      21:  00:4CC8  03                      defb 3 
+      22:  00:4CC9  00                      defb 0 
+      23:  00:4CCA  02                      defb 2 
+      24:  00:4CCB  04                      defb 4 
+      25:  00:4CCC  23                      defb 35 
+      26:  00:4CCD  24                      defb 36 
+      27:  00:4CCE  1F                      defb 31 
+      28:  00:4CCF  19                      defb 25 
+      29:  00:4CD0  14                      defb 20 
+      30:  00:4CD1  11                      defb 17 
+      31:  00:4CD2  15                      defb 21 
+      32:  00:4CD3  1A                      defb 26 
+      33:  00:4CD4  1D                      defb 29 
+      34:  00:4CD5  22                      defb 34 
+      35:  00:4CD6  1D                      defb 29 
+      36:  00:4CD7  1A                      defb 26 
+      37:  00:4CD8  15                      defb 21 
+      38:  00:4CD9  11                      defb 17 
+      39:  00:4CDA  15                      defb 21 
+      40:  00:4CDB  1A                      defb 26 
+      41:  00:4CDC  1D                      defb 29 
+      42:  00:4CDD  22                      defb 34 
+      43:  00:4CDE  1C                      defb 28 
+      44:  00:4CDF  16                      defb 22 
+      45:  00:4CE0  13                      defb 19 
+      46:  00:4CE1  0C                      defb 12 
+      47:  00:4CE2  13                      defb 19 
+      48:  00:4CE3  16                      defb 22 
+      49:  00:4CE4  1C                      defb 28 
+      50:  00:4CE5  26                      defb 38 
+      51:  00:4CE6  21                      defb 33 
+      52:  00:4CE7  18                      defb 24 
+      53:  00:4CE8  12                      defb 18 
+      54:  00:4CE9  0D                      defb 13 
+      55:  00:4CEA  12                      defb 18 
+      56:  00:4CEB  18                      defb 24 
+      57:  00:4CEC  21                      defb 33 
+      58:  00:4CED  26                      defb 38 
+      59:  00:4CEE  20                      defb 32 
+      60:  00:4CEF  1B                      defb 27 
+      61:  00:4CF0  0F                      defb 15 
+      62:  00:4CF1  10                      defb 16 
+      63:  00:4CF2  0F                      defb 15 
+      64:  00:4CF3  1B                      defb 27 
+      65:  00:4CF4  20                      defb 32 
+      66:  00:4CF5  28                      defb 40 
+      67:  00:4CF6  29                      defb 41 
+      68:  00:4CF7  2A                      defb 42 
+      69:  00:4CF8  2B                      defb 43 
+      70:  00:4CF9  2C                      defb 44 
+      71:  00:4CFA  2D                      defb 45 
+      72:  00:4CFB  2E                      defb 46 
+      73:  00:4CFC  2F                      defb 47 
+      74:  00:4CFD  30                      defb 48 
+      75:  00:4CFE  31                      defb 49 
+      76:  00:4CFF  32                      defb 50 
+      77:  00:4D00  33                      defb 51 
+      78:  00:4D01  34                      defb 52 
+      79:  00:4D02  35                      defb 53 
+      80:  00:4D03  36                      defb 54 
+      81:  00:4D04  37                      defb 55 
+      33.  00:4D05                      ms_col_win:
+      34.  00:4D05                      	include ms_demo_frm_coll_wind.asm
+       1:  00:4D05                      ms_demo_coll_wind:
+       2:  00:4D05  07 0D 01 0F             defb 7,13,1,15 
+       3:  00:4D09  07 0B 01 0F             defb 7,11,1,15 
+       4:  00:4D0D  05 09 01 0F             defb 5,9,1,15 
+       5:  00:4D11  04 0D 01 0F             defb 4,13,1,15 
+       6:  00:4D15  04 0C 01 0F             defb 4,12,1,15 
+       7:  00:4D19  04 0C 01 0F             defb 4,12,1,15 
+       8:  00:4D1D  03 09 01 0F             defb 3,9,1,15 
+       9:  00:4D21  03 0C 01 0F             defb 3,12,1,15 
+      10:  00:4D25  03 0D 01 0F             defb 3,13,1,15 
+      11:  00:4D29  03 0D 01 0F             defb 3,13,1,15 
+      12:  00:4D2D  03 0F 01 0F             defb 3,15,1,15 
+      13:  00:4D31  03 0F 01 0F             defb 3,15,1,15 
+      14:  00:4D35  01 0F 07 0D             defb 1,15,7,13 
+      15:  00:4D39  01 0F 04 0A             defb 1,15,4,10 
+      16:  00:4D3D  01 0F 07 0C             defb 1,15,7,12 
+      17:  00:4D41  01 0F 06 0C             defb 1,15,6,12 
+      18:  00:4D45  01 0F 07 0D             defb 1,15,7,13 
+      19:  00:4D49  01 0F 04 0A             defb 1,15,4,10 
+      20:  00:4D4D  01 0F 05 0B             defb 1,15,5,11 
+      21:  00:4D51  01 0F 06 0C             defb 1,15,6,12 
+      22:  00:4D55  01 0F 05 0A             defb 1,15,5,10 
+      23:  00:4D59  01 0F 05 0B             defb 1,15,5,11 
+      24:  00:4D5D  01 0F 05 0C             defb 1,15,5,12 
+      25:  00:4D61  01 0F 06 0D             defb 1,15,6,13 
+      26:  00:4D65  01 0F 05 0C             defb 1,15,5,12 
+      27:  00:4D69  01 0F 04 0B             defb 1,15,4,11 
+      28:  00:4D6D  01 0F 05 0C             defb 1,15,5,12 
+      29:  00:4D71  01 0F 05 0C             defb 1,15,5,12 
+      30:  00:4D75  01 0F 03 0E             defb 1,15,3,14 
+      31:  00:4D79  01 0F 03 0E             defb 1,15,3,14 
+      32:  00:4D7D  01 0F 05 0F             defb 1,15,5,15 
+      33:  00:4D81  01 0F 02 0C             defb 1,15,2,12 
+      34:  00:4D85  01 0F 03 0E             defb 1,15,3,14 
+      35:  00:4D89  01 0F 03 0E             defb 1,15,3,14 
+      36:  00:4D8D  01 0F 01 0F             defb 1,15,1,15 
+      37:  00:4D91  01 0D 01 0F             defb 1,13,1,15 
+      38:  00:4D95  01 0F 01 0F             defb 1,15,1,15 
+      39:  00:4D99  01 0D 01 0F             defb 1,13,1,15 
+      40:  00:4D9D  01 0F 01 0F             defb 1,15,1,15 
+      41:  00:4DA1  01 0F 01 0F             defb 1,15,1,15 
+      42:  00:4DA5                      
+      35.  00:4DA5                      
+      36.  00:4DA5                      ;--------------------------------------------------------------------
+      37.  00:4DA5                      ;--------------------------------------------------------------------
+      38.  00:4DA5                      add_bc_score_bin
+      39.  00:4DA5  C9                  	ret
+      40.  00:4DA6                      ;--------------------------------------------------------------------
+      41.  00:4DA6                      
+      42.  00:4DA6                      ; Fast random number generator using the same method
+      43.  00:4DA6                      ; as the CDMA used in cellular telephones
+      44.  00:4DA6                      ;--------------------------------------------------------------------
+      45.  00:4DA6                      ; init random seed 
+      46.  00:4DA6                      
+      47.  00:4DA6                      rand8_init:
+      48.  00:4DA6  2A 9E FC            	LD      HL,(_jiffy)
+      49.  00:4DA9  CB C5               	SET		0,L
+      50.  00:4DAB  22 83 D3            	LD      (randSeed),HL
+      51.  00:4DAE  C9                  	RET
+      52.  00:4DAF                      
+      53.  00:4DAF                      
+      54.  00:4DAF                      ; -------------------------------------------------------------------
+      55.  00:4DAF                      ; rand8
+      56.  00:4DAF                      ; -------------------------------------------------------------------
+      57.  00:4DAF                      ;
+      58.  00:4DAF                      ; choose a random number in the set [0,127] with uniform distribution
+      59.  00:4DAF                      ; return: A = random value
+      60.  00:4DAF                      
+      61.  00:4DAF                      rand8:
+      62.  00:4DAF  2A 83 D3            	ld      hl,(randSeed)
+      63.  00:4DB2  29                  	add     hl,hl
+      64.  00:4DB3  9F                  	sbc     a,a
+      65.  00:4DB4  E6 83               	and     083h
+      66.  00:4DB6  AD                  	xor     l
+      67.  00:4DB7  6F                  	ld      l,a
+      68.  00:4DB8  22 83 D3            	ld      (randSeed),hl
+      69.  00:4DBB  C9                  	ret
+      70.  00:4DBC                      	
+      71.  00:4DBC                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      72.  00:4DBC                      ;	increase the wave counter
+      73.  00:4DBC                      ; 	and test for landing permission
+      74.  00:4DBC                      	
+      75.  00:4DBC                      land_now_test:
+      76.  00:4DBC  3A 86 D3            	ld	a,(wave_count)
+      77.  00:4DBF  3C                  	inc	a
+      78.  00:4DC0  32 86 D3            	ld	(wave_count),a
+      79.  00:4DC3  5F                  	ld	e,a
+      80.  00:4DC4  3A 85 D3            	ld	a,(cur_level)
+      81.  00:4DC7  0F 0F               [2]	rrca
+      82.  00:4DC9  E6 0F               	and	15
+      83.  00:4DCB  C6 19               	add	a,25
+      84.  00:4DCD  BB                  	cp	e				; 'land now' counter after  25+cur_level/4 waves
+      85.  00:4DCE  C0                  	ret nz
+      86.  00:4DCF                      
+      87.  00:4DCF                      	; ld	hl,land_now
+      88.  00:4DCF                      	; ld	de,0x1C00+8*3*32
+      89.  00:4DCF                      	; call	print_strf
+      90.  00:4DCF  3E FF               	ld	a,-1
+      91.  00:4DD1  32 87 D3            	ld	(landing_permission),a
+      92.  00:4DD4                      	
+      93.  00:4DD4  3E 0E               	ld	a,14			; Land Now
+      94.  00:4DD6  CD 9F 49            	call AFXPLAY
+      95.  00:4DD9  C9                  	ret
+      96.  00:4DDA                      
+      97.  00:4DDA                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      98.  00:4DDA                      ;
+      99.  00:4DDA                      ; NPC initialization 
+     100.  00:4DDA                      ; it removes also bullets
+     101.  00:4DDA                      ;
+     102.  00:4DDA                      npc_init:
+     103.  00:4DDA  DD 21 E9 D3         	ld  ix,enemies
+     104.  00:4DDE  06 0C               	ld  b,max_enem
+     105.  00:4DE0  11 0E 00            	ld	de,enemy_data
+     106.  00:4DE3  AF                  	xor	a
+     107.  00:4DE4                      	
+     108.  00:4DE4  DD 77 07            1:  ld  (ix+enemy_data.status),a
+     109.  00:4DE7  DD 36 09 FF         	ld  (ix+enemy_data.kind),-1
+     110.  00:4DEB  DD 77 08            	ld	(ix+enemy_data.cntr),a
+     111.  00:4DEE  DD 36 0B FF         	ld	(ix+enemy_data.color),-1
+     112.  00:4DF2  DD 36 00 D9         	ld	(ix+enemy_data.y),0xD9
+     113.  00:4DF6                      
+     114.  00:4DF6  DD 19               	add ix,de
+     115.  00:4DF8  10 EA               	djnz    1b
+     116.  00:4DFA                      
+     117.  00:4DFA  21 B4 00            	ld	hl,assault_wave_timer_preset
+     118.  00:4DFD  22 88 D3            	ld	(assault_wave_timer),hl
+     119.  00:4E00  AF                  	xor	a
+     120.  00:4E01  32 86 D3            	ld	(wave_count),a
+     121.  00:4E04  32 87 D3            	ld	(landing_permission),a
+     122.  00:4E07                      	
+     123.  00:4E07                      ; turn off MS and enemy bullets
+     124.  00:4E07                      
+     125.  00:4E07                      bull_init:
+     126.  00:4E07  AF                  	xor a
+     127.  00:4E08  32 8A D3            	ld  (bullet_rate),a
+     128.  00:4E0B                      
+     129.  00:4E0B  DD 21 95 D3         	ld  ix,ms_bullets
+     130.  00:4E0F  06 06               	ld	b,max_bullets+max_enem_bullets
+     131.  00:4E11  11 0E 00            	ld  de,enemy_data
+     132.  00:4E14                      	
+     133.  00:4E14  DD 77 07            1:	ld  (ix+enemy_data.status),a
+     134.  00:4E17  DD 36 0B 0F         	ld	(ix+enemy_data.color),15
+     135.  00:4E1B  DD 19               	add ix,de
+     136.  00:4E1D  10 F5               	djnz	1b
+     137.  00:4E1F                      
+     138.  00:4E1F  C9                  	ret
+     139.  00:4E20                      
+     140.  00:4E20                      
+     141.  00:4E20                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     142.  00:4E20                      ;
+     143.  00:4E20                      ;	timer for wave assaults
+     144.  00:4E20                      ;
+     145.  00:4E20                      wave_timer:
+     146.  00:4E20  2A 88 D3            	ld	hl,(assault_wave_timer)
+     147.  00:4E23  2B                  	dec	hl
+     148.  00:4E24  7C                  	ld	a,h
+     149.  00:4E25  B5                  	or	l
+     150.  00:4E26  22 88 D3            	ld	(assault_wave_timer),hl
+     151.  00:4E29  C0                  	ret	nz
+     152.  00:4E2A                      
+     153.  00:4E2A  3E 01               	ld	a,1			; wave incoming
+     154.  00:4E2C  CD 9F 49            	call AFXPLAY
+     155.  00:4E2F                      	
+     156.  00:4E2F  21 B4 00            	ld	hl,assault_wave_timer_preset
+     157.  00:4E32  3A 85 D3            	ld	a,(cur_level)
+     158.  00:4E35  87                  	add	a,a
+     159.  00:4E36  5F                  	ld	e,a
+     160.  00:4E37  16 00               	ld	d,0
+     161.  00:4E39  A7                  	and	a
+     162.  00:4E3A  ED 52               	sbc	hl,de					; at level 15 frequency is a wave each 2,5 seconds
+     163.  00:4E3C  22 88 D3            	ld	(assault_wave_timer),hl	; 180 - 2*cur_level
+     164.  00:4E3F                      	
+     165.  00:4E3F                      
+     166.  00:4E3F  CD BC 4D            	call	land_now_test
+     167.  00:4E42                      	
+     168.  00:4E42  CD AF 4D            	call	rand8
+     169.  00:4E45  E6 07               	and	7			
+     170.  00:4E47                      	
+     171.  00:4E47  CA 65 4E            	jp	z,wave0
+     172.  00:4E4A  3D                  	dec	a
+     173.  00:4E4B  CA 6E 4E            	jp	z,wave1
+     174.  00:4E4E  3D                  	dec	a
+     175.  00:4E4F  CA FA 4E            	jp	z,wave2
+     176.  00:4E52  3D                  	dec	a
+     177.  00:4E53  CA 8F 4F            	jp	z,wave3
+     178.  00:4E56  3D                  	dec	a
+     179.  00:4E57  CA 10 50            	jp	z,wave4
+     180.  00:4E5A  3D                  	dec	a
+     181.  00:4E5B  CA A9 50            	jp	z,wave5
+     182.  00:4E5E  3D                  	dec	a
+     183.  00:4E5F  CA 26 51            	jp	z,wave6
+     184.  00:4E62  C3 31 51            	jp	wave7
+     185.  00:4E65                      	
+     186.  00:4E65                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     187.  00:4E65                      
+     188.  00:4E65                      	; align 0x100
+     189.  00:4E65                      ; spritecolors:
+     190.  00:4E65                      	; db       15,14, 9, 7
+     191.  00:4E65                      	; db        9, 3,14,15
+     192.  00:4E65                      
+     193.  00:4E65                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     194.  00:4E65                      ;
+     195.  00:4E65                      ;	enemies n#0 coming frontally
+     196.  00:4E65                      ;
+     197.  00:4E65                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     198.  00:4E65                      	
+     199.  00:4E65                      wave0:
+     200.  00:4E65  DD 21 3D D4         	ld  ix,enemies2
+     201.  00:4E69  FD 26 06            	ld	iyh,max_enem2
+     202.  00:4E6C  18 07               	jr	1f
+     203.  00:4E6E                      wave1:
+     204.  00:4E6E  DD 21 E9 D3         	ld  ix,enemies1
+     205.  00:4E72  FD 26 06            	ld	iyh,max_enem1
+     206.  00:4E75                      1:
+     207.  00:4E75  CD AF 4D            	call	rand8
+     208.  00:4E78  E6 07               	and	7
+     209.  00:4E7A  C6 04               	add	a,4
+     210.  00:4E7C  47                  	ld	b,a			; frame
+     211.  00:4E7D                      	
+     212.  00:4E7D  3A 8B D3            	ld	a,(dxmap)
+     213.  00:4E80  A7                  	and	a
+     214.  00:4E81  F2 95 4E            	jp	p,.pos
+     215.  00:4E84                      .neg
+     216.  00:4E84  11 C0 FF            	ld	de,-64
+     217.  00:4E87  0E 01               	ld	c,+1		; enemies going right
+     218.  00:4E89  78                  	ld	a,b
+     219.  00:4E8A  87 87 87 87         [4]	add	a,a
+     220.  00:4E8E  47                  	ld	b,a
+     221.  00:4E8F  D9                  	exx	
+     222.  00:4E90  11 01 00            	ld 	de,1		; enemy speed = 1
+     223.  00:4E93  18 10               	jr	1f
+     224.  00:4E95                      .pos
+     225.  00:4E95  11 20 01            	ld	de,256+32
+     226.  00:4E98  0E 41               	ld	c,1+64		; enemies going left
+     227.  00:4E9A  78                  	ld	a,b
+     228.  00:4E9B  87 87               [2]	add	a,a
+     229.  00:4E9D  3C                  	inc	a
+     230.  00:4E9E  87 87               [2]	add	a,a
+     231.  00:4EA0  47                  	ld	b,a
+     232.  00:4EA1  D9                  	exx	
+     233.  00:4EA2  11 FF FF            	ld 	de,-1		; enemy speed = -1
+     234.  00:4EA5                      1:
+     235.  00:4EA5  01 0E 00            	ld  bc,enemy_data
+     236.  00:4EA8  D9                  	exx		
+     237.  00:4EA9                      
+     238.  00:4EA9  CD AF 4D            	call	rand8
+     239.  00:4EAC  E6 0F               	and	15			; Y off set
+     240.  00:4EAE                      	
+     241.  00:4EAE  2A 8C D3            	ld	hl,(xmap)
+     242.  00:4EB1  19                  	add	hl,de
+     243.  00:4EB2                      
+     244.  00:4EB2                      1:
+     245.  00:4EB2  DD CB 07 46         	bit	0,(ix+enemy_data.status)
+     246.  00:4EB6  20 38               	jr  nz,.next
+     247.  00:4EB8                      
+     248.  00:4EB8  DD 71 07            	ld  (ix+enemy_data.status),c
+     249.  00:4EBB  DD 70 0A            	ld	(ix+enemy_data.frame),b
+     250.  00:4EBE                      
+     251.  00:4EBE  DD 36 09 00         	ld  (ix+enemy_data.kind),0
+     252.  00:4EC2  D9                  	exx
+     253.  00:4EC3  DD 73 0C            	ld	(ix+enemy_data.speed),e
+     254.  00:4EC6  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
+     255.  00:4EC9  D9                  	exx
+     256.  00:4ECA                      
+     257.  00:4ECA  11 10 00            	ld 		de,16
+     258.  00:4ECD  CB 6F               	bit	5,a
+     259.  00:4ECF  28 03               	jr	z,2f
+     260.  00:4ED1  11 F0 FF            	ld 		de,-16
+     261.  00:4ED4                      	
+     262.  00:4ED4  19                  2:	add 	hl,de 
+     263.  00:4ED5  DD 75 01            	ld  	(ix+enemy_data.x),l
+     264.  00:4ED8  DD 74 02            	ld  	(ix+enemy_data.x+1),h
+     265.  00:4EDB  DD 77 00            	ld  	(ix+enemy_data.y),a
+     266.  00:4EDE  C6 20               	add		a,32
+     267.  00:4EE0  CD 00 47            	call	set_size
+     268.  00:4EE3  D9                  	exx	
+     269.  00:4EE4  DD 09               	add ix,bc
+     270.  00:4EE6  D9                  	exx
+     271.  00:4EE7  FD 25               	dec	iyh
+     272.  00:4EE9  C8                  	ret	z
+     273.  00:4EEA  FE A0               	cp	mapHeight*16-16
+     274.  00:4EEC  DA B2 4E            	jp	c,1b
+     275.  00:4EEF  C9                  	ret
+     276.  00:4EF0                      
+     277.  00:4EF0                      .next
+     278.  00:4EF0  D9                  	exx	
+     279.  00:4EF1  DD 09               	add ix,bc
+     280.  00:4EF3  D9                  	exx
+     281.  00:4EF4  FD 25               	dec	iyh
+     282.  00:4EF6  C8                  	ret	z
+     283.  00:4EF7  C3 B2 4E            	jp	1b
+     284.  00:4EFA                      	
+     285.  00:4EFA                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     286.  00:4EFA                      ;
+     287.  00:4EFA                      ;	enemies n#2 coming from back
+     288.  00:4EFA                      ;
+     289.  00:4EFA                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     290.  00:4EFA                      wave2:
+     291.  00:4EFA  3A 8B D3            	ld	a,(dxmap)
+     292.  00:4EFD  CB 2F               	sra a			; de' = player speed x2
+     293.  00:4EFF  5F                  	ld	e,a
+     294.  00:4F00  17                  	rla
+     295.  00:4F01  9F                  	sbc a,a
+     296.  00:4F02  57                  	ld	d,a
+     297.  00:4F03  D9                  	exx
+     298.  00:4F04                      
+     299.  00:4F04  28 15               	jr	z,.pos				
+     300.  00:4F06                      .neg
+     301.  00:4F06  11 20 01            	ld	de,256+32
+     302.  00:4F09  0E 41               	ld	c,1+64		; enemies going left
+     303.  00:4F0B                      	
+     304.  00:4F0B  CD AF 4D            	call	rand8
+     305.  00:4F0E  E6 07               	and	7
+     306.  00:4F10  C6 04               	add	a,4
+     307.  00:4F12  87 87               [2]	add	a,a
+     308.  00:4F14  3C                  	inc	a
+     309.  00:4F15  87 87               [2]	add	a,a
+     310.  00:4F17  47                  	ld	b,a			; frame
+     311.  00:4F18                      	
+     312.  00:4F18  C3 2C 4F            	jp	1f
+     313.  00:4F1B                      .pos
+     314.  00:4F1B  11 C0 FF            	ld	de,-64
+     315.  00:4F1E  0E 01               	ld	c,+1		; enemies going right
+     316.  00:4F20                      
+     317.  00:4F20  CD AF 4D            	call	rand8
+     318.  00:4F23  E6 07               	and	7
+     319.  00:4F25  C6 04               	add	a,4
+     320.  00:4F27  87 87 87 87         [4]	add	a,a
+     321.  00:4F2B  47                  	ld	b,a			; frame
+     322.  00:4F2C                      	
+     323.  00:4F2C                      1:
+     324.  00:4F2C  CD AF 4D            	call	rand8
+     325.  00:4F2F  E6 0F               	and	15			; Y off set
+     326.  00:4F31  C6 90               	add	a,mapHeight*16-32
+     327.  00:4F33                      
+     328.  00:4F33  2A 8C D3            	ld	hl,(xmap)
+     329.  00:4F36  19                  	add	hl,de
+     330.  00:4F37                      
+     331.  00:4F37  CB 78               	bit	7,b			; pick up a random bit from frame number
+     332.  00:4F39  DD 21 E9 D3         	ld  ix,enemies1
+     333.  00:4F3D  FD 26 06            	ld	iyh,max_enem1
+     334.  00:4F40  28 07               	jr	z,1f
+     335.  00:4F42  DD 21 3D D4         	ld  ix,enemies2
+     336.  00:4F46  FD 26 06            	ld	iyh,max_enem2
+     337.  00:4F49                      1:
+     338.  00:4F49  11 0E 00            	ld  de,enemy_data
+     339.  00:4F4C                      1:
+     340.  00:4F4C  DD CB 07 46         	bit	0,(ix+enemy_data.status)
+     341.  00:4F50  20 36               	jr  nz,.next
+     342.  00:4F52                      
+     343.  00:4F52  DD 71 07            	ld  (ix+enemy_data.status),c
+     344.  00:4F55  DD 70 0A            	ld	(ix+enemy_data.frame),b
+     345.  00:4F58                      
+     346.  00:4F58  DD 36 09 02         	ld  (ix+enemy_data.kind),2
+     347.  00:4F5C                      
+     348.  00:4F5C  D9                  	exx	
+     349.  00:4F5D  DD 73 0C            	ld	(ix+enemy_data.speed),e
+     350.  00:4F60  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
+     351.  00:4F63  D9                  	exx
+     352.  00:4F64                      	
+     353.  00:4F64  C5                  	push	bc
+     354.  00:4F65  CB 47               	bit	0,a			; pick up a random bit from Y
+     355.  00:4F67  01 08 00            	ld 	bc,8
+     356.  00:4F6A  28 03               	jr z,11f
+     357.  00:4F6C  01 F8 FF            	ld 	bc,-8
+     358.  00:4F6F  09                  11:	add hl,bc 
+     359.  00:4F70  DD 75 01            	ld  (ix+enemy_data.x),l
+     360.  00:4F73  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     361.  00:4F76  C1                  	pop		bc
+     362.  00:4F77                      	
+     363.  00:4F77  DD 77 00            	ld  (ix+enemy_data.y),a
+     364.  00:4F7A                      
+     365.  00:4F7A  CD 00 47            	call	set_size
+     366.  00:4F7D                      
+     367.  00:4F7D  DD 19               	add ix,de
+     368.  00:4F7F  FD 25               	dec	iyh
+     369.  00:4F81  C8                  	ret	z
+     370.  00:4F82  D6 20               	sub	a,32
+     371.  00:4F84  D2 4C 4F            	jp	nc,1b
+     372.  00:4F87  C9                  	ret
+     373.  00:4F88                      
+     374.  00:4F88                      .next
+     375.  00:4F88  DD 19               	add ix,de
+     376.  00:4F8A  FD 25               	dec	iyh
+     377.  00:4F8C  C8                  	ret	z
+     378.  00:4F8D  18 BD               	jr	1b
+     379.  00:4F8F                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     380.  00:4F8F                      ;
+     381.  00:4F8F                      ; waving enemies n#5 from back
+     382.  00:4F8F                      ;
+     383.  00:4F8F                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     384.  00:4F8F                      wave3:
+     385.  00:4F8F  3A 8B D3            	ld	a,(dxmap)
+     386.  00:4F92  CB 2F               	sra a			; de' = player speed x 2
+     387.  00:4F94  5F                  	ld	e,a
+     388.  00:4F95  17                  	rla
+     389.  00:4F96  9F                  	sbc a,a
+     390.  00:4F97  57                  	ld	d,a
+     391.  00:4F98  D9                  	exx
+     392.  00:4F99                      
+     393.  00:4F99  28 08               	jr	z,.pos				
+     394.  00:4F9B                      .neg
+     395.  00:4F9B  11 20 01            	ld	de,256+32
+     396.  00:4F9E  01 41 64            	ld	bc,256*100+1+64		; enemies going left
+     397.  00:4FA1  18 06               	jr	1f
+     398.  00:4FA3                      .pos
+     399.  00:4FA3  11 C0 FF            	ld	de,-64
+     400.  00:4FA6  01 01 60            	ld	bc,256*96+1			; enemies going right
+     401.  00:4FA9                      	
+     402.  00:4FA9                      1:
+     403.  00:4FA9  CD AF 4D            	call	rand8
+     404.  00:4FAC  E6 0F               	and	15					; random Y offset
+     405.  00:4FAE  C6 80               	add	a,mapHeight*16-48
+     406.  00:4FB0                      	
+     407.  00:4FB0  2A 8C D3            	ld	hl,(xmap)
+     408.  00:4FB3  19                  	add	hl,de
+     409.  00:4FB4                      
+     410.  00:4FB4  CB 47               	bit	0,a			; pick up a random bit from Y offset
+     411.  00:4FB6  DD 21 E9 D3         	ld  ix,enemies1
+     412.  00:4FBA  FD 26 06            	ld	iyh,max_enem1
+     413.  00:4FBD  28 07               	jr	z,1f
+     414.  00:4FBF  DD 21 3D D4         	ld  ix,enemies2
+     415.  00:4FC3  FD 26 06            	ld	iyh,max_enem2
+     416.  00:4FC6                      1:
+     417.  00:4FC6  11 0E 00            	ld  de,enemy_data
+     418.  00:4FC9                      1:
+     419.  00:4FC9  DD CB 07 46         	bit	0,(ix+enemy_data.status)
+     420.  00:4FCD  20 3A               	jr  nz,.next
+     421.  00:4FCF                      
+     422.  00:4FCF  DD 71 07            	ld  (ix+enemy_data.status),c
+     423.  00:4FD2  DD 70 0A            	ld	(ix+enemy_data.frame),b
+     424.  00:4FD5                      
+     425.  00:4FD5  DD 36 09 05         	ld  (ix+enemy_data.kind),5
+     426.  00:4FD9  DD 36 08 00         	ld	(ix+enemy_data.cntr),0
+     427.  00:4FDD                      
+     428.  00:4FDD  D9                  	exx	
+     429.  00:4FDE  DD 73 0C            	ld	(ix+enemy_data.speed),e
+     430.  00:4FE1  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
+     431.  00:4FE4  D9                  	exx
+     432.  00:4FE5                      	
+     433.  00:4FE5  C5                  	push	bc
+     434.  00:4FE6  CB 67               	bit	4,a
+     435.  00:4FE8  01 10 00            	ld bc,16
+     436.  00:4FEB  28 03               	jr	z,2f
+     437.  00:4FED  01 F0 FF            	ld	bc,-16
+     438.  00:4FF0                      2:	
+     439.  00:4FF0  09                  	add hl,bc 
+     440.  00:4FF1  DD 75 01            	ld  (ix+enemy_data.x),l
+     441.  00:4FF4  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     442.  00:4FF7  C1                  	pop		bc
+     443.  00:4FF8                      	
+     444.  00:4FF8  DD 77 00            	ld  (ix+enemy_data.y),a
+     445.  00:4FFB                      
+     446.  00:4FFB  CD 00 47            	call	set_size
+     447.  00:4FFE                      
+     448.  00:4FFE  DD 19               	add ix,de
+     449.  00:5000  FD 25               	dec	iyh
+     450.  00:5002  C8                  	ret	z
+     451.  00:5003  D6 18               	sub	a,24
+     452.  00:5005  D2 C9 4F            	jp	nc,1b
+     453.  00:5008  C9                  	ret
+     454.  00:5009                      
+     455.  00:5009                      .next
+     456.  00:5009  DD 19               	add ix,de
+     457.  00:500B  FD 25               	dec	iyh
+     458.  00:500D  C8                  	ret	z
+     459.  00:500E  18 B9               	jr	1b
+     460.  00:5010                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     461.  00:5010                      ;
+     462.  00:5010                      ;	enemies n#4 coming from back
+     463.  00:5010                      ; 
+     464.  00:5010                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     465.  00:5010                      wave4:
+     466.  00:5010  3A 8B D3            	ld	a,(dxmap)
+     467.  00:5013  CB 2F               	sra a			; de' = player speed x 2
+     468.  00:5015  5F                  	ld	e,a
+     469.  00:5016  17                  	rla
+     470.  00:5017  9F                  	sbc a,a
+     471.  00:5018  57                  	ld	d,a
+     472.  00:5019  D9                  	exx
+     473.  00:501A                      	
+     474.  00:501A                      _wave4_cont:
+     475.  00:501A                      
+     476.  00:501A  28 14               	jr	z,.pos				
+     477.  00:501C                      .neg
+     478.  00:501C  11 20 01            	ld	de,256+32
+     479.  00:501F  0E 41               	ld	c,+1+64		; enemies going left
+     480.  00:5021                      	
+     481.  00:5021  CD AF 4D            	call	rand8
+     482.  00:5024  E6 07               	and	7
+     483.  00:5026  C6 04               	add	a,4
+     484.  00:5028  87 87               [2]	add	a,a
+     485.  00:502A  3C                  	inc	a
+     486.  00:502B  87 87               [2]	add	a,a
+     487.  00:502D  47                  	ld	b,a			; frame
+     488.  00:502E                      
+     489.  00:502E  18 11               	jr	1f
+     490.  00:5030                      .pos
+     491.  00:5030  11 C0 FF            	ld	de,-64
+     492.  00:5033  0E 01               	ld	c,+1		; enemies going right
+     493.  00:5035                      
+     494.  00:5035  CD AF 4D            	call	rand8
+     495.  00:5038  E6 07               	and	7
+     496.  00:503A  3E 04               	ld	a,4
+     497.  00:503C  87 87 87 87         [4]	add	a,a
+     498.  00:5040  47                  	ld	b,a			; frame
+     499.  00:5041                      	
+     500.  00:5041                      1:
+     501.  00:5041  CD AF 4D            	call	rand8
+     502.  00:5044  E6 0F               	and	15			; Y off set
+     503.  00:5046                      
+     504.  00:5046  CB 4F               	bit	1,a			; pick up a random bit from Y offset
+     505.  00:5048  28 02               	jr	z,1f
+     506.  00:504A  CB F9               	set	7,c			; go up instead of down
+     507.  00:504C                      1:
+     508.  00:504C                      		
+     509.  00:504C  2A 8C D3            	ld	hl,(xmap)
+     510.  00:504F  19                  	add	hl,de
+     511.  00:5050                      
+     512.  00:5050  CB 47               	bit	0,a			; pick up a random bit from Y offset
+     513.  00:5052  DD 21 E9 D3         	ld  ix,enemies1
+     514.  00:5056  FD 26 06            	ld	iyh,max_enem1
+     515.  00:5059  28 07               	jr	z,1f
+     516.  00:505B  DD 21 3D D4         	ld  ix,enemies2
+     517.  00:505F  FD 26 06            	ld	iyh,max_enem2
+     518.  00:5062                      1:
+     519.  00:5062  11 0E 00            	ld  de,enemy_data
+     520.  00:5065                      1:
+     521.  00:5065  DD CB 07 46         	bit	0,(ix+enemy_data.status)
+     522.  00:5069  20 37               	jr  nz,.next
+     523.  00:506B                      
+     524.  00:506B  DD 71 07            	ld  (ix+enemy_data.status),c
+     525.  00:506E  DD 70 0A            	ld	(ix+enemy_data.frame),b
+     526.  00:5071                      
+     527.  00:5071  DD 36 09 04         	ld  (ix+enemy_data.kind),4
+     528.  00:5075                      
+     529.  00:5075  D9                  	exx	
+     530.  00:5076  DD 73 0C            	ld	(ix+enemy_data.speed),e
+     531.  00:5079  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
+     532.  00:507C  CB 7A               	bit	7,d
+     533.  00:507E  D9                  	exx
+     534.  00:507F                      	
+     535.  00:507F  C5                  	push	bc
+     536.  00:5080  01 10 00            	ld bc,16
+     537.  00:5083  28 03               	jr	z,11f
+     538.  00:5085  01 F0 FF            	ld bc,-16
+     539.  00:5088  09                  11:	add hl,bc 
+     540.  00:5089  DD 75 01            	ld  (ix+enemy_data.x),l
+     541.  00:508C  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     542.  00:508F  C1                  	pop		bc
+     543.  00:5090                      	
+     544.  00:5090  DD 77 00            	ld  (ix+enemy_data.y),a
+     545.  00:5093  C6 18               	add	a,24
+     546.  00:5095                      
+     547.  00:5095  CD 00 47            	call	set_size
+     548.  00:5098                      
+     549.  00:5098  DD 19               	add ix,de
+     550.  00:509A  FD 25               	dec	iyh
+     551.  00:509C  C8                  	ret	z
+     552.  00:509D  FE A0               	cp	mapHeight*16-16
+     553.  00:509F  38 C4               	jr	c,1b
+     554.  00:50A1  C9                  	ret
+     555.  00:50A2                      
+     556.  00:50A2                      .next
+     557.  00:50A2  DD 19               	add ix,de
+     558.  00:50A4  FD 25               	dec	iyh
+     559.  00:50A6  C8                  	ret	z
+     560.  00:50A7  18 BC               	jr	1b
+     561.  00:50A9                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     562.  00:50A9                      ;
+     563.  00:50A9                      ; spinning enemy #6 
+     564.  00:50A9                      ;
+     565.  00:50A9                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     566.  00:50A9                      wave5:
+     567.  00:50A9  3A 8B D3            	ld	a,(dxmap)
+     568.  00:50AC  CB 2F               	sra a			; de' = player speed x 2
+     569.  00:50AE  5F                  	ld	e,a
+     570.  00:50AF  17                  	rla
+     571.  00:50B0  9F                  	sbc a,a
+     572.  00:50B1  57                  	ld	d,a
+     573.  00:50B2  D9                  	exx
+     574.  00:50B3                      
+     575.  00:50B3  28 07               	jr	z,.pos				
+     576.  00:50B5                      .neg
+     577.  00:50B5  11 20 01            	ld	de,256+32
+     578.  00:50B8  0E 41               	ld	c,+1+64		; enemies going left
+     579.  00:50BA  18 05               	jr	1f
+     580.  00:50BC                      .pos
+     581.  00:50BC  11 C0 FF            	ld	de,-64
+     582.  00:50BF  0E 01               	ld	c,+1		; enemies going right
+     583.  00:50C1                      	
+     584.  00:50C1                      1:
+     585.  00:50C1  CD AF 4D            	call	rand8
+     586.  00:50C4  E6 0F               	and	15
+     587.  00:50C6                      	
+     588.  00:50C6  CB 4F               	bit	1,a			; pick up a random bit from Y offset
+     589.  00:50C8  28 02               	jr	z,1f
+     590.  00:50CA  CB F9               	set	7,c			; go up instead of down
+     591.  00:50CC                      1:
+     592.  00:50CC                      	
+     593.  00:50CC  2A 8C D3            	ld	hl,(xmap)
+     594.  00:50CF  19                  	add	hl,de
+     595.  00:50D0                      
+     596.  00:50D0  CB 47               	bit	0,a			; pick up a random bit from Y offset
+     597.  00:50D2  DD 21 E9 D3         	ld  ix,enemies1
+     598.  00:50D6  FD 26 06            	ld	iyh,max_enem1
+     599.  00:50D9  28 07               	jr	z,1f
+     600.  00:50DB  DD 21 3D D4         	ld  ix,enemies2
+     601.  00:50DF  FD 26 06            	ld	iyh,max_enem2
+     602.  00:50E2                      1:
+     603.  00:50E2  11 0E 00            	ld  de,enemy_data
+     604.  00:50E5                      1:
+     605.  00:50E5  DD CB 07 46         	bit	0,(ix+enemy_data.status)
+     606.  00:50E9  20 34               	jr  nz,.next
+     607.  00:50EB                      
+     608.  00:50EB  DD 71 07            	ld  (ix+enemy_data.status),c
+     609.  00:50EE  DD 36 09 06         	ld  (ix+enemy_data.kind),6
+     610.  00:50F2                      
+     611.  00:50F2  D9                  	exx	
+     612.  00:50F3  DD 73 0C            	ld	(ix+enemy_data.speed),e
+     613.  00:50F6  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
+     614.  00:50F9  CB 7A               	bit	7,d
+     615.  00:50FB  D9                  	exx
+     616.  00:50FC                      	
+     617.  00:50FC  C5                  	push	bc
+     618.  00:50FD  01 10 00            	ld bc,16
+     619.  00:5100  28 03               	jr	z,11f
+     620.  00:5102  01 F0 FF            	ld bc,-16
+     621.  00:5105  09                  11:	add hl,bc 
+     622.  00:5106  DD 75 01            	ld  (ix+enemy_data.x),l
+     623.  00:5109  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     624.  00:510C  C1                  	pop		bc
+     625.  00:510D                      	
+     626.  00:510D  DD 77 00            	ld  (ix+enemy_data.y),a
+     627.  00:5110  C6 18               	add	a,24
+     628.  00:5112                      
+     629.  00:5112  CD 00 47            	call	set_size
+     630.  00:5115                      
+     631.  00:5115  DD 19               	add ix,de
+     632.  00:5117  FD 25               	dec	iyh
+     633.  00:5119  C8                  	ret	z
+     634.  00:511A  FE A0               	cp	mapHeight*16-16
+     635.  00:511C  38 C7               	jr	c,1b
+     636.  00:511E  C9                  	ret
+     637.  00:511F                      
+     638.  00:511F                      .next
+     639.  00:511F  DD 19               	add ix,de
+     640.  00:5121  FD 25               	dec	iyh
+     641.  00:5123  C8                  	ret	z
+     642.  00:5124  18 BF               	jr	1b
+     643.  00:5126                      
+     644.  00:5126                      
+     645.  00:5126                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     646.  00:5126                      ;
+     647.  00:5126                      ;	enemies n#4 coming from back double speed
+     648.  00:5126                      ;
+     649.  00:5126                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     650.  00:5126                      wave6:
+     651.  00:5126  3A 8B D3            	ld	a,(dxmap)
+     652.  00:5129  5F                  	ld	e,a			; de' = player speed x 4
+     653.  00:512A  17                  	rla
+     654.  00:512B  9F                  	sbc a,a
+     655.  00:512C  57                  	ld	d,a
+     656.  00:512D  D9                  	exx
+     657.  00:512E  C3 1A 50            	jp _wave4_cont
+     658.  00:5131                      	
+     659.  00:5131                      
+     660.  00:5131                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     661.  00:5131                      ;
+     662.  00:5131                      ;  enemies n#7 (spinning)
+     663.  00:5131                      ;
+     664.  00:5131                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     665.  00:5131                      wave7:
+     666.  00:5131  3A 8B D3            	ld	a,(dxmap)
+     667.  00:5134  CB 2F               	sra a			; de' = player speed x 2
+     668.  00:5136  5F                  	ld	e,a
+     669.  00:5137  17                  	rla
+     670.  00:5138  9F                  	sbc a,a
+     671.  00:5139  57                  	ld	d,a
+     672.  00:513A  D9                  	exx
+     673.  00:513B                      
+     674.  00:513B  28 07               	jr	z,.pos				
+     675.  00:513D                      .neg
+     676.  00:513D  11 20 01            	ld	de,256+32
+     677.  00:5140  0E 41               	ld	c,1+64				; enemies going left
+     678.  00:5142  18 05               	jr	1f
+     679.  00:5144                      .pos
+     680.  00:5144  11 C0 FF            	ld	de,-64
+     681.  00:5147  0E 01               	ld	c,+1		; enemies going right
+     682.  00:5149                      	
+     683.  00:5149                      1:
+     684.  00:5149  CD AF 4D            	call	rand8
+     685.  00:514C  E6 0F               	and	15			; Y off set
+     686.  00:514E                      
+     687.  00:514E  2A 8C D3            	ld	hl,(xmap)
+     688.  00:5151  19                  	add	hl,de
+     689.  00:5152                      
+     690.  00:5152  CB 47               	bit	0,a			; pick up a random bit from Y offset
+     691.  00:5154  DD 21 E9 D3         	ld  ix,enemies1
+     692.  00:5158  FD 26 06            	ld	iyh,max_enem1
+     693.  00:515B  28 07               	jr	z,1f
+     694.  00:515D  DD 21 3D D4         	ld  ix,enemies2
+     695.  00:5161  FD 26 06            	ld	iyh,max_enem2
+     696.  00:5164                      1:
+     697.  00:5164  11 0E 00            	ld  de,enemy_data
+     698.  00:5167                      1:
+     699.  00:5167  DD CB 07 46         	bit	0,(ix+enemy_data.status)
+     700.  00:516B  20 30               	jr  nz,.next
+     701.  00:516D                      
+     702.  00:516D  DD 71 07            	ld  (ix+enemy_data.status),c
+     703.  00:5170                      
+     704.  00:5170  DD 36 09 07         	ld  (ix+enemy_data.kind),7
+     705.  00:5174                      	
+     706.  00:5174  D9                  	exx	
+     707.  00:5175  DD 73 0C            	ld	(ix+enemy_data.speed),e
+     708.  00:5178  DD 72 0D            	ld	(ix+enemy_data.speed+1),d
+     709.  00:517B  D9                  	exx
+     710.  00:517C                      	
+     711.  00:517C  C5                  	push	bc
+     712.  00:517D  01 10 00            	ld bc,16
+     713.  00:5180  09                  	add hl,bc 
+     714.  00:5181  DD 75 01            	ld  (ix+enemy_data.x),l
+     715.  00:5184  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     716.  00:5187  DD 75 08            	ld	(ix+enemy_data.cntr),l
+     717.  00:518A  C1                  	pop		bc
+     718.  00:518B                      	
+     719.  00:518B  DD 77 00            	ld  (ix+enemy_data.y),a
+     720.  00:518E  C6 18               	add	a,24
+     721.  00:5190                      
+     722.  00:5190  CD 00 47            	call	set_size
+     723.  00:5193                      
+     724.  00:5193  DD 19               	add ix,de
+     725.  00:5195  FD 25               	dec	iyh
+     726.  00:5197  C8                  	ret	z
+     727.  00:5198  FE A0               	cp	mapHeight*16-16
+     728.  00:519A  38 CB               	jr	c,1b
+     729.  00:519C  C9                  	ret
+     730.  00:519D                      
+     731.  00:519D                      .next
+     732.  00:519D  DD 19               	add ix,de
+     733.  00:519F  FD 25               	dec	iyh
+     734.  00:51A1  C8                  	ret	z
+     735.  00:51A2  18 C3               	jr	1b
+     736.  00:51A4                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     737.  00:51A4                      ;
+     738.  00:51A4                      ;   logic for enemies 
+     739.  00:51A4                      ;
+     740.  00:51A4                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     741.  00:51A4                      
+     742.  00:51A4                      npc_loop:
+     743.  00:51A4  DD 21 E9 D3         	ld  ix,enemies
+     744.  00:51A8  06 0C               	ld  b,max_enem
+     745.  00:51AA                      
+     746.  00:51AA  C5                  1:	push	bc
+     747.  00:51AB  DD 7E 07            	ld  a,(ix+enemy_data.status)
+     748.  00:51AE  E6 01               	and 1
+     749.  00:51B0  28 22               	jr  z,next
+     750.  00:51B2                      
+     751.  00:51B2  DD 7E 09            	ld	a,(ix+enemy_data.kind)
+     752.  00:51B5  A7                  	and	a
+     753.  00:51B6  CA 28 52            	jp	z,enemy0
+     754.  00:51B9  3D 3D               [2]	dec a	
+     755.  00:51BB  CA 83 52            	jp 	z,enemy2
+     756.  00:51BE  3D 3D               [2]	dec a	
+     757.  00:51C0  CA D7 52            	jp 	z,enemy4
+     758.  00:51C3  3D                  	dec a			;cp	5
+     759.  00:51C4  CA 40 55            	jp 	z,enemy5
+     760.  00:51C7  3D                  	dec a			;cp	6
+     761.  00:51C8  CA A7 55            	jp 	z,enemy6
+     762.  00:51CB  3D                  	dec a			;cp	7
+     763.  00:51CC  CA 2D 56            	jp 	z,enemy7
+     764.  00:51CF                      
+     765.  00:51CF  FE F8               	cp	255-7
+     766.  00:51D1  CA 04 52            	jp z,enemy255
+     767.  00:51D4                      
+     768.  00:51D4                      next:
+     769.  00:51D4  C1                  	pop	bc
+     770.  00:51D5  11 0E 00            	ld  de,enemy_data
+     771.  00:51D8  DD 19               	add ix,de
+     772.  00:51DA  10 CE               	djnz    1b
+     773.  00:51DC  C9                  	ret
+     774.  00:51DD                      ;;;;;;;;;;;;;;;;;;;;
+     775.  00:51DD                      npcdies:
+     776.  00:51DD  FD 36 07 00         	ld  (iy+enemy_data.status),0	; turn off this bullet
+     777.  00:51E1                      
+     778.  00:51E1  DD 36 0B 0A         	ld	(ix+enemy_data.color),10	; start explosion
+     779.  00:51E5  DD 36 09 FF         	ld	(ix+enemy_data.kind),255
+     780.  00:51E9  DD 36 08 02         	ld	(ix+enemy_data.cntr),2
+     781.  00:51ED  DD 36 0A 0C         	ld	(ix+enemy_data.frame),12
+     782.  00:51F1                      
+     783.  00:51F1  CD AF 4D            	call	rand8
+     784.  00:51F4  E6 03               	and	3
+     785.  00:51F6  C6 02               	add	a,2			; random enemy explosion
+     786.  00:51F8  CD 9F 49            	call AFXPLAY
+     787.  00:51FB                      
+     788.  00:51FB  01 64 00            	ld	bc,100		; score for destruction of a flying enemy
+     789.  00:51FE  CD A5 4D            	call	add_bc_score_bin
+     790.  00:5201  C3 D4 51            	jp	next
+     791.  00:5204                      	
+     792.  00:5204                      ;;;;;;;;;;;;;;;;;;;;
+     793.  00:5204                      ; explosion
+     794.  00:5204                      ;;;;;;;;;;;;;;;;;;;;
+     795.  00:5204                      enemy255:
+     796.  00:5204  DD 35 08            	dec	(ix+enemy_data.cntr)
+     797.  00:5207  C2 D4 51            	jp	nz,next
+     798.  00:520A  DD 36 08 02         	ld	(ix+enemy_data.cntr),2
+     799.  00:520E  DD 34 0A            	inc	(ix+enemy_data.frame)
+     800.  00:5211  DD 7E 0A            	ld	a,(ix+enemy_data.frame)
+     801.  00:5214  FE 10               	cp	16
+     802.  00:5216  38 BC               	jr	c,next
+     803.  00:5218  DD 36 0B 08         	ld	(ix+enemy_data.color),8		; start explosion
+     804.  00:521C  FE 1F               	cp	23+8
+     805.  00:521E  C2 D4 51            	jp	nz,next
+     806.  00:5221  DD 36 07 00         	ld	(ix+enemy_data.status),0
+     807.  00:5225  C3 D4 51            	jp	next
+     808.  00:5228                      
+     809.  00:5228                      ;;;;;;;;;;;;;;;;;;;;
+     810.  00:5228                      
+     811.  00:5228                      enemy0:
+     812.  00:5228                      enemy1:
+     813.  00:5228  DD CB 07 76         	bit 6,(ix+enemy_data.status)
+     814.  00:522C  28 23               	jr  z,.go_right
+     815.  00:522E                      .go_left:
+     816.  00:522E                      
+     817.  00:522E  DD 6E 01            	ld	l,(ix+enemy_data.x)
+     818.  00:5231  DD 66 02            	ld	h,(ix+enemy_data.x+1)
+     819.  00:5234  2B                  	dec	hl
+     820.  00:5235  DD 75 01            	ld  (ix+enemy_data.x),l
+     821.  00:5238  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     822.  00:523B  ED 5B 8C D3         	ld	de,(xmap)
+     823.  00:523F  A7                  	and	a
+     824.  00:5240  ED 52               	sbc	hl,de
+     825.  00:5242  11 E0 FF            	ld	de,-32
+     826.  00:5245  A7                  	and	a
+     827.  00:5246  ED 52               	sbc	hl,de
+     828.  00:5248  F2 72 52            	jp  p,1f
+     829.  00:524B  DD 36 07 00         	ld	(ix+enemy_data.status),0
+     830.  00:524F  18 21               	jr  1f
+     831.  00:5251                      
+     832.  00:5251                      .go_right:
+     833.  00:5251                      
+     834.  00:5251  DD 6E 01            	ld	l,(ix+enemy_data.x)
+     835.  00:5254  DD 66 02            	ld	h,(ix+enemy_data.x+1)
+     836.  00:5257  23                  	inc	hl
+     837.  00:5258  DD 75 01            	ld  (ix+enemy_data.x),l
+     838.  00:525B  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     839.  00:525E  ED 5B 8C D3         	ld	de,(xmap)
+     840.  00:5262  A7                  	and	a
+     841.  00:5263  ED 52               	sbc	hl,de
+     842.  00:5265  11 20 01            	ld	de,256+32
+     843.  00:5268  A7                  	and	a
+     844.  00:5269  ED 52               	sbc	hl,de
+     845.  00:526B  FA 72 52            	jp  m,1f
+     846.  00:526E  DD 36 07 00         	ld	(ix+enemy_data.status),0
+     847.  00:5272                      1:
+     848.  00:5272  CD AF 4D            	call	rand8
+     849.  00:5275  E6 7F               	and 	127
+     850.  00:5277  CC A7 56            	call	z,book_enemy_shoot
+     851.  00:527A                      
+     852.  00:527A  CD 80 47            	call	test_collision_msbullets
+     853.  00:527D  D2 D4 51            	jp	nc,next
+     854.  00:5280  C3 DD 51            	jp	npcdies
+     855.  00:5283                      
+     856.  00:5283                      ;;;;;;;;;;;;;;;;;;;;
+     857.  00:5283                      enemy2:
+     858.  00:5283                      enemy3:
+     859.  00:5283  DD 6E 01            	ld	l,(ix+enemy_data.x)
+     860.  00:5286  DD 66 02            	ld	h,(ix+enemy_data.x+1)
+     861.  00:5289  DD 5E 0C            	ld	e,(ix+enemy_data.speed)
+     862.  00:528C  DD 56 0D            	ld	d,(ix+enemy_data.speed+1)
+     863.  00:528F  19                  	add	hl,de
+     864.  00:5290  DD 75 01            	ld  (ix+enemy_data.x),l
+     865.  00:5293  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     866.  00:5296                      	
+     867.  00:5296  DD CB 07 76         	bit 6,(ix+enemy_data.status)
+     868.  00:529A  28 16               	jr  z,.go_right
+     869.  00:529C                      .go_left:
+     870.  00:529C                      
+     871.  00:529C  ED 5B 8C D3         	ld	de,(xmap)
+     872.  00:52A0  A7                  	and	a
+     873.  00:52A1  ED 52               	sbc	hl,de
+     874.  00:52A3  11 E0 FF            	ld	de,-32
+     875.  00:52A6  A7                  	and	a
+     876.  00:52A7  ED 52               	sbc	hl,de
+     877.  00:52A9  F2 C6 52            	jp  p,1f
+     878.  00:52AC  DD 36 07 00         	ld	(ix+enemy_data.status),0
+     879.  00:52B0  18 14               	jr  1f
+     880.  00:52B2                      
+     881.  00:52B2                      .go_right:
+     882.  00:52B2                      
+     883.  00:52B2  ED 5B 8C D3         	ld	de,(xmap)
+     884.  00:52B6  A7                  	and	a
+     885.  00:52B7  ED 52               	sbc	hl,de
+     886.  00:52B9  11 20 01            	ld	de,256+32
+     887.  00:52BC  A7                  	and	a
+     888.  00:52BD  ED 52               	sbc	hl,de
+     889.  00:52BF  FA C6 52            	jp  m,1f
+     890.  00:52C2  DD 36 07 00         	ld	(ix+enemy_data.status),0
+     891.  00:52C6                      1:
+     892.  00:52C6  CD AF 4D            	call	rand8
+     893.  00:52C9  E6 7F               	and 	127
+     894.  00:52CB  CC A7 56            	call	z,book_enemy_shoot
+     895.  00:52CE                      
+     896.  00:52CE  CD 80 47            	call	test_collision_msbullets
+     897.  00:52D1  D2 D4 51            	jp	nc,next
+     898.  00:52D4  C3 DD 51            	jp 	npcdies
+     899.  00:52D7                      	
+     900.  00:52D7                      	
+     901.  00:52D7                      ;;;;;;;;;;;;;;;;;;;;
+     902.  00:52D7                      enemy4:
+     903.  00:52D7  DD 6E 01            	ld	l,(ix+enemy_data.x)
+     904.  00:52DA  DD 66 02            	ld	h,(ix+enemy_data.x+1)
+     905.  00:52DD  DD 5E 0C            	ld	e,(ix+enemy_data.speed)
+     906.  00:52E0  DD 56 0D            	ld	d,(ix+enemy_data.speed+1)
+     907.  00:52E3  19                  	add	hl,de
+     908.  00:52E4  DD 75 01            	ld  (ix+enemy_data.x),l
+     909.  00:52E7  DD 74 02            	ld  (ix+enemy_data.x+1),h
+     910.  00:52EA                      	
+     911.  00:52EA  DD CB 07 76         	bit 6,(ix+enemy_data.status)
+     912.  00:52EE  28 16               	jr  z,.go_right
+     913.  00:52F0                      .go_left:
+     914.  00:52F0                      
+     915.  00:52F0  ED 5B 8C D3         	ld	de,(xmap)
+     916.  00:52F4  A7                  	and	a
+     917.  00:52F5  ED 52               	sbc	hl,de
+     918.  00:52F7  11 E0 FF            	ld	de,-32
+     919.  00:52FA  A7                  	and	a
+     920.  00:52FB  ED 52               	sbc	hl,de
+     921.  00:52FD  F2 1A 53            	jp  p,1f
+     922.  00:5300  DD 36 07 00         	ld	(ix+enemy_data.status),0
+     923.  00:5304  18 14               	jr  1f
+     924.  00:5306                      
+     925.  00:5306                      .go_right:
+     926.  00:5306                      
+     927.  00:5306  ED 5B 8C D3         	ld	de,(xmap)
+     928.  00:530A  A7                  	and	a
+     929.  00:530B  ED 52               	sbc	hl,de
+     930.  00:530D  11 20 01            	ld	de,256+32
+     931.  00:5310  A7                  	and	a
+     932.  00:5311  ED 52               	sbc	hl,de
+     933.  00:5313  FA 1A 53            	jp  m,1f
+     934.  00:5316  DD 36 07 00         	ld	(ix+enemy_data.status),0
+     935.  00:531A                      1:
+     936.  00:531A  DD 7E 00            	ld	a,(ix+enemy_data.y)
+     937.  00:531D                      
+     938.  00:531D  DD CB 07 7E         	bit 7,(ix+enemy_data.status)
+     939.  00:5321  28 0A               	jr  z,.go_dwn
+     940.  00:5323                      .go_up:
+     941.  00:5323  3D                  	dec	a
+     942.  00:5324  C2 36 53            	jp	nz,1f
+     943.  00:5327  DD CB 07 BE         	res	7,(ix+enemy_data.status)
+     944.  00:532B  18 09               	jr	1f
+     945.  00:532D                      .go_dwn:
+     946.  00:532D  3C                  	inc	a
+     947.  00:532E  FE A0               	cp	mapHeight*16-16
+     948.  00:5330  20 04               	jr	nz,1f
+     949.  00:5332  DD CB 07 FE         	set	7,(ix+enemy_data.status)
+     950.  00:5336                      	; jr	1f
+     951.  00:5336                      1:
+     952.  00:5336  DD 77 00            	ld	(ix+enemy_data.y),a
+     953.  00:5339                      
+     954.  00:5339  CD AF 4D            	call	rand8
+     955.  00:533C  E6 7F               	and 	127
+     956.  00:533E  CC A7 56            	call	z,book_enemy_shoot
+     957.  00:5341                      
+     958.  00:5341  CD 80 47            	call	test_collision_msbullets
+     959.  00:5344  D2 D4 51            	jp	nc,next
+     960.  00:5347  C3 DD 51            	jp 	npcdies
+     961.  00:534A                      	
+     962.  00:534A                      	
+     963.  00:534A                      ;;;;;;;;;;;;;;;;;;;;
+     964.  00:534A  (00B6)              	align 0x100
      965.  00:5400                      rotation:
      966.  00:5400                      	db 0,16,32,48,48,32,16,0
      966.  00:5400  00 10 20 30 30 20 10 00 
@@ -6347,13 +6348,13 @@ Errors: 0
     1030.  00:5590  DD 86 00            	add	a,(ix+enemy_data.y)
     1031.  00:5593  DD 77 00            	ld	(ix+enemy_data.y),a
     1032.  00:5596                      	
-    1033.  00:5596  CD DD 4D            	call	rand8
+    1033.  00:5596  CD AF 4D            	call	rand8
     1034.  00:5599  E6 7F               	and	127
     1035.  00:559B  CC A7 56            	call	z,book_enemy_shoot
     1036.  00:559E                      
     1037.  00:559E  CD 80 47            	call	test_collision_msbullets
-    1038.  00:55A1  D2 02 52            	jp	nc,next
-    1039.  00:55A4  C3 0B 52            	jp 	npcdies
+    1038.  00:55A1  D2 D4 51            	jp	nc,next
+    1039.  00:55A4  C3 DD 51            	jp 	npcdies
     1040.  00:55A7                      
     1041.  00:55A7                      
     1042.  00:55A7                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -6416,13 +6417,13 @@ Errors: 0
     1099.  00:5619                      1:
     1100.  00:5619  DD 77 00            	ld	(ix+enemy_data.y),a
     1101.  00:561C                      
-    1102.  00:561C  CD DD 4D            	call	rand8
+    1102.  00:561C  CD AF 4D            	call	rand8
     1103.  00:561F  E6 7F               	and 	127
     1104.  00:5621  CC A7 56            	call	z,book_enemy_shoot
     1105.  00:5624                      
     1106.  00:5624  CD 80 47            	call	test_collision_msbullets
-    1107.  00:5627  D2 02 52            	jp	nc,next
-    1108.  00:562A  C3 0B 52            	jp	npcdies
+    1107.  00:5627  D2 D4 51            	jp	nc,next
+    1108.  00:562A  C3 DD 51            	jp	npcdies
     1109.  00:562D                      	
     1110.  00:562D                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;
     1111.  00:562D                      enemy7:	
@@ -6477,13 +6478,13 @@ Errors: 0
     1160.  00:5690  DD 86 00            	add	a,(ix+enemy_data.y)
     1161.  00:5693  DD 77 00            	ld	(ix+enemy_data.y),a
     1162.  00:5696                      
-    1163.  00:5696  CD DD 4D            	call	rand8
+    1163.  00:5696  CD AF 4D            	call	rand8
     1164.  00:5699  E6 7F               	and 	127
     1165.  00:569B  CC A7 56            	call	z,book_enemy_shoot
     1166.  00:569E                      
     1167.  00:569E  CD 80 47            	call	test_collision_msbullets
-    1168.  00:56A1  D2 02 52            	jp	nc,next
-    1169.  00:56A4  C3 0B 52            	jp 	npcdies
+    1168.  00:56A1  D2 D4 51            	jp	nc,next
+    1169.  00:56A4  C3 DD 51            	jp 	npcdies
     1170.  00:56A7                      	
     1171.  00:56A7                      
     1172.  00:56A7                      
@@ -6614,7 +6615,7 @@ Errors: 0
     1295.  00:5739                      
     1296.  00:5739                      enemy_bullet_loop:
     1297.  00:5739                      
-    1298.  00:5739  21 E3 4C            	ld	hl,ms_ani
+    1298.  00:5739  21 B5 4C            	ld	hl,ms_ani
     1299.  00:573C  3A 91 D3            	ld  a,(aniframe)
     1300.  00:573F  4F                  	ld	c,a
     1301.  00:5740  06 00               	ld	b,0
@@ -6622,7 +6623,7 @@ Errors: 0
     1303.  00:5743  7E                  	ld	a,(hl)
     1304.  00:5744  87                  	add	a,a
     1305.  00:5745  87                  	add	a,a
-    1306.  00:5746  FD 21 33 4D         	ld	iy,ms_col_win
+    1306.  00:5746  FD 21 05 4D         	ld	iy,ms_col_win
     1307.  00:574A  4F                  	ld	c,a
     1308.  00:574B  06 00               	ld	b,0
     1309.  00:574D  FD 09               	add	iy,bc	; iy aims to MS size for current frame
@@ -11999,14 +12000,13 @@ Errors: 0
 00:00004A87   plot_line_rgt2
 00:00004A93   plot_tile
 00:00004ADE   init_page0
-00:00004B0C X init_page1
-00:00004B3A   clrboder
-00:00004B6B   move_block
-00:00004BAB   plot_line1
-00:00004BC2   plot_line2
-00:00004C03   _1stblock
-00:00004C2E   _1st
-00:00004C5B   _2nd
+00:00004B0C   clrboder
+00:00004B3D   move_block
+00:00004B7D   plot_line1
+00:00004B94   plot_line2
+00:00004BD5   _1stblock
+00:00004C00   _1st
+00:00004C2D   _2nd
 00:00000000 X ms_fly__right
 00:00000001 X ms_spin_face_right
 00:00000002 X ms_side_dwn_face_right
@@ -12029,61 +12029,61 @@ Errors: 0
 00:000000B4   assault_wave_timer_preset
 00:00000002   enemy_bullet_speed
 00:00000078 X xship_rel
-00:00004CE3   ms_ani
-00:00004CE3 X ms_demo_ani
-00:00004D33   ms_col_win
-00:00004D33 X ms_demo_coll_wind
-00:00004DD3   add_bc_score_bin
-00:00004DD4   rand8_init
-00:00004DDD   rand8
-00:00004DEA   land_now_test
-00:00004E08   npc_init
-00:00004E35 X bull_init
-00:00004E4E   wave_timer
-00:00004E93   wave0
-00:00004E9C   wave1
-00:00004EB2 X wave1.neg
-00:00004EC3   wave1.pos
-00:00004F1E   wave1.next
-00:00004F28   wave2
-00:00004F34 X wave2.neg
-00:00004F49   wave2.pos
-00:00004FB6   wave2.next
-00:00004FBD   wave3
-00:00004FC9 X wave3.neg
-00:00004FD1   wave3.pos
-00:00005037   wave3.next
-00:0000503E   wave4
-00:00005048   _wave4_cont
-00:0000504A X _wave4_cont.neg
-00:0000505E   _wave4_cont.pos
-00:000050D0   _wave4_cont.next
-00:000050D7   wave5
-00:000050E3 X wave5.neg
-00:000050EA   wave5.pos
-00:0000514D   wave5.next
-00:00005154   wave6
-00:0000515F   wave7
-00:0000516B X wave7.neg
-00:00005172   wave7.pos
-00:000051CB   wave7.next
-00:000051D2   npc_loop
-00:00005202   next
-00:0000520B   npcdies
-00:00005232   enemy255
-00:00005256   enemy0
-00:00005256 X enemy1
-00:0000525C X enemy1.go_left
-00:0000527F   enemy1.go_right
-00:000052B1   enemy2
-00:000052B1 X enemy3
-00:000052CA X enemy3.go_left
-00:000052E0   enemy3.go_right
-00:00005305   enemy4
-00:0000531E X enemy4.go_left
-00:00005334   enemy4.go_right
-00:00005351 X enemy4.go_up
-00:0000535B   enemy4.go_dwn
+00:00004CB5   ms_ani
+00:00004CB5 X ms_demo_ani
+00:00004D05   ms_col_win
+00:00004D05 X ms_demo_coll_wind
+00:00004DA5   add_bc_score_bin
+00:00004DA6   rand8_init
+00:00004DAF   rand8
+00:00004DBC   land_now_test
+00:00004DDA   npc_init
+00:00004E07 X bull_init
+00:00004E20   wave_timer
+00:00004E65   wave0
+00:00004E6E   wave1
+00:00004E84 X wave1.neg
+00:00004E95   wave1.pos
+00:00004EF0   wave1.next
+00:00004EFA   wave2
+00:00004F06 X wave2.neg
+00:00004F1B   wave2.pos
+00:00004F88   wave2.next
+00:00004F8F   wave3
+00:00004F9B X wave3.neg
+00:00004FA3   wave3.pos
+00:00005009   wave3.next
+00:00005010   wave4
+00:0000501A   _wave4_cont
+00:0000501C X _wave4_cont.neg
+00:00005030   _wave4_cont.pos
+00:000050A2   _wave4_cont.next
+00:000050A9   wave5
+00:000050B5 X wave5.neg
+00:000050BC   wave5.pos
+00:0000511F   wave5.next
+00:00005126   wave6
+00:00005131   wave7
+00:0000513D X wave7.neg
+00:00005144   wave7.pos
+00:0000519D   wave7.next
+00:000051A4   npc_loop
+00:000051D4   next
+00:000051DD   npcdies
+00:00005204   enemy255
+00:00005228   enemy0
+00:00005228 X enemy1
+00:0000522E X enemy1.go_left
+00:00005251   enemy1.go_right
+00:00005283   enemy2
+00:00005283 X enemy3
+00:0000529C X enemy3.go_left
+00:000052B2   enemy3.go_right
+00:000052D7   enemy4
+00:000052F0 X enemy4.go_left
+00:00005306   enemy4.go_right
+00:00005323 X enemy4.go_up
+00:0000532D   enemy4.go_dwn
 00:00005400   rotation
 00:00005408   rotate
 00:00005500   sinewave
