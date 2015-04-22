@@ -19,8 +19,8 @@ ms_reset					equ	12
 
 maxspeed:					equ 16		; the actual speed is divided by 4
 max_enem:					equ 12		; max 12
-max_enem1:					equ	6
-max_enem2:					equ	6		; max_enem1 + max_enem2 = max_enem
+; max_enem1:					equ	6
+; max_enem2:					equ	6		; max_enem1 + max_enem2 = max_enem
 max_enem_bullets:			equ 3
 max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
 assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
@@ -197,12 +197,9 @@ wave_timer:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 wave0:
-	ld  ix,enemies2
-	ld	iyh,max_enem2
-	jr	1f
 wave1:
-	ld  ix,enemies1
-	ld	iyh,max_enem1
+	ld  ix,enemies
+	ld	iyh,max_enem
 1:
 	call	rand8
 	and	7
@@ -328,13 +325,16 @@ wave2:
 	ld	hl,(xmap)
 	add	hl,de
 
-	bit	7,b			; pick up a random bit from frame number
-	ld  ix,enemies1
-	ld	iyh,max_enem1
-	jr	z,1f
-	ld  ix,enemies2
-	ld	iyh,max_enem2
-1:
+	; bit	7,b			; pick up a random bit from frame number
+	; ld  ix,enemies1
+	; ld	iyh,max_enem1
+	; jr	z,1f
+	; ld  ix,enemies2
+	; ld	iyh,max_enem2
+; 1:
+	ld  ix,enemies
+	ld	iyh,max_enem
+
 	ld  de,enemy_data
 1:
 	bit	0,(ix+enemy_data.status)
@@ -407,13 +407,15 @@ wave3:
 	ld	hl,(xmap)
 	add	hl,de
 
-	bit	0,a			; pick up a random bit from Y offset
-	ld  ix,enemies1
-	ld	iyh,max_enem1
-	jr	z,1f
-	ld  ix,enemies2
-	ld	iyh,max_enem2
-1:
+	; bit	0,a			; pick up a random bit from Y offset
+	; ld  ix,enemies1
+	; ld	iyh,max_enem1
+	; jr	z,1f
+	; ld  ix,enemies2
+	; ld	iyh,max_enem2
+; 1:
+	ld  ix,enemies
+	ld	iyh,max_enem
 	ld  de,enemy_data
 1:
 	bit	0,(ix+enemy_data.status)
@@ -509,13 +511,15 @@ _wave4_cont:
 	ld	hl,(xmap)
 	add	hl,de
 
-	bit	0,a			; pick up a random bit from Y offset
-	ld  ix,enemies1
-	ld	iyh,max_enem1
-	jr	z,1f
-	ld  ix,enemies2
-	ld	iyh,max_enem2
-1:
+	; bit	0,a			; pick up a random bit from Y offset
+	; ld  ix,enemies1
+	; ld	iyh,max_enem1
+	; jr	z,1f
+	; ld  ix,enemies2
+	; ld	iyh,max_enem2
+; 1:
+	ld  ix,enemies
+	ld	iyh,max_enem
 	ld  de,enemy_data
 1:
 	bit	0,(ix+enemy_data.status)
@@ -593,13 +597,15 @@ wave5:
 	ld	hl,(xmap)
 	add	hl,de
 
-	bit	0,a			; pick up a random bit from Y offset
-	ld  ix,enemies1
-	ld	iyh,max_enem1
-	jr	z,1f
-	ld  ix,enemies2
-	ld	iyh,max_enem2
-1:
+	; bit	0,a			; pick up a random bit from Y offset
+	; ld  ix,enemies1
+	; ld	iyh,max_enem1
+	; jr	z,1f
+	; ld  ix,enemies2
+	; ld	iyh,max_enem2
+; 1:
+	ld  ix,enemies
+	ld	iyh,max_enem
 	ld  de,enemy_data
 1:
 	bit	0,(ix+enemy_data.status)
@@ -687,13 +693,15 @@ wave7:
 	ld	hl,(xmap)
 	add	hl,de
 
-	bit	0,a			; pick up a random bit from Y offset
-	ld  ix,enemies1
-	ld	iyh,max_enem1
-	jr	z,1f
-	ld  ix,enemies2
-	ld	iyh,max_enem2
-1:
+	; bit	0,a			; pick up a random bit from Y offset
+	; ld  ix,enemies1
+	; ld	iyh,max_enem1
+	; jr	z,1f
+	; ld  ix,enemies2
+	; ld	iyh,max_enem2
+; 1:
+	ld  ix,enemies
+	ld	iyh,max_enem
 	ld  de,enemy_data
 1:
 	bit	0,(ix+enemy_data.status)

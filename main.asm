@@ -38,6 +38,39 @@ YSIZE		equ	10*16+8
   
 		page 1
 		include	"..\TTplayer\code\ttreplay.asm"
+color_base:
+		repeat 8
+		ds	16,8
+		ds	16,3+64
+		endrepeat
+		repeat 8
+		ds	16,13
+		ds	16,6+64
+		endrepeat
+		repeat 8
+		ds	16,12
+		ds	16,6+64
+		endrepeat
+		repeat 8
+		ds	16,10
+		ds	16,1+64
+		endrepeat
+		repeat 8
+		ds	16,4
+		ds	16,9+64
+		endrepeat
+		repeat 8
+		ds	16,12
+		ds	16,1+64
+		endrepeat
+		repeat 8
+		ds	16,12
+		ds	16,5+64
+		endrepeat
+		repeat 8
+		ds	16,10
+		ds	16,3+64
+		endrepeat
 	
 		page 0
 		
@@ -162,7 +195,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		(xmap),hl
 								
 		call 	npc_init								
-		call 	load_color_pools								
+		call 	load_colors
 		
 		xor		a
 		ld		(_displaypage),a		
@@ -203,6 +236,13 @@ main_loop:
 		call	wave_timer
 		call	npc_loop
 		call	enemy_bullet_loop
+
+		ld	a,10100101B			; random colour
+		out		(0x99),a
+		ld		a,7+128
+		out		(0x99),a
+		
+		call	color_enemy
 
 		ld	a,00100101B			; random colour
 		out		(0x99),a
@@ -265,6 +305,7 @@ AFXPLAY:
 	include plot_line.asm
 	include plot_line2.asm
 	include enemies.asm
+	include color_update.asm
 	
 ;-------------------------------------
 	
@@ -280,8 +321,9 @@ AFXPLAY:
 	
 	; include mainhero_LMMM.asm
 	; include probe_level.asm
+	
 
-	page 2,3
+	page 2
 _scorebar:	
 	incbin scorebar.bin
 	
@@ -411,8 +453,6 @@ speed			dw	0
 any_object:			#0
 ms_bullets:			#enemy_data*max_bullets
 enem_bullets:		#enemy_data*max_enem_bullets
-enemies:			#0
-enemies1:			#enemy_data*max_enem1
-enemies2:			#enemy_data*max_enem2
+enemies:			#enemy_data*max_enem
 
 	ENDMAP
