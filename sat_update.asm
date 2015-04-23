@@ -93,7 +93,7 @@ plot_enemy:
 	out (c),a				; write crap
 
 	out (c),d				; write Y
-	add	a,8
+	add	a,4
 	out (c),l				; write X
 	out (c),a				; write shape
 	out (c),a				; write crap

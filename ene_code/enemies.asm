@@ -19,8 +19,7 @@ ms_reset					equ	12
 
 maxspeed:					equ 16		; the actual speed is divided by 4
 max_enem:					equ 12		; max 12
-; max_enem1:					equ	6
-; max_enem2:					equ	6		; max_enem1 + max_enem2 = max_enem
+
 max_enem_bullets:			equ 3
 max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
 assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
@@ -222,9 +221,9 @@ wave1:
 	ld	de,256+32
 	ld	c,1+64		; enemies going left
 	ld	a,b
-[2]	add	a,a
+	add	a,a
 	inc	a
-[2]	add	a,a
+[3]	add	a,a
 	ld	b,a
 	exx	
 	ld 	de,-1		; enemy speed = -1
@@ -301,9 +300,9 @@ wave2:
 	call	rand8
 	and	7
 	add	a,4
-[2]	add	a,a
+	add	a,a
 	inc	a
-[2]	add	a,a
+[3]	add	a,a
 	ld	b,a			; frame
 	
 	jp	1f
@@ -393,7 +392,7 @@ wave3:
 	jr	z,.pos				
 .neg
 	ld	de,256+32
-	ld	bc,256*100+1+64		; enemies going left
+	ld	bc,256*(96+8)+1+64		; enemies going left
 	jr	1f
 .pos
 	ld	de,-64
@@ -483,9 +482,9 @@ _wave4_cont:
 	call	rand8
 	and	7
 	add	a,4
-[2]	add	a,a
+	add	a,a
 	inc	a
-[2]	add	a,a
+[3]	add	a,a
 	ld	b,a			; frame
 
 	jr	1f
@@ -684,7 +683,7 @@ wave7:
 	jr	1f
 .pos
 	ld	de,-64
-	ld	c,+1		; enemies going right
+	ld	c,+1				; enemies going right
 	
 1:
 	call	rand8
@@ -1061,7 +1060,7 @@ enemy6:
 	jr  z,.go_right
 .go_left:
 	call	rotate
-	add	a,192+4
+	add	a,192+8
 	ld	(ix+enemy_data.frame),a
 	
 	ld	de,(xmap)
@@ -1129,7 +1128,7 @@ enemy7:
 	jr  z,.go_right
 .go_left:
 	call	rotate
-	add	a,192+4
+	add	a,192+8
 	ld	(ix+enemy_data.frame),a
 
 	ld	de,(xmap)

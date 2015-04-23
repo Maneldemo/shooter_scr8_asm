@@ -1,8 +1,8 @@
 clear
 close all
 
-name = 'uridium_rev7';
-[AA,MAP] = imread(['grpx\' name '.png']);
+name = 'uridium_revA';
+[AA,MAP] = imread([name '.bmp']);
 
 Y = AA>0;
 
@@ -28,7 +28,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % save sprite data
 
-fid = fopen(['data_bin\' name '.bin'],'w');
+fid = fopen([ name '.bin'],'w');
 for i=1:size(frames,2)
     for j=1:32
         fwrite(fid,bi2de(frames{j,i},'left-msb'),'uint8');
@@ -36,7 +36,7 @@ for i=1:size(frames,2)
 end
 fclose(fid);
 
-system(['miz\MSX-O-Mizer -r data_bin\' [name '.bin'] ' data_miz\' [name '.miz'] ]);
+%system(['miz\MSX-O-Mizer -r data_bin\' [name '.bin'] ' data_miz\' [name '.miz'] ]);
 
 % store collision data for tile tests (only for MS bullets)
 

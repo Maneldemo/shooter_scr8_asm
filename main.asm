@@ -38,36 +38,37 @@ YSIZE		equ	10*16+8
   
 		page 1
 		include	"..\TTplayer\code\ttreplay.asm"
+		align 0x100
 color_base:
-		repeat 8
-		ds	16,8
-		ds	16,3+64
-		endrepeat
-		repeat 8
-		ds	16,13
-		ds	16,6+64
-		endrepeat
-		repeat 8
+		; repeat 4
+		; ds	16,8
+		; ds	16,3+64
+		; endrepeat
+		; repeat 4
+		; ds	16,13
+		; ds	16,6+64
+		; endrepeat
+		repeat 4
 		ds	16,12
 		ds	16,6+64
 		endrepeat
-		repeat 8
+		repeat 4
 		ds	16,10
 		ds	16,1+64
 		endrepeat
-		repeat 8
+		repeat 4
 		ds	16,4
 		ds	16,9+64
 		endrepeat
-		repeat 8
+		repeat 4
 		ds	16,12
 		ds	16,1+64
 		endrepeat
-		repeat 8
+		repeat 4
 		ds	16,12
 		ds	16,5+64
 		endrepeat
-		repeat 8
+		repeat 4
 		ds	16,10
 		ds	16,3+64
 		endrepeat
@@ -237,12 +238,12 @@ main_loop:
 		call	npc_loop
 		call	enemy_bullet_loop
 
-		ld	a,10100101B			; random colour
-		out		(0x99),a
-		ld		a,7+128
-		out		(0x99),a
+		; ld	a,10100101B			; random colour
+		; out		(0x99),a
+		; ld		a,7+128
+		; out		(0x99),a
 		
-		call	color_enemy
+		; call	color_enemy
 
 		ld	a,00100101B			; random colour
 		out		(0x99),a
@@ -351,7 +352,7 @@ _level:
 	incbin "datamap.bin"
 	page 15
 sprtdata:
-	incbin 	uridium_rev7.bin
+	incbin 	uridium_revA.bin
 	
 	page 14,15
 demo_song:

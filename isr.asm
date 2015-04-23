@@ -249,14 +249,15 @@ inc_xoffset
 
 		call	plot_line_rgt2
 
-		; ld	a,00111101B		; pink
+		; ld	a,00101101B		; pink
 		; out	(0x99),a
 		; ld	a,7+128
 		; out	(0x99),a
 		
 		call 	plot_enemy		
+		call	color_enemy
 		
-		; ld	a,00000011B		; blue
+		; ld	a,00000010B		; blue
 		; out	(0x99),a
 		; ld	a,7+128
 		; out	(0x99),a
@@ -331,6 +332,7 @@ dec_xoffset
 		; out	(0x99),a
 		
 		call 	plot_enemy		
+		call	color_enemy
 		
 		; ld	a,00000011B		; blue
 		; out	(0x99),a

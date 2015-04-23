@@ -36,17 +36,17 @@ sprite_15:
 sprite_16:
     defb  0, 0,16,15 
 sprite_17:
-    defb  0, 0,16,15 
-sprite_18:
     defb  0, 1,16,15 
+sprite_18:
+    defb  0, 0,16,15 
 sprite_19:
     defb  0, 1,16,15 
 sprite_20:
     defb  0, 0,16,15 
 sprite_21:
-    defb  0, 0,16,15 
-sprite_22:
     defb  0, 3,16,13 
+sprite_22:
+    defb  0, 0,16,15 
 sprite_23:
     defb  0, 3,16,13 
 sprite_24:
@@ -60,17 +60,17 @@ sprite_27:
 sprite_28:
     defb  0, 0,16,15 
 sprite_29:
-    defb  0, 0,16,15 
-sprite_30:
     defb  0, 1,16,15 
+sprite_30:
+    defb  0, 0,16,15 
 sprite_31:
     defb  0, 1,16,15 
 sprite_32:
     defb  0, 0,16,15 
 sprite_33:
-    defb  0, 0,16,15 
-sprite_34:
     defb  0, 0,16,16 
+sprite_34:
+    defb  0, 0,16,15 
 sprite_35:
     defb  0, 0,16,16 
 sprite_36:
@@ -84,48 +84,48 @@ sprite_39:
 sprite_40:
     defb  0, 0,16,15 
 sprite_41:
-    defb  0, 0,16,15 
-sprite_42:
     defb  0, 1,16,15 
+sprite_42:
+    defb  0, 0,16,15 
 sprite_43:
     defb  0, 1,16,15 
 sprite_44:
     defb  0, 0,16,15 
 sprite_45:
-    defb  0, 0,16,15 
-sprite_46:
     defb  0, 1,16,15 
+sprite_46:
+    defb  0, 0,16,15 
 sprite_47:
     defb  0, 1,16,15 
 sprite_48:
     defb  0, 0,16,15 
 sprite_49:
-    defb  0, 0,16,15 
-sprite_50:
     defb  0, 0,16,16 
+sprite_50:
+    defb  0, 0,16,15 
 sprite_51:
     defb  0, 0,16,16 
 sprite_52:
     defb  0, 1,16,13 
 sprite_53:
-    defb  0, 1,16,13 
-sprite_54:
     defb  0, 1,16,14 
+sprite_54:
+    defb  0, 1,16,13 
 sprite_55:
     defb  0, 1,16,14 
 sprite_56:
     defb  0, 3,16, 9 
 sprite_57:
-    defb  0, 3,16, 9 
-sprite_58:
     defb  0, 3,16,10 
+sprite_58:
+    defb  0, 3,16, 9 
 sprite_59:
     defb  0, 3,16,10 
 sprite_60:
     defb  0, 5,16, 5 
 sprite_61:
-    defb  0, 5,16, 5 
-sprite_62:
     defb  0, 6,16, 5 
+sprite_62:
+    defb  0, 5,16, 5 
 sprite_63:
     defb  0, 6,16, 5 
