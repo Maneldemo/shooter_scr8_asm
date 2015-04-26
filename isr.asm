@@ -192,7 +192,7 @@ lint:
 		push	hl
 		ld	a,(dxmap)
 		rlc a
-		jr	z,1f
+		jp	z,.stand
 		jp	nc,_blank_line_lft		; >0 == dx
 		jp	 c,_blank_line_rgt		; <0 == sx
 1:		pop	hl
@@ -220,6 +220,10 @@ lint:
 		ei
 		ret
 
+;-------------------------------------	
+.stand:
+		call	replay_route		; first output data	
+		ret
 ;-------------------------------------		
 border_color	equ 	0;	00100101B
 
@@ -242,17 +246,7 @@ _blank_line_lft:
 inc_xoffset
 		call	plot_line_rgt1
 		call	.movex
-		; ld	a,11100011B		; cyan 
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-
 		call	plot_line_rgt2
-
-		; ld	a,00101101B		; pink
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
 		
 		call 	plot_enemy		
 		call	color_enemy
@@ -314,22 +308,12 @@ _blank_line_rgt
 		ld	a,7+128
 		out	(0x99),a
 		ret
-
+;-------------------------------------	
 	
 dec_xoffset
 		call	plot_line_lft1
 		call	.movex
 		call	plot_line_lft2
-		; ld	a,11100011B		; cyan 
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-		; call	plot_line_lft
-
-		; ld	a,00111101B		; pink
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
 		
 		call 	plot_enemy		
 		call	color_enemy
@@ -355,7 +339,6 @@ dec_xoffset
 		dec		hl
 		ld		(_levelmap_pos),hl
 		ret
-		
 		
 .movex
 		ld		a,(_xoffset)
@@ -411,7 +394,7 @@ vblank:
 		push	hl
 		ld	a,(dxmap)
 		rlc a
-		jr	z,1f
+		jp	z,.stand
 		jp	nc,inc_xoffset	; >0 == dx
 		jp	 c,dec_xoffset	; <0 == sx
 1:		pop	hl
@@ -450,6 +433,11 @@ vblank:
 		ei
 		ret
 
+;-------------------------------------
+.stand:
+		call 	plot_enemy		
+		call	color_enemy
+		ret
 ;-------------------------------------
 
 activate_window	

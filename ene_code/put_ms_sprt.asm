@@ -87,7 +87,7 @@ put_ms_sprt:
 	ld  d,a
 	ld	a,(xship)
 	sub	a,d
-	ld	(hl),a	; xship_rel
+	ld	(hl),a		; xship_rel
 	inc hl
 	ld	(hl),0		; shape 0 hard wired
 	inc hl
@@ -104,7 +104,7 @@ put_ms_sprt:
 	ld  d,a
 	ld	a,(xship)
 	sub	a,d
-	ld	(hl),a	; xship_rel
+	ld	(hl),a		; xship_rel
 	inc hl
 	ld	(hl),4		; shape 4 hard wired
 	ld	c,a

@@ -25,8 +25,14 @@ load_colors:
 	ld		c,0
 	ld		de,0FA00h-512
 	call	_vdpsetvramwr
-				
-	ld	c,max_bullets + max_enem_bullets
+
+	call	3f
+	
+	ld		c,0
+	ld		de,0FE00h-512
+	call	_vdpsetvramwr
+3:				
+	ld	c,32
 2:	ld	b,16
 	ld	a,15
 1:	out	(0x98),a

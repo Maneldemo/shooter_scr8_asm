@@ -38,6 +38,9 @@ YSIZE		equ	10*16+8
   
 		page 1
 		include	"..\TTplayer\code\ttreplay.asm"
+		include	"ms_crtl.asm"
+		include	"ms_bllts.asm"
+		include	"put_ms_sprt.asm"
 		align 0x100
 color_base:
 		; repeat 4
@@ -178,6 +181,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		
 		ld		hl,0
 		ld		a,h
+		ld		(flip_flop),a
 		ld		(_ymappos),a
 		ld		(_xmappos),hl
 		
@@ -192,9 +196,24 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 
 		ld		hl,_levelmap+16
 		ld		(_levelmap_pos),hl
-		ld		hl,16*16
-		ld		(xmap),hl
 								
+		xor a
+		ld	(aniframe),a
+		ld	(anispeed),a
+		ld	(ms_state),a
+		inc a
+		ld	(old_aniframe),a		; old_aniframe!=aniframe
+	
+		ld	hl,0
+		ld	(xmap),hl
+		ld	bc,xship_rel
+		add hl,bc
+		ld	(xship),hl
+		ld		a,80
+		ld		(yship),a
+		ld		a,4
+		ld		(dxmap),a		; moving right
+
 		call 	npc_init								
 		call 	load_colors
 		
@@ -202,12 +221,8 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		(_displaypage),a		
 		call	init_page0
 
-		ld		a,4
-		ld		(dxmap),a		; moving right
 		ld		a,6
 		ld		(cur_level),a
-		ld		a,80
-		ld		(yship),a
 
 		call	_isrinit
 		
@@ -234,9 +249,25 @@ main_loop:
 		pop	hl				
 		
 .nomove:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; run ms FSM and place its sprites in the SAT in RAM
+		; call	ms_ctrl
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; place MS in the SAT and test for collision
+		; call	put_ms_sprt
+		ld		a,(god_mode)
+		and 	a
+		; call	z,test_obstacles
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; run NCPS FSM
+
 		call	wave_timer
 		call	npc_loop
 		call	enemy_bullet_loop
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; run MS bullets FSM
+		call	bullet_loop
 
 		; ld	a,10100101B			; random colour
 		; out		(0x99),a
@@ -261,6 +292,21 @@ main_loop:
 		or	a
 		jr	z,1b
 	
+
+		; ld	hl,(xmap)
+		; ld	a,(dxmap)
+; [2] 	sra a
+		; ld	e,a
+		; add a,a
+		; sbc a,a
+		; ld	d,a
+		; add hl,de
+		; ld	(xmap),hl
+
+		ld	bc,xship_rel
+		add hl,bc
+		ld	(xship),hl
+
 		jp      main_loop
 
 ;-------------------------------------
@@ -433,8 +479,16 @@ yship:				#1
 xship:				#2
 aniframe:			#1
 ms_state:			#1
+old_aniframe:		#1
+anispeed:			#1
+already_dead:		#1
+lives_bin:			#1
+
 god_mode:			#1
 visible_sprts:		#1
+flip_flop:			#1
+
+ram_sat:			#3*4
 
 	struct enemy_data
 y				db	0
@@ -448,6 +502,7 @@ cntr			db	0
 kind			db	0
 frame			db	0
 color			db	0
+color2			db	0
 speed			dw	0
 	ends
 	

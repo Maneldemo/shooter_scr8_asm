@@ -1,27 +1,11 @@
 	
-ms_fly__right				equ	0
-ms_spin_face_right			equ	1
-ms_side_dwn_face_right		equ	2
-ms_side_up__face_right		equ	3
-
-ms_fly__left				equ	4
-ms_spin_face_left			equ	5
-ms_side_dwn_face_left		equ	6
-ms_side_up__face_left		equ	7
-
-ms_loop_right2left			equ	8
-ms_loop_left2right			equ	9
-
-ms_explode					equ	10
-ms_landing					equ	11
-ms_reset					equ	12
 
 
-maxspeed:					equ 16		; the actual speed is divided by 4
 max_enem:					equ 12		; max 12
-
 max_enem_bullets:			equ 3
-max_bullets:				equ 3		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
+max_bullets:				equ 2		; max number of enemies*2 + ms_bullets + enem_bullets + 3 for ms	<= 32 sprites
+
+maxspeed:					equ 4		; the actual speed is divided by 4
 assault_wave_timer_preset:	equ	3*60	; a wave each 3 seconds
 enemy_bullet_speed:			equ	2	
 xship_rel:					equ (128-8)
