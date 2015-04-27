@@ -15,11 +15,25 @@ for g=0:7
         end
     end
 end
+[A1,MAP] = imread('graphics\uridium_2_opening.png');
+[A1,MAP] = imresize(A1,MAP,[192 256], 'bicubic','Dither',false);
+A1 = imapprox(A1,MAP,pal, 'nodither');
+figure
+image(A1);
+axis equal;
+colormap(pal);
 
-[A2,MAP] = imread('scorebar.bmp');
+fid = fopen('opening.bin','wb');
+for y=1:size(A1,1);
+    t = uint8(A1(y,:));
+    fwrite(fid,t,'uchar');
+end
+fclose(fid);
 
 
+[A2,MAP] = imread('graphics\scorebar.bmp');
 A2 = imapprox(A2,MAP,pal, 'nodither');
+
 MAP = pal;
 
 H = 24;
@@ -29,7 +43,7 @@ B = A2(1:H,1:W);
 
 H = size(B,1);
 W = size(B,2);
-
+figure
 image(B);
 axis equal;
 colormap(MAP);

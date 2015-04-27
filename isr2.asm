@@ -273,7 +273,7 @@ inc_xoffset
 		ret
 
 .movex
-		ld		a,(_xoffset)
+		ld		a,(_xtic)
 		and		a
 		jr		nz,.case1_15
 .case0
@@ -341,7 +341,10 @@ dec_xoffset
 		ret
 		
 .movex
-		ld		a,(_xoffset)
+		ld		a,(_xtic)
+		dec		a
+		and		15
+		ld		(_xtic),a
 		cp	15
 		jr		nz,.case0_14
 .case15
@@ -357,7 +360,7 @@ dec_xoffset
 		ld		e,a
 		add		a,16
 		ld		d,a
-		jp	move_block
+		jp		move_block
 
 		
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	

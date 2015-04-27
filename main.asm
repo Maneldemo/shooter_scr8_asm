@@ -19,6 +19,9 @@
 		defpage	14,0x8000, 0x2000		; swapped data 
 		defpage	15,0xA000, 0x2000		; swapped data 
 
+		defpage	 16,0xA000, 0x2000		; swapped data 
+		defpage	 17..31					; 128KB of swapped data 
+
 		;	konami scc
 		
 _kBank1:	equ 05000h ;- 57FFh (5000h used)
@@ -41,6 +44,29 @@ YSIZE		equ	10*16+8
 		include	"ms_crtl.asm"
 		include	"ms_bllts.asm"
 		include	"put_ms_sprt.asm"
+		
+		
+opening_screen		
+		ld		c,0
+		ld		de,0
+		call	_vdpsetvramwr
+		ld	e,6
+		ld	a, :_opening
+		ld	d,a
+2:		ld	(_kBank4),a
+		ld	hl,_opening
+		ld	bc,0x98
+		ld	a,32
+1:		otir
+		dec	a
+		jr	nz,1b
+		inc	d
+		ld	a,d
+		dec	e
+		jr	nz,2b
+		ret
+		
+		
 		align 0x100
 color_base:
 		; repeat 4
@@ -129,6 +155,8 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld	(_kBank1),a
 		inc	a
 		ld	(_kBank2),a
+		
+		call	opening_screen
 		
 		call	_cls
 		ld	a, :sprtdata
@@ -392,6 +420,23 @@ _tiles0:
 	page 11
 	incbin "tiles.bin",0xE000;,0x2000
 	
+	page 16
+_opening:
+	incbin "opening.bin",0x0000,0x2000
+	page 17
+	incbin "opening.bin",0x2000,0x2000
+	page 18
+	incbin "opening.bin",0x4000,0x2000
+	page 19
+	incbin "opening.bin",0x6000,0x2000
+	page 20
+	incbin "opening.bin",0x8000,0x2000
+	page 21
+	incbin "opening.bin",0xA000,0x2000
+	page 22
+	incbin "opening.bin",0xC000;,0x2000
+	page 23
+;	incbin "opening.bin",0xE000;,,0x2000
 	
 	page 15
 _level:
@@ -464,6 +509,7 @@ _currentpage:		#1
 
 _displaypage:		#1
 
+_xtic				#1
 _xoffset:			#1
 _yoffset:			#1
 
