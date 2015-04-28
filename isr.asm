@@ -202,7 +202,7 @@ lint:
 		out (0x99),a
 		ld	a,7+128
 		out (0x99),a
-
+		
 		pop    ix         
 		pop    iy         
 		pop    af         
@@ -225,7 +225,75 @@ lint:
 		call	replay_route		; first output data	
 		ret
 ;-------------------------------------		
+
 border_color	equ 	0;	00100101B
+		
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+;   manage normal vblank routine
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+
+vblank:
+		push   hl         
+		push   de         
+		push   bc         
+		push   af         
+		exx               
+		ex     af,af'     
+		push   hl         
+		push   de         
+		push   bc         
+		push   af         
+		push   iy         
+		push   ix         
+
+		; ld	a,00011100B		; red
+		; out		(0x99),a
+		; ld		a,7+128
+		; out		(0x99),a
+		
+		call	activate_window	
+	
+		call	changedir
+				
+		ld	hl,(_jiffy)
+		inc	hl
+		ld	(_jiffy),hl
+				
+		; ld	a,00011100B		; red
+		; out	(0x99),a
+		; ld	a,7+128
+		; out	(0x99),a
+		
+		call	replay_play			; calculate next output
+
+		xor		a		; black
+		out	(0x99),a
+		ld	a,7+128
+		out	(0x99),a
+	
+		pop    ix         
+		pop    iy         
+		pop    af         
+		pop    bc         
+		pop    de         
+		pop    hl         
+		ex     af,af'     
+		exx               
+		pop    af         
+		pop    bc         
+		pop    de         
+		pop    hl         
+
+		pop		af
+		ei
+		ret
+
+;-------------------------------------
+.stand:
+		call 	plot_enemy		
+		call	color_enemy
+		ret
+;-------------------------------------
 
 _blank_line_lft:
 		ld	a,00000111B		; blue
@@ -255,7 +323,7 @@ inc_xoffset
 		; out	(0x99),a
 		; ld	a,7+128
 		; out	(0x99),a
-		
+.cnt		
 		ld		hl,(xmap)
 		inc		hl
 		ld		(xmap),hl
@@ -322,7 +390,7 @@ dec_xoffset
 		; out	(0x99),a
 		; ld	a,7+128
 		; out	(0x99),a
-
+.cnt
 		ld		hl,(xmap)
 		dec		hl
 		ld		(xmap),hl
@@ -359,85 +427,7 @@ dec_xoffset
 		ld		d,a
 		jp	move_block
 
-		
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-;   manage normal vblank routine
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 
-vblank:
-		push   hl         
-		push   de         
-		push   bc         
-		push   af         
-		exx               
-		ex     af,af'     
-		push   hl         
-		push   de         
-		push   bc         
-		push   af         
-		push   iy         
-		push   ix         
-
-		; ld	a,00011100B		; red
-		; out		(0x99),a
-		; ld		a,7+128
-		; out		(0x99),a
-		
-		call	activate_window	
-		
-		; ld	a,11100000B		; green
-		; out		(0x99),a
-		; ld		a,7+128
-		; out		(0x99),a
-
-		ld	hl,.exit
-		push	hl
-		ld	a,(dxmap)
-		rlc a
-		jp	z,.stand
-		jp	nc,inc_xoffset	; >0 == dx
-		jp	 c,dec_xoffset	; <0 == sx
-1:		pop	hl
-.exit:
-		
-		ld	hl,(_jiffy)
-		inc	hl
-		ld	(_jiffy),hl
-				
-		; ld	a,00011100B		; red
-		; out	(0x99),a
-		; ld	a,7+128
-		; out	(0x99),a
-		
-		call	replay_play			; calculate next output
-
-		xor		a		; black
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
-	
-		pop    ix         
-		pop    iy         
-		pop    af         
-		pop    bc         
-		pop    de         
-		pop    hl         
-		ex     af,af'     
-		exx               
-		pop    af         
-		pop    bc         
-		pop    de         
-		pop    hl         
-
-		pop		af
-		ei
-		ret
-
-;-------------------------------------
-.stand:
-		call 	plot_enemy		
-		call	color_enemy
-		ret
 ;-------------------------------------
 
 activate_window	
@@ -478,5 +468,76 @@ activate_window
 			
 
 	
-	
+changedir:
+		ld		hl,_dxmap
+		ld		a,(hl)
+		inc		hl
+		xor		(hl)
+		jp		z,nochangedir
+		ld		a,1
+		ld		(_dxchng),a
+		bit		7,(hl)
+		jr		z,.right
+.left
+		call	plot_line_lft1
+		
+		ld 		a,(_displaypage)
+		xor		1
+		ld 		d,a
+		ld		e,0
+		ld		l,border_color
+		call	clrboder
+		call	plot_line_lft2
+		
+		call 	plot_enemy		
+		call	color_enemy
+		jp		dec_xoffset.cnt
 
+.right
+		call	plot_line_rgt1
+		ld 		a,(_displaypage)
+		xor		1
+		ld 		d,a
+		ld		e,240
+		ld		l,border_color
+		call	clrboder
+		call	plot_line_rgt2
+		
+		call 	plot_enemy		
+		call	color_enemy
+		jp		inc_xoffset.cnt
+
+nochangedir:
+		ld		a,(_dxchng)
+		and		a
+		jr		nz,1f
+		bit		7,(hl)
+		jp		z,inc_xoffset
+		jp		dec_xoffset
+	
+1:		xor	a
+		ld		(_dxchng),a
+		bit		7,(hl)
+		jp		z,.right
+.left
+		call	plot_line_lft1
+		
+		ld		e,240-16
+		ld		d,240
+		call	move_block
+		call	plot_line_lft2
+		
+		call 	plot_enemy		
+		call	color_enemy
+		jp		dec_xoffset.cnt
+
+.right
+		call	plot_line_rgt1
+		ld		e,16
+		ld		d,0
+		call	move_block
+		call	plot_line_rgt2
+		
+		call 	plot_enemy		
+		call	color_enemy
+		jp		inc_xoffset.cnt

@@ -241,6 +241,7 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld		(yship),a
 		ld		a,4
 		ld		(dxmap),a		; moving right
+		ld		(_dxmap),a		; moving right
 
 		call 	npc_init								
 		call 	load_colors
@@ -304,17 +305,17 @@ main_loop:
 		
 		; call	color_enemy
 
-		ld	a,00100101B			; random colour
-		out		(0x99),a
-		ld		a,7+128
-		out		(0x99),a
+		; ld	a,00100101B			; random colour
+		; out		(0x99),a
+		; ld		a,7+128
+		; out		(0x99),a
 		
-		call	_waitvdp
+		; call	_waitvdp
 		
-		xor		a
-		out		(0x99),a
-		ld		a,7+128
-		out		(0x99),a
+		; xor		a
+		; out		(0x99),a
+		; ld		a,7+128
+		; out		(0x99),a
 		
 1:		ld	a,(_jiffy)		; wait for vblank (and not for linit)
 		or	a
@@ -335,22 +336,19 @@ main_loop:
 		add hl,bc
 		ld	(xship),hl
 
+		ld		a,(dxmap)
+		ld		(_dxmap),a
+
 		jp      main_loop
 
 ;-------------------------------------
 test_move_right:
-		ld		a,(_xoffset)
-		and		a
-		ret		nz
 
 		ld		a,4
 		ld		(dxmap),a			; moving right
 		ret
 test_move_left
-		ld		a,(_xoffset)
-		cp		15
-		ret		nz
-		
+
 		ld		a,-4
 		ld		(dxmap),a			; moving left
 		ret
@@ -519,6 +517,8 @@ wave_count:			#1
 landing_permission:	#1
 assault_wave_timer:	#2
 bullet_rate:		#1
+_dxchng:			#1
+_dxmap:				#1
 dxmap:				#1
 xmap:				#2
 yship:				#1
