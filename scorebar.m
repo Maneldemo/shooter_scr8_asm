@@ -15,9 +15,16 @@ for g=0:7
         end
     end
 end
-[A1,MAP] = imread('graphics\uridium_2_opening.png');
-[A1,MAP] = imresize(A1,MAP,[192 256], 'bicubic','Dither',false);
-A1 = imapprox(A1,MAP,pal, 'nodither');
+[A1,MAP] = imread('graphics\uridium2.png');
+
+figure
+image(A1);
+axis equal;
+colormap(MAP);
+
+[A1,MAP] = imresize(A1,MAP,[192 256], 'bicubic','Dither',true);
+[A1,MAP] = imapprox(A1,MAP,pal, 'dither');
+
 figure
 image(A1);
 axis equal;

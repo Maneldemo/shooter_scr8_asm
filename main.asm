@@ -30,7 +30,7 @@ _kBank3: 	equ 09000h ;- 97FFh (9000h used)
 _kBank4: 	equ 0B000h ;- B7FFh (B000h used)
 	
 mapWidth	equ	256
-mapHeight	equ	11
+mapHeight	equ	13
 YSIZE		equ	10*16+8
 
 	macro setpage_a
@@ -50,7 +50,7 @@ opening_screen
 		ld		c,0
 		ld		de,0
 		call	_vdpsetvramwr
-		ld	e,6
+		ld	e,7
 		ld	a, :_opening
 		ld	d,a
 2:		ld	(_kBank4),a
@@ -157,7 +157,11 @@ _ntsc:	ld	(SEL_NTSC),a	; if set NSTC, if reset PAL
 		ld	(_kBank2),a
 		
 		call	opening_screen
-		
+1:		ld e,8
+		call	checkkbd
+		and		00000001B
+		jr		nz,1b
+
 		call	_cls
 		ld	a, :sprtdata
 		ld	(_kBank4),a
@@ -434,7 +438,7 @@ _opening:
 	page 22
 	incbin "opening.bin",0xC000;,0x2000
 	page 23
-;	incbin "opening.bin",0xE000;,,0x2000
+	; incbin "opening.bin",0xE000;,,0x2000
 	
 	page 15
 _level:

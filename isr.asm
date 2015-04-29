@@ -177,7 +177,6 @@ lint:
 		push   hl         
 		push   de         
 		push   bc         
-		push   af         
 		exx               
 		ex     af,af'     
 		push   hl         
@@ -192,16 +191,11 @@ lint:
 		push	hl
 		ld	a,(dxmap)
 		rlc a
-		jp	z,.stand
+		jp	z,replay_route			;  output music data	
 		jp	nc,_blank_line_lft		; >0 == dx
 		jp	 c,_blank_line_rgt		; <0 == sx
 1:		pop	hl
 .exit:
-
-		xor	a					; black colour
-		out (0x99),a
-		ld	a,7+128
-		out (0x99),a
 		
 		pop    ix         
 		pop    iy         
@@ -211,7 +205,6 @@ lint:
 		pop    hl         
 		ex     af,af'     
 		exx               
-		pop    af         
 		pop    bc         
 		pop    de         
 		pop    hl         
@@ -220,10 +213,6 @@ lint:
 		ei
 		ret
 
-;-------------------------------------	
-.stand:
-		call	replay_route		; first output data	
-		ret
 ;-------------------------------------		
 
 border_color	equ 	0;	00100101B
@@ -233,10 +222,11 @@ border_color	equ 	0;	00100101B
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 
 vblank:
+		call	activate_window	
+
 		push   hl         
 		push   de         
 		push   bc         
-		push   af         
 		exx               
 		ex     af,af'     
 		push   hl         
@@ -250,9 +240,7 @@ vblank:
 		; out		(0x99),a
 		; ld		a,7+128
 		; out		(0x99),a
-		
-		call	activate_window	
-	
+
 		call	changedir
 				
 		ld	hl,(_jiffy)
@@ -279,7 +267,6 @@ vblank:
 		pop    hl         
 		ex     af,af'     
 		exx               
-		pop    af         
 		pop    bc         
 		pop    de         
 		pop    hl         
@@ -301,7 +288,8 @@ _blank_line_lft:
 		ld	a,7+128
 		out	(0x99),a
 
-		call	blank_line_lft
+		ld	e,0
+		call	blank_line
 		call	replay_route		; first output data	
 		
 		xor	a
@@ -309,6 +297,25 @@ _blank_line_lft:
 		ld	a,7+128
 		out	(0x99),a
 		ret
+
+;-------------------------------------	
+
+_blank_line_rgt
+		ld	a,00000111B		; blue
+		out	(0x99),a
+		ld	a,7+128
+		out	(0x99),a
+
+		ld	e,240
+		call	blank_line
+		call	replay_route		; first output data	
+
+		xor	a
+		out	(0x99),a
+		ld	a,7+128
+		out	(0x99),a
+		ret
+		
 ;-------------------------------------	
 		
 inc_xoffset
@@ -360,22 +367,6 @@ inc_xoffset
 		jp		move_block
 
 
-;-------------------------------------	
-
-_blank_line_rgt
-		ld	a,00000111B		; blue
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
-
-		call	blank_line_rgt
-		call	replay_route		; first output data	
-
-		xor	a
-		out	(0x99),a
-		ld	a,7+128
-		out	(0x99),a
-		ret
 ;-------------------------------------	
 	
 dec_xoffset
@@ -471,16 +462,19 @@ activate_window
 changedir:
 		ld		hl,_dxmap
 		ld		a,(hl)
+		and		128
+		ld		b,a
 		inc		hl
-		xor		(hl)
-		jp		z,nochangedir
+		ld		a,(hl)
+		and		128
+		xor		b			; compare signs
+		jp		z,nodirchange
 		ld		a,1
 		ld		(_dxchng),a
 		bit		7,(hl)
 		jr		z,.right
 .left
 		call	plot_line_lft1
-		
 		ld 		a,(_displaypage)
 		xor		1
 		ld 		d,a
@@ -488,7 +482,6 @@ changedir:
 		ld		l,border_color
 		call	clrboder
 		call	plot_line_lft2
-		
 		call 	plot_enemy		
 		call	color_enemy
 		jp		dec_xoffset.cnt
@@ -502,12 +495,11 @@ changedir:
 		ld		l,border_color
 		call	clrboder
 		call	plot_line_rgt2
-		
 		call 	plot_enemy		
 		call	color_enemy
 		jp		inc_xoffset.cnt
 
-nochangedir:
+nodirchange:
 		ld		a,(_dxchng)
 		and		a
 		jr		nz,1f
@@ -526,7 +518,6 @@ nochangedir:
 		ld		d,240
 		call	move_block
 		call	plot_line_lft2
-		
 		call 	plot_enemy		
 		call	color_enemy
 		jp		dec_xoffset.cnt
@@ -537,7 +528,6 @@ nochangedir:
 		ld		d,0
 		call	move_block
 		call	plot_line_rgt2
-		
 		call 	plot_enemy		
 		call	color_enemy
 		jp		inc_xoffset.cnt

@@ -1,12 +1,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; no input
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-blank_line_rgt:
-	ld	e,240
-	jp	blank_line
+
 	
-blank_line_lft:
-	ld	e,0
+
 blank_line:
 	di
 	ld 		a, 36
